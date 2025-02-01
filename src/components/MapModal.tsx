@@ -1,24 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
+// Declare the Google Maps global object for TypeScript to recognize it
+declare global {
+  interface Window {
+    google: typeof google;
+  }
+}
+
 Modal.setAppElement('#root');
 
-const MapModal = ({ isOpen, onRequestClose, onLocationSelect }: {
-  isOpen: boolean,
-  onRequestClose: any,
-  onLocationSelect: any
-}) => {
-  const [map, setMap] = useState(null);
-  const [marker, setMarker] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+// Define the Location interface for the selected map location
+interface Location {
+  lat: number;
+  lng: number;
+}
 
+// Define the props interface for the MapModal component
+interface MapModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  onLocationSelect: (location: Location) => void;
+}
+
+// MapModal component implementation
+const MapModal: React.FC<MapModalProps> = ({ isOpen, onRequestClose, onLocationSelect }) => {
+  // State for storing map, marker, and the selected location
+  const [map, setMap] = useState<google.maps.Map | null>(null); 
+  const [marker, setMarker] = useState<google.maps.Marker | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+
+  // Effect to initialize the map when modal is open
   useEffect(() => {
     if (window.google && isOpen) {
-      const mapOptions = {
+      // Map options
+      const mapOptions: google.maps.MapOptions = {
         center: { lat: 13.0827, lng: 80.2707 }, // Default to Chennai
         zoom: 12,
       };
-      const mapInstance = new window.google.maps.Map(document.getElementById('map'), mapOptions);
+
+      // Initialize the map instance
+      const mapInstance = new window.google.maps.Map(
+        document.getElementById('map') as HTMLElement, 
+        mapOptions
+      );
+
+      // Initialize the marker instance
       const newMarker = new window.google.maps.Marker({
         position: mapOptions.center,
         map: mapInstance,
@@ -28,20 +55,25 @@ const MapModal = ({ isOpen, onRequestClose, onLocationSelect }: {
       setMap(mapInstance);
       setMarker(newMarker);
 
-      window.google.maps.event.addListener(mapInstance, 'click', (event) => {
-        newMarker.setPosition(event.latLng);
-        setSelectedLocation({
-          lat: event.latLng.lat(),
-          lng: event.latLng.lng(),
-        });
+      // Handle click event on the map
+      window.google.maps.event.addListener(mapInstance, 'click', (event: google.maps.MapMouseEvent) => {
+        const latLng = event.latLng;
+        if (latLng) {
+          newMarker.setPosition(latLng);
+          setSelectedLocation({
+            lat: latLng.lat(),
+            lng: latLng.lng(),
+          });
+        }
       });
     }
-  }, [isOpen]);
+  }, [isOpen]); // Re-run the effect when `isOpen` changes
 
+  // Handle location selection and pass the data back to the parent component
   const handleSelectLocation = () => {
     if (selectedLocation) {
-      onLocationSelect(selectedLocation);
-      onRequestClose();
+      onLocationSelect(selectedLocation); // Pass selected location back to the parent
+      onRequestClose(); // Close the modal
     }
   };
 

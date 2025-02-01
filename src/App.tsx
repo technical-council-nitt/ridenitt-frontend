@@ -7,9 +7,9 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      {/* TODO Router */}
-    </>
+    <div className='text-red-500'>
+      Hi
+    </div>
   )
 }
 

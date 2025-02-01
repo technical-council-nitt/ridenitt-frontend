@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate
 
-const DateTimeForm = ({ onConfirm }) => {
-  const [rideDate, setRideDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+interface DateTimeFormProps {
+  onConfirm: (data: { rideDate: string, startTime: string, endTime: string }) => void;
+}
+
+const DateTimeForm: React.FC<DateTimeFormProps> = ({ onConfirm }) => {
+  const [rideDate, setRideDate] = useState<string>('');
+  const [startTime, setStartTime] = useState<string>('');
+  const [endTime, setEndTime] = useState<string>('');
   const navigate = useNavigate();  // useNavigate hook to navigate programmatically
 
-  const handleDateChange = (e) => setRideDate(e.target.value);
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => setRideDate(e.target.value);
 
   const handleConfirm = () => {
     // Only proceed if all fields are filled

@@ -1,24 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
+// Declare the Google Maps global object for TypeScript to recognize it
+declare global {
+  interface Window {
+    google: typeof google;
+  }
+}
+
 Modal.setAppElement('#root');
 
-const LocationForm = ({ rideDetails, onSubmit }) => {
-  const [departure, setDeparture] = useState('');
-  const [destination, setDestination] = useState('');
-  const [vehicle, setVehicle] = useState('');
-  const [genderPreference, setGenderPreference] = useState('any');
-  const [date, setDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [passengerCount, setPassengerCount] = useState(''); // New state for passenger count
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [locationType, setLocationType] = useState('');
-  const [mapLocation, setMapLocation] = useState(null);
+// Define types for the props and state
+interface LocationFormProps {
+  rideDetails: any; // Replace 'any' with an appropriate type for rideDetails if needed
+  onSubmit: (data: LocationFormData) => void;
+}
 
+interface LocationFormData {
+  departure: string;
+  destination: string;
+  vehicle: string;
+  genderPreference: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  passengerCount: string;
+}
+
+const LocationForm: React.FC<LocationFormProps> = ({ rideDetails, onSubmit }) => {
+  const [departure, setDeparture] = useState<string>('');
+  const [destination, setDestination] = useState<string>('');
+  const [vehicle, setVehicle] = useState<string>('');
+  const [genderPreference, setGenderPreference] = useState<string>('any');
+  const [date, setDate] = useState<string>('');
+  const [startTime, setStartTime] = useState<string>('');
+  const [endTime, setEndTime] = useState<string>('');
+  const [passengerCount, setPassengerCount] = useState<string>(''); // New state for passenger count
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [locationType, setLocationType] = useState<string>('');
+  const [mapLocation, setMapLocation] = useState<{ lat: number; lng: number } | null>(null);
+
+  // Initialize Google Maps when the modal is open
   useEffect(() => {
-    if (window.google) {
-      const map = new window.google.maps.Map(document.getElementById("map"), {
+    if (window.google && isModalOpen) {
+      const map = new window.google.maps.Map(document.getElementById("map") as HTMLElement, {
         center: { lat: 13.0827, lng: 80.2707 }, // Default to Chennai
         zoom: 10,
       });
@@ -28,17 +53,19 @@ const LocationForm = ({ rideDetails, onSubmit }) => {
         map: map,
       });
 
-      window.google.maps.event.addListener(map, "click", (event) => {
-        marker.setPosition(event.latLng);
-        setMapLocation({
-          lat: event.latLng.lat(),
-          lng: event.latLng.lng(),
-        });
+      window.google.maps.event.addListener(map, "click", (event: google.maps.MapMouseEvent) => {
+        if (event.latLng) {
+          marker.setPosition(event.latLng);
+          setMapLocation({
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+          });
+        }
       });
     }
   }, [isModalOpen]);
 
-  const handleSelect = (setter) => (e) => setter(e.target.value);
+  const handleSelect = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => setter(e.target.value);
 
   const handleSubmit = () => {
     console.log('Submitting form...');
@@ -49,7 +76,7 @@ const LocationForm = ({ rideDetails, onSubmit }) => {
     console.log('Date:', date);
     console.log('Start Time:', startTime);
     console.log('End Time:', endTime);
-    console.log('Passenger Count:', passengerCount); // Log passenger count
+    console.log('Passenger Count:', passengerCount);
 
     onSubmit({
       departure,
@@ -59,11 +86,11 @@ const LocationForm = ({ rideDetails, onSubmit }) => {
       date,
       startTime,
       endTime,
-      passengerCount, // Include passenger count in submission
+      passengerCount,
     });
   };
 
-  const openMapModal = (type) => {
+  const openMapModal = (type: string) => {
     setLocationType(type);
     setIsModalOpen(true);
   };
@@ -71,9 +98,9 @@ const LocationForm = ({ rideDetails, onSubmit }) => {
   const handleLocationSelect = () => {
     if (mapLocation) {
       if (locationType === 'departure') {
-        setDeparture(mapLocation);
+        setDeparture(`${mapLocation.lat}, ${mapLocation.lng}`);
       } else if (locationType === 'destination') {
-        setDestination(mapLocation);
+        setDestination(`${mapLocation.lat}, ${mapLocation.lng}`);
       }
       setIsModalOpen(false);
     }
