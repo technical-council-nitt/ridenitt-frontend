@@ -1,277 +1,197 @@
-import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
+"use client"
 
-Modal.setAppElement('#root');
+import { useState } from "react"
+import { Calendar, Clock, HelpCircle, Car, User } from "lucide-react"
+import { DateTimeModal } from "./date-time-modal"
 
-interface LocationFormProps {
-  rideDetails: {
-    rideDate: string;
-    startTime: string;
-    endTime: string;
-  };
-  onSubmit: (data: {
-    departure: string;
-    destination: string;
-    vehicle: string;
-    genderPreference: string;
-    date: string;
-    startTime: string;
-    endTime: string;
-    passengerCount: string;
-  }) => void;
-}
+// ShareCount Component
+function ShareCount() {
+  const [count, setCount] = useState(6); // Initial count is a number
 
-interface MapLocation {
-  lat: number;
-  lng: number;
-}
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
 
-const LocationForm: React.FC<LocationFormProps> = ({ rideDetails, onSubmit }) => {
-  const [departure, setDeparture] = useState<string>('');
-  const [destination, setDestination] = useState<string>('');
-  const [vehicle, setVehicle] = useState<string>('');
-  const [genderPreference, setGenderPreference] = useState<string>('any');
-  const [date] = useState<string>(rideDetails.rideDate);
-  const [startTime, setStartTime] = useState<string>(rideDetails.startTime);
-  const [endTime, setEndTime] = useState<string>(rideDetails.endTime);
-  const [passengerCount, setPassengerCount] = useState<string>('');
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [locationType, setLocationType] = useState<string>('');
-  const [mapLocation, setMapLocation] = useState<MapLocation | null>(null);
-
-  const [tempStartTime, setTempStartTime] = useState<string>(''); // for temp start time input
-  const [tempEndTime, setTempEndTime] = useState<string>(''); // for temp end time input
-
-  useEffect(() => {
-    if (window.google) {
-      const map = new window.google.maps.Map(document.getElementById('map') as HTMLElement, {
-        center: { lat: 13.0827, lng: 80.2707 },
-        zoom: 10,
-      });
+    if (newValue === "") {
+      setCount(0);  // Reset to 0 if the input is cleared
+      return;
     }
-  }, []);
 
-  const handleLocationSelect = () => {
-    if (mapLocation) {
-      if (locationType === 'departure') {
-        setDeparture(JSON.stringify(mapLocation));
-      } else if (locationType === 'destination') {
-        setDestination(JSON.stringify(mapLocation));
-      }
-      setIsModalOpen(false);
-    }
-  };
-
-  const handleSubmit = () => {
-    onSubmit({
-      departure,
-      destination,
-      vehicle,
-      genderPreference,
-      date,
-      startTime,
-      endTime,
-      passengerCount,
-    });
-  };
-
-  const handleTimeRangeSubmit = () => {
-    if (tempStartTime && tempEndTime) {
-      // Check if end time is after start time
-      const start = new Date(`2025-02-02T${tempStartTime}`);
-      const end = new Date(`2025-02-02T${tempEndTime}`);
-
-      if (end <= start) {
-        alert('End time should be after start time.');
-        return;
-      }
-
-      setStartTime(tempStartTime);
-      setEndTime(tempEndTime);
-      setIsModalOpen(false);
+    const parsedValue = Number(newValue);
+    if (!isNaN(parsedValue)) {
+      setCount(parsedValue);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#05E9921F] px-4">
+    <div className="flex justify-center mb-6">
+  <div className="inline-flex items-center px-11 py-4 rounded-full bg-[#E8F8F3] w-[150%]">
+    <span className="text-sm mr-2 text-center flex-grow">Share Count:</span>
+    <input
+      type="number"
+      value={count}
+      onChange={handleChange}
+      className="w-20 text-center font-semibold text-sm border-0 bg-[#E8F8F3] focus:outline-none"
+    />
+  </div>
+</div>
+
+
+
+  );
+}
+
+export default function ShareRide() {
+  const [isDateTimeModalOpen, setIsDateTimeModalOpen] = useState(false)
+  const [selectedDate, setSelectedDate] = useState("2nd May 2025")
+  const [timeRange, setTimeRange] = useState("07:30 PM - 07:45 PM")
+  const [selectedTransport, setSelectedTransport] = useState("")
+
+  const handleDateTimeConfirm = (date: string, startTime: string, endTime: string) => {
+    setSelectedDate(`${date}nd May 2025`)
+    setTimeRange(`${startTime} - ${endTime}`)
+  }
+
+  const handleTransportSelect = (transport: string) => {
+    setSelectedTransport(transport)
+  }
+
+  return (
+    <div className="relative w-full min-h-screen bg-[#C1EDE08C] p-4 sm:p-6">
       {/* Search Bar */}
-      <div className="relative w-full max-w-[303px] h-[35px] mt-5 mb-5">
-        <input
-          type="text"
-          placeholder="Search"
-          className="w-full h-[35px] bg-white border border-black border-solid rounded-full pl-[31px] pr-[22px]"
-        />
-      </div>
-
-      {/* Card Container */}
-      <div id="map"></div>
-
-      <div className="bg-white p-3 rounded-lg shadow-lg w-full max-w-[335px] h-[550px] overflow-auto">
-        {/* Form Fields */}
-        <div className="mt-5">
-          {/* Point of departure */}
+      <div className="flex items-center gap-2 mb-6">
+        <div className="flex-1 relative">
           <input
             type="text"
-            value={departure}
-            onChange={(e) => setDeparture(e.target.value)}
-            className="w-full h-[45px] bg-[#E1FCF2] border rounded-lg pl-4 text-sm"
+            placeholder="Search"
+            className="w-full h-10 pl-4 pr-10 rounded-full border-2 border-gray-300 focus:outline-none"
+          />
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <HelpCircle className="w-6 h-6 text-green-600" />
+          </div>
+        </div>
+      </div>
+
+      {/* Title */}
+<h1 className="text-3xl font-bold text-[#008955] mb-1">Share & Ride</h1>
+<p className="text-xl mb-6">Post your ride!</p>
+
+
+      {/* White Card */}
+      <div className="w-full max-w-[380px] mx-auto bg-white rounded-3xl p-6 shadow-lg border-2 border-gray-300 mb-12">
+        {/* Departure Input */}
+        <div className="mb-4">
+          <input
+            type="text"
             placeholder="Point of departure"
+            className="w-full p-4 rounded-full bg-[#E8F8F3] border-2 border-gray-300 focus:outline-none"
           />
+        </div>
 
-          {/* Travel destination */}
+        {/* Destination Input */}
+        <div className="mb-4">
           <input
             type="text"
-            value={destination}
-            onChange={(e) => setDestination(e.target.value)}
-            className="w-full h-[45px] bg-[#05E9921F] border rounded-lg mt-4 pl-4 text-sm"
             placeholder="Travel destination"
+            className="w-full p-4 rounded-full bg-[#E8F8F3] border-2 border-gray-300 focus:outline-none"
           />
-
-          {/* Travel date and time */}
-          <div className="flex justify-between gap-2 mt-4">
-            <input
-              type="date"
-              className="w-[160px] h-[45px] bg-[#91908E] border rounded-lg pl-4 text-sm"
-            />
-            <div
-              onClick={() => setIsModalOpen(true)}
-              className="w-[140px] h-[45px] bg-[#91908E] border rounded-lg pl-4 flex items-center justify-center cursor-pointer text-sm"
-            >
-              {startTime && endTime ? (
-                <div>
-                  <div className="text-xs">{startTime}</div>
-                  <div className="text-xs">{endTime}</div>
-                </div>
-              ) : (
-                'Select Time Range'
-              )}
-            </div>
-          </div>
-
-          {/* Share count */}
-          <div className="mt-4 w-full h-[45px] bg-[#05E9921F] border rounded-lg flex justify-center items-center">
-            <input
-              type="number"
-              value={passengerCount}
-              onChange={(e) => setPassengerCount(e.target.value)}
-              className="w-[120px] h-[30px] text-center bg-transparent border-none text-sm"
-              placeholder="Share count"
-            />
-          </div>
-
-          {/* Vehicle Selection */}
-          <div className="flex justify-between mt-4">
-            <div
-              onClick={() => setVehicle('car')}
-              className={`w-[70px] h-[70px] border-2 flex justify-center items-center ${vehicle === 'car' ? 'bg-[#008955] text-white' : 'border-black'} rounded-lg`}
-            >
-              <span className="text-sm">Car</span>
-            </div>
-            <div
-              onClick={() => setVehicle('auto')}
-              className={`w-[70px] h-[70px] border-2 flex justify-center items-center ${vehicle === 'auto' ? 'bg-[#008955] text-white' : 'border-black'} rounded-lg`}
-            >
-              <span className="text-sm">Auto</span>
-            </div>
-            <div
-              onClick={() => setVehicle('taxi')}
-              className={`w-[70px] h-[75px] border-2 flex justify-center items-center ${vehicle === 'taxi' ? 'bg-[#008955] text-white' : 'border-black'} rounded-lg`}
-            >
-              <span className="text-sm">Taxi</span>
-            </div>
-          </div>
-
-          {/* Gender Preference */}
-          <div className="mt-4">
-            <h3 className="text-lg font-semibold">Gender Preference</h3>
-            <select
-              value={genderPreference}
-              onChange={(e) => setGenderPreference(e.target.value)}
-              className="w-full h-[45px] mt-2 bg-white border rounded-lg text-sm"
-            >
-              <option value="any">Any</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            onClick={handleSubmit}
-            className="w-full max-w-[255px] h-[45px] bg-[#008955] text-white rounded-lg mt-5 mx-auto flex justify-center items-center"
-          >
-            <span className="text-sm">Post your ride!</span>
-          </button>
         </div>
+
+        {/* Date and Time Box */}
+        <button
+          onClick={() => setIsDateTimeModalOpen(true)}
+          className="flex items-center justify-between w-full p-4 mb-4 rounded-2xl border-2 border-gray-300"
+        >
+          <div className="flex flex-col items-start gap-1 w-1/2">
+            <label className="text-[8px] font-semibold text-gray-500 opacity-50">Travel Date</label>
+            <div className="flex items-center gap-2 text-xs">
+              <Calendar className="w-4 h-4 text-gray-500" />
+              <span>{selectedDate}</span>
+            </div>
+          </div>
+          <div className="flex flex-col items-start gap-1 w-1/2">
+            <label className="text-[8px] font-semibold text-gray-500 opacity-50">Travel Time Range</label>
+            <div className="flex items-center gap-2 text-xs">
+              <Clock className="w-4 h-4 text-gray-500" />
+              <span>{timeRange}</span>
+            </div>
+          </div>
+        </button>
+
+        {/* Share Count Component */}
+        <ShareCount />
+
+        {/* Transport Options */}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div
+            onClick={() => handleTransportSelect("Car")}
+            className={`flex flex-col items-center p-4 rounded-2xl text-white cursor-pointer ${
+              selectedTransport === "Car" ? "bg-green-600" : "bg-[#E8F8F3]"
+            }`}
+          >
+            <Car className="w-6 h-6 mb-1" />
+            <span className="text-sm">Car</span>
+          </div>
+          <div
+            onClick={() => handleTransportSelect("Auto")}
+            className={`flex flex-col items-center p-4 rounded-2xl cursor-pointer ${
+              selectedTransport === "Auto" ? "bg-green-600 text-white" : "bg-[#E8F8F3]"
+            }`}
+          >
+            <img src="/placeholder.svg?height=24&width=24" alt="Auto" className="w-6 h-6 mb-1" />
+            <span className="text-sm">Auto</span>
+          </div>
+          <div
+            onClick={() => handleTransportSelect("Taxi")}
+            className={`flex flex-col items-center p-4 rounded-2xl cursor-pointer ${
+              selectedTransport === "Taxi" ? "bg-green-600 text-white" : "bg-[#E8F8F3]"
+            }`}
+          >
+            <img src="/placeholder.svg?height=24&width=24" alt="Taxi" className="w-6 h-6 mb-1" />
+            <span className="text-sm">Taxi</span>
+          </div>
+        </div>
+
+        {/* Preferred Gender */}
+        <div className="mb-6">
+          <label className="block mb-2 opacity-60">Preferred Gender :</label>
+          <select className="w-full p-3 rounded-full border-2 border-gray-300 focus:outline-none">
+            <option value="">Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="any">Any</option>
+          </select>
+        </div>
+
+        {/* Post Button */}
+        {/* Post Button */}
+<button className="w-full py-4 bg-[#008955] text-white rounded-full text-lg font-semibold">
+  Post your ride!
+</button>
+
       </div>
 
-      {/* Time Range Modal */}
-      <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}>
-        <div className="p-4">
-          <h2 className="text-xl mb-4">Select Time Range</h2>
+      {/* Date Time Modal */}
+      <DateTimeModal
+        isOpen={isDateTimeModalOpen}
+        onClose={() => setIsDateTimeModalOpen(false)}
+        onConfirm={handleDateTimeConfirm}
+      />
 
-          {/* Start Time */}
-          <div className="flex gap-2 mb-4">
-            <input
-              type="number"
-              value={tempStartTime ? tempStartTime.split(':')[0] : ''}
-              onChange={(e) => setTempStartTime(`${e.target.value}:${tempStartTime?.split(':')[1] || '00'}`)}
-              className="w-[50px] p-2 border rounded-lg text-sm"
-              placeholder="HH"
-            />
-            <input
-              type="number"
-              value={tempStartTime ? tempStartTime.split(':')[1] : ''}
-              onChange={(e) => setTempStartTime(`${tempStartTime?.split(':')[0] || '00'}:${e.target.value}`)}
-              className="w-[50px] p-2 border rounded-lg text-sm"
-              placeholder="MM"
-            />
-            <select
-              value={tempStartTime ? tempStartTime.split(' ')[1] : 'AM'}
-              onChange={(e) => setTempStartTime(`${tempStartTime?.split(':')[0] || '00'}:${tempStartTime?.split(':')[1] || '00'} ${e.target.value}`)}
-              className="p-2 border rounded-lg text-sm"
-            >
-              <option value="AM">AM</option>
-              <option value="PM">PM</option>
-            </select>
-          </div>
-
-          {/* End Time */}
-          <div className="flex gap-2 mb-4">
-            <input
-              type="number"
-              value={tempEndTime ? tempEndTime.split(':')[0] : ''}
-              onChange={(e) => setTempEndTime(`${e.target.value}:${tempEndTime?.split(':')[1] || '00'}`)}
-              className="w-[50px] p-2 border rounded-lg text-sm"
-              placeholder="HH"
-            />
-            <input
-              type="number"
-              value={tempEndTime ? tempEndTime.split(':')[1] : ''}
-              onChange={(e) => setTempEndTime(`${tempEndTime?.split(':')[0] || '00'}:${e.target.value}`)}
-              className="w-[50px] p-2 border rounded-lg text-sm"
-              placeholder="MM"
-            />
-            <select
-              value={tempEndTime ? tempEndTime.split(' ')[1] : 'AM'}
-              onChange={(e) => setTempEndTime(`${tempEndTime?.split(':')[0] || '00'}:${tempEndTime?.split(':')[1] || '00'} ${e.target.value}`)}
-              className="p-2 border rounded-lg text-sm"
-            >
-              <option value="AM">AM</option>
-              <option value="PM">PM</option>
-            </select>
-          </div>
-
-          <button
-            onClick={handleTimeRangeSubmit}
-            className="bg-[#008955] text-white p-2 rounded-lg text-sm"
-          >
-            Continue
-          </button>
-        </div>
-      </Modal>
+      {/* Footer */}
+      <div className="fixed bottom-0 left-0 right-0 h-16 bg-white border-t grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4">
+        <button className="flex flex-col items-center justify-center">
+          <Clock className="w-6 h-6" />
+        </button>
+        <button className="flex flex-col items-center justify-center">
+          <Calendar className="w-6 h-6" />
+        </button>
+        <button className="flex flex-col items-center justify-center">
+          <img src="/placeholder.svg?height=24&width=24" alt="Notification" className="w-6 h-6" />
+        </button>
+        <button className="flex flex-col items-center justify-center">
+          <User className="w-6 h-6" />
+        </button>
+      </div>
     </div>
   );
-};
-
-export default LocationForm;
+}
