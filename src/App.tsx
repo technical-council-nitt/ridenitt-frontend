@@ -1,4 +1,7 @@
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AvailableRidesComponent from "./Pages/Availablerides"
+import ProfileComponent from './Pages/profile'
 import Start from "./Pages/Start";
 import Login from "./Pages/Login";
 import Start1 from "./Pages/Start1";
@@ -9,7 +12,9 @@ import SetPassword from "./Pages/SetPassword";
 import NotFound from "./Pages/NotFound"; // Create a 404 Page
 
 const router = createBrowserRouter([
-  { path: "/", element: <Start /> },
+  { path: "/", element: <AvailableRidesComponent /> },
+  { path: "/profile", element: <ProfileComponent /> },
+  { path: "/start", element: <Start /> },
   { path: "/start1", element: <Start1 /> },
   { path: "/start2", element: <Start2 /> },
   { path: "/login", element: <Login /> },
@@ -21,6 +26,6 @@ const router = createBrowserRouter([
 
 function App() {
   return <RouterProvider router={router} />;
-}
+
 
 export default App;

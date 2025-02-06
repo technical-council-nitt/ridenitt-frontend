@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
 
 @tailwind base;
@@ -6,9 +7,11 @@
 
 body {
   font-family: 'Quicksand', sans-serif;
+  width:100vw;
 }
 .gradient-background {
   background: linear-gradient(to bottom, #FFFFFF 10%, #C1EDE0 100%);
 }
+
 
 
