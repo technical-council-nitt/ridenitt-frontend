@@ -39,20 +39,21 @@ export function DateTimeModal({
   const handleMonthChange = (direction: "prev" | "next") => {
     if (direction === "prev") {
       if (currentMonth === 0) {
-        setCurrentMonth(11)
-        setCurrentYear(currentYear - 1)
+        setCurrentMonth(11);
+        setCurrentYear(currentYear - 1);
       } else {
-        setCurrentMonth(currentMonth - 1)
+        setCurrentMonth(currentMonth - 1);
       }
     } else if (direction === "next") {
       if (currentMonth === 11) {
-        setCurrentMonth(0)
-        setCurrentYear(currentYear + 1)
+        setCurrentMonth(0);
+        setCurrentYear(currentYear + 1);
       } else {
-        setCurrentMonth(currentMonth + 1)
+        setCurrentMonth(currentMonth + 1);
       }
     }
-  }
+  };
+  
 
   // Generate days of the week for the current month
   const days = Array.from({ length: daysInMonth }, (_, i) => String(i + 1).padStart(2, "0"))
