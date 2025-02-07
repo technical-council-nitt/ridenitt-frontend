@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AvailableRidesComponent from "./Pages/Availablerides"
 import ProfileComponent from './Pages/profile'
@@ -10,10 +9,14 @@ import Signup from "./Pages/Signup";
 import TwoFactorAuthentication from "./Pages/TwoFactorAuthentication";
 import SetPassword from "./Pages/SetPassword";
 import NotFound from "./Pages/NotFound"; // Create a 404 Page
+import Requests from "./Pages/Requests/Index";
+import MyRides from "./Pages/MyRides";
 
 const router = createBrowserRouter([
   { path: "/", element: <AvailableRidesComponent /> },
+  { path: "/requests", element: <Requests />},
   { path: "/profile", element: <ProfileComponent /> },
+  { path: 'my-rides', element: <MyRides /> },
   { path: "/start", element: <Start /> },
   { path: "/start1", element: <Start1 /> },
   { path: "/start2", element: <Start2 /> },
@@ -26,6 +29,6 @@ const router = createBrowserRouter([
 
 function App() {
   return <RouterProvider router={router} />;
-
+}
 
 export default App;

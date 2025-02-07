@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Navigation from "../Components/Navigation";
 import React from "react";
 
@@ -25,7 +26,7 @@ export const ProfileComponent: React.FC = () => {
                 </div>
             </main>
             <section className="relative top-[10vh] w-[100vw] grid grid-cols-[1fr,1fr] p-[4vw] gap-y-[20px] gap-x-[13px]">
-                <div className="myrides h-[50px] w-[50vw] flex justify-center items-center border-[2px] border-[#008955] rounded-[10px] bg-[white] font-[Quicksand] font-[900] text-[#414141] text-[20px] pr-[20px]">My Rides</div>
+                <Link to="/my-rides" className="myrides h-[50px] w-[50vw] flex justify-center items-center border-[2px] border-[#008955] rounded-[10px] bg-[white] font-[Quicksand] font-[900] text-[#414141] text-[20px] pr-[20px]">My Rides</Link>
                 <div className="myrides"></div>
                 <div className="myrides h-[50px] flex justify-center items-center border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700] text-[22px]">Update</div>
                 <div className="myrides h-[50px] flex justify-center items-center border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700] text-[22px]">Logout</div>
