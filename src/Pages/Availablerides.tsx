@@ -27,7 +27,7 @@ export const AvailableRidesComponent: React.FC = () => {
                     <p className="rightbar border-[1px] border-[#B9B9B9] w-[34vw] absolute top-[50%] right-[0%]"></p>
                 </div>
             </section>
-            <main className="feed relative w-[100vw] top-[10vh] grid grid-cols-1 p-2 gap-y-4">
+            <main className="pb-40 feed relative w-[100vw] top-[10vh] grid grid-cols-1 p-2 gap-y-4">
                 <section className="border-[2px] border-[#08B783] bg-[#C1EDE08C] h-[170px] w-[auto] rounded-[10px] relative">
                     <div className="dest text-[5vw] font-Quicksand font-[700] text-[#5A5A5A] absolute top-[6%] left-[3%] h-[23px] w-[max]">Chathiram Bus Stand</div>
                     <img src="car.svg" className="h-[75px] absolute right-[5%]"></img>
