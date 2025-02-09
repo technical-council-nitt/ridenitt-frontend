@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Navigation from '../Components/Navigation'
+import { useAuth } from '../Hooks/useAuth'
+import Redirect from '../Components/Redirect'
 
 const RideCard = ({ ride }: { ride: any }) => (
   <li className='p-2 flex justify-between gap-4 bg-white border-2 border-solid border-green-700 rounded-xl'>
@@ -19,10 +21,23 @@ const RideCard = ({ ride }: { ride: any }) => (
 )
 
 export default function MyRides() {
+  const { authLoading, user } = useAuth()
+
   const [tab, setTab] = useState<'upcoming' | 'completed' | 'cancelled'>('upcoming')
   const [upcomingRides, setUpcomingRides] = useState(new Array(3).fill({ name: 'Nate' }))
   const [completedRides, setCompletedRides] = useState(new Array(3).fill({ name: 'Nate' }))
   const [cancelledRides, setCancelledRides] = useState(new Array(3).fill({ name: 'Nate' }))
+
+
+  if (authLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (!user) {
+    return (
+      <Redirect to="/start" />
+    )
+  }
 
   return (
     <div className='p-2 pb-20'>
@@ -62,8 +77,6 @@ export default function MyRides() {
           ))}
         </ul>
       )}
-
-      <Navigation />
     </div>
   )
 }

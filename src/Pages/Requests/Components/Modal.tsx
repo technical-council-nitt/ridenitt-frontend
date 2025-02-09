@@ -10,9 +10,17 @@ export default function Modal({
 
   if (!isOpen) return null
   
+  const handleInnerClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+  }
+
+  const handleOuterClick = () => {
+    onClose()
+  }
+
   return (
-      <div onClick={onClose} className='text-xs fixed grid place-items-center inset-0 z-[2] backdrop-blur-sm'>
-        <div onClick={e => e.stopPropagation()} className='bg-white absolute left-4 right-4 max-w-md p-2 border-2 border-solid border-black rounded-xl'>
+      <div onClick={handleOuterClick} className='text-xs fixed grid place-items-center inset-0 z-[2] backdrop-blur-sm'>
+        <div onClick={handleInnerClick} className='bg-white absolute left-4 right-4 max-w-md p-2 border-2 border-solid border-black rounded-xl'>
           <div className='flex justify-between gap-6 items-start'>
             <div>
               <span className='font-semibold'>
