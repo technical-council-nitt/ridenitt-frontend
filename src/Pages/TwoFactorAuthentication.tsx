@@ -1,10 +1,16 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Hooks/useAuth";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const TwoFactorAuthentication: React.FC = () => {
+  const { ongoingSignup, refreshAuth } = useAuth();
+
   const navigate = useNavigate();
-  const [otp, setOtp] = useState(["", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (index: number, value: string) => {
     if (/^\d?$/.test(value)) { // Only allow digits
@@ -25,6 +31,33 @@ const TwoFactorAuthentication: React.FC = () => {
     }
   };
 
+  const handleSubmit = () => {
+    setLoading(true);
+    
+    if (!ongoingSignup) {
+      toast.error("Invalid request");
+      setLoading(false);
+      navigate("/signup");
+      return;
+    }
+
+    axios.post("/auth/verify-otp", {
+      ...ongoingSignup,
+      phoneNumber: ongoingSignup.phoneNumber,
+      otp: otp.join("")
+    })
+    .then(() => {
+      toast.success("Success");
+      refreshAuth()
+      setTimeout(() => navigate("/"), 2000);
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error(err.response.data.error ?? "Failed to Login");
+      setLoading(false);
+    })
+  }
+
   return (
     <div className="gradient-background flex flex-col items-center justify-center h-screen px-4 sm:px-6 md:px-8 relative">
       {/* Back Button */}
@@ -41,6 +74,7 @@ const TwoFactorAuthentication: React.FC = () => {
         <div className="flex justify-center gap-3 sm:gap-4 md:gap-5 w-full max-w-xs sm:max-w-sm">
           {otp.map((digit, index) => (
             <input
+              disabled={loading}
               key={index}
               ref={(el) => (inputRefs.current[index] = el)}
               type="text"
@@ -64,7 +98,7 @@ const TwoFactorAuthentication: React.FC = () => {
         
         {/* Verify Button */}
         <button
-          onClick={() => navigate("/setpassword")}
+          onClick={handleSubmit}
           className="mt-6 w-full max-w-sm sm:max-w-md md:max-w-lg py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg border border-black hover:bg-[#007144] transition"
         >
           Verify
