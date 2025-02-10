@@ -1,8 +1,8 @@
+
 // Add the "use client" directive for client-side rendering
 "use client";
 
 import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LocationForm from "./components/LocationForm"
@@ -16,6 +16,12 @@ import Signup from "./Pages/Signup";
 import TwoFactorAuthentication from "./Pages/TwoFactorAuthentication";
 import SetPassword from "./Pages/SetPassword";
 import NotFound from "./Pages/NotFound"; // Create a 404 Page
+import Requests from "./Pages/Requests/Index";
+import MyRides from "./Pages/MyRides";
+import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "./Hooks/useAuth";
+import Navigation from "./Components/Navigation";
+import ResetPassword from "./Pages/ResetPassword";
 
 
 const App: React.FC = () => {
@@ -43,21 +49,38 @@ const App: React.FC = () => {
   };
 
 const router = createBrowserRouter([
-  { path: "/", element: <AvailableRidesComponent /> },
+
+  { path: "/", element: <><AvailableRidesComponent /> <Navigation /></> },
+  { path: "/requests", element: <><Requests /> <Navigation /></>},
+  { path: "/profile", element: <><ProfileComponent /> <Navigation /></> },
+  { path: 'my-rides', element: <><MyRides /> <Navigation /></> },
+
+
   { path: "/locationForm", element: <LocationForm  rideDetails={rideDetails} onSubmit={handleLocationSubmit} /> },
   { path: "/profile", element: <ProfileComponent /> },
+
   { path: "/start", element: <Start /> },
   { path: "/start1", element: <Start1 /> },
   { path: "/start2", element: <Start2 /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <Signup /> },
-  { path: "/twofactorauthentication", element: <TwoFactorAuthentication /> },
+  { path: "/2fa", element: <TwoFactorAuthentication /> },
   { path: "/setpassword", element: <SetPassword /> },
+  { path: "/reset-password", element: <ResetPassword /> },
   { path: "*", element: <NotFound /> }, // Catch-all for undefined routes
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+
+  return (
+    <>
+      <AuthProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </AuthProvider>
+    </>
+  );
+
 }
 
 export default App;

@@ -1,27 +1,92 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "../Hooks/useAuth";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const SetPassword: React.FC = () => {
+  const { ongoingResetPw } = useAuth();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [resendTimer, setResendTimer] = useState(60);
+  const [otpSent, setOtpSent] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (resendTimer > 0) {
+        setResendTimer(c => c - 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [])
 
   const handleSavePassword = () => {
     if (password !== confirmPassword) {
-      alert("Passwords do not match!"); 
+      toast.error("Passwords do not match!");
       return;
     }
     if (!password || !confirmPassword) {
-      alert("Password cannot be blank");
+      toast.error("Password cannot be blank");
       return;
     }
 
-    // Redirect to login page after setting password
-    navigate("/login");
+    if (ongoingResetPw === false) {
+      toast.error("Failed to Reset Password")
+      return
+    }
+
+    if (otp.length !== 6) {
+      toast.error("Invalid OTP");
+      return
+    }
+
+    setLoading(true);
+    axios.post("/auth/verify-otp?reset=true", {
+      phoneNumber: ongoingResetPw,
+      password,
+      otp
+    })
+      .then(() => {
+        toast.success("Password Reset Successfully");
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(err.response.data.error ?? "Failed to Reset Password");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
+
+  const resendOtp = () => {
+    if (ongoingResetPw === false) {
+      toast.error("Failed to Reset Password")
+      return
+    }
+
+    setLoading(true);
+
+    axios.post("/auth/send-otp", { phoneNumber: ongoingResetPw })
+      .then(() => {
+        toast.success("OTP Sent");
+        setResendTimer(120);
+      })
+      .catch((err) => {
+        console.error(err)
+        toast.error(err.response.data.error ?? "Failed to Send OTP");
+      })
+      .finally(() => {
+        setLoading(false)
+      });
+  }
 
   return (
     <div className="gradient-background flex flex-col items-center justify-center h-screen px-6 relative">
@@ -29,7 +94,7 @@ const SetPassword: React.FC = () => {
       {/* Back Button */}
       <div
         className="absolute top-4 left-4 flex items-center cursor-pointer"
-        onClick={() => navigate("/twofactorauthentication")}
+        onClick={() => navigate("/reset-password")}
       >
         <span className="text-2xl">&lt;</span>
         <span className="ml-2 text-lg font-semibold">Back</span>
@@ -74,10 +139,33 @@ const SetPassword: React.FC = () => {
           </span>
         </div>
 
+        <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg mb-6">
+          {ongoingResetPw && (
+            <span>
+              OTP Sent to +91 xxxxx xx{ongoingResetPw.slice(-3)}
+            </span>
+          )}
+          <input
+            type={"text"}
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            className="w-full px-4 py-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008955] text-lg"
+          />
+          <button
+            disabled={resendTimer > 0}
+            onClick={resendOtp}
+            className="w-fit ml-auto block text-[#008955] px-4 py-2 rounded-lg text-lg"
+          >
+            {resendTimer > 0 ? `Resend OTP in ${resendTimer}s` : "Resend OTP"}
+          </button>
+        </div>
+
         {/* Save Password Button */}
-        <button 
+        <button
+          disabled={loading}
           onClick={handleSavePassword}
-          className="w-full max-w-sm sm:max-w-md md:max-w-lg py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg border border-black hover:bg-[#007144] transition"
+          className="disabled:opacity-50 w-full max-w-sm sm:max-w-md md:max-w-lg py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg border border-black hover:bg-[#007144] transition"
         >
           Save Password
         </button>
