@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowRight } from "react-icons/fi";
-import img2 from "../Images/start-image-2.png";
 
 const Start2: React.FC = () => {
   const navigate = useNavigate();
@@ -10,7 +9,7 @@ const Start2: React.FC = () => {
     <div className="gradient-background grid place-items-center h-screen p-4">
       <div className="max-w-sm flex flex-col gap-8">
         {/* Centered Image - Same size as Start1 */}
-        <img src={img2} alt="Ride Together" className="max-w-[90%] md:max-w-[70%]" />
+        <img src="/Images/start-image-2.png" alt="Ride Together" className="max-w-[90%] md:max-w-[70%]" />
 
         <div>
           {/* Left-Aligned Text Below Image */}

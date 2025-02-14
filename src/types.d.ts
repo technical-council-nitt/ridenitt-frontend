@@ -28,9 +28,12 @@ interface Ride {
     {
       id: string
       name: string
+      phoneNumber?: string
       gender: "MALE" | "FEMALE"
     }
-  ]
+  ],
+  participantsCount?: number
+  myInvite?: Invite
 }
 
 interface Invite {

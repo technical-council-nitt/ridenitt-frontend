@@ -1,13 +1,6 @@
-
-// Add the "use client" directive for client-side rendering
-"use client";
-
-import { useState } from "react";
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LocationForm from "./components/LocationForm"
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import AvailableRidesComponent from "./Pages/Availablerides"
-import ProfileComponent from './Pages/profile'
+import ProfileComponent from './Pages/Profile'
 import Start from "./Pages/Start";
 import Login from "./Pages/Login";
 import Start1 from "./Pages/Start1";
@@ -15,72 +8,76 @@ import Start2 from "./Pages/Start2";
 import Signup from "./Pages/Signup";
 import TwoFactorAuthentication from "./Pages/TwoFactorAuthentication";
 import SetPassword from "./Pages/SetPassword";
-import NotFound from "./Pages/NotFound"; // Create a 404 Page
+import NotFound from "./Pages/NotFound";
 import Requests from "./Pages/Requests/Index";
 import MyRides from "./Pages/MyRides";
 import { ToastContainer } from "react-toastify";
-import { AuthProvider } from "./Hooks/useAuth";
+import { AuthProvider, useAuth } from "./Hooks/useAuth";
 import Navigation from "./Components/Navigation";
 import ResetPassword from "./Pages/ResetPassword";
+import LocationForm from "./Components/PostRideForm";
+import { CurrentRideProvider, useCurrentRide } from "./Hooks/useCurrentRide";
+import CurrentRide from "./Pages/CurrentRide";
+import Notifications from "./Pages/Notifications";
 
 
 const App: React.FC = () => {
-  const [rideDetails, setRideDetails] = useState<{
-    rideDate: string;
-    startTime: string;
-    endTime: string;
-  }>({
-    rideDate: "",
-    startTime: "",
-    endTime: "",
-  });
+  return <>
+    <AuthProvider>
+      <CurrentRideProvider>
+        <CustomRouter />
+        <ToastContainer />
+      </CurrentRideProvider>
+    </AuthProvider>
+  </>
+}
 
-  const handleLocationSubmit = (data: {
-    departure: string;
-    destination: string;
-    vehicle: string;
-    genderPreference: string;
-    date: string;
-    startTime: string;
-    endTime: string;
-    passengerCount: string;
-  }) => {
-    console.log("Ride details:", data);
-  };
+const CustomRouter = () => {
+  const { user, authLoading } = useAuth()
 
-const router = createBrowserRouter([
+  const { loading: currentRideLoading } = useCurrentRide()
 
-  { path: "/", element: <><AvailableRidesComponent /> <Navigation /></> },
-  { path: "/requests", element: <><Requests /> <Navigation /></>},
-  { path: "/profile", element: <><ProfileComponent /> <Navigation /></> },
-  { path: 'my-rides', element: <><MyRides /> <Navigation /></> },
-
-
-  { path: "/locationForm", element: <LocationForm  rideDetails={rideDetails} onSubmit={handleLocationSubmit} /> },
-  { path: "/profile", element: <ProfileComponent /> },
-
-  { path: "/start", element: <Start /> },
-  { path: "/start1", element: <Start1 /> },
-  { path: "/start2", element: <Start2 /> },
-  { path: "/login", element: <Login /> },
-  { path: "/signup", element: <Signup /> },
-  { path: "/2fa", element: <TwoFactorAuthentication /> },
-  { path: "/setpassword", element: <SetPassword /> },
-  { path: "/reset-password", element: <ResetPassword /> },
-  { path: "*", element: <NotFound /> }, // Catch-all for undefined routes
-]);
-
-function App() {
+  if (authLoading || currentRideLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
-    <>
-      <AuthProvider>
-        <RouterProvider router={router} />
-        <ToastContainer />
-      </AuthProvider>
-    </>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path="/start" element={<Start />} />
+        <Route path="/start1" element={<Start1 />} />
+        <Route path="/start2" element={<Start2 />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/2fa" element={<TwoFactorAuthentication />} />
+        <Route path="/setpassword" element={<SetPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
+        <Route path="/create-ride" element={<LocationForm />} />
+        
+        <Route element={<Layout />}>
+          <Route index element={<CurrentRide />} />
+          <Route path="/suggestions" element={<AvailableRidesComponent />} />
+          <Route path="/requests" element={<Requests />} />
+          <Route path="/profile" element={<ProfileComponent />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/my-rides" element={<MyRides />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+const Layout = () => {
+  return (
+    <div>
+      <Outlet />
+      <Navigation />
+    </div>
+  )
 }
 
 export default App;
