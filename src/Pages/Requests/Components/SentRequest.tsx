@@ -1,7 +1,9 @@
+import { age } from "../../../Utils/datetime"
+
 export default function SentRequest({
   request
 }: {
-  request: any
+  request: Invite
 }) {
   const ride = request.receiverRide
   const st = new Date(ride.earliestDeparture)
@@ -25,12 +27,19 @@ export default function SentRequest({
         </span>
         <br />
         <span className='text-neutral-600'>
-          {request.receiverRide.vehicleType} | {request.receiverRide.capacity} people sharing
+          {request.receiverRide.vehicleType} | {request.receiverRide.participants.length} people sharing
         </span>
         <br />
       </div>
-      <div className={`mt-2 text-neutral-600 font-semibold text-sm ${request.status === 'ACCEPTED' ? 'text-green-700' : 'text-red-700'}`}>
-        {request.status}
+
+      <div className="flex flex-col items-end justify-between gap-4">
+        <div className={`mt-2 font-semibold text-sm ${request.status === 'ACCEPTED' ? 'text-green-700' : request.status === 'PENDING' ? 'text-amber-700' : 'text-red-700'}`}>
+          {request.status}
+        </div>
+
+        <span>
+          {age(Date.now() - new Date(request.createdAt).getTime())}
+        </span>
       </div>
     </li>
   )

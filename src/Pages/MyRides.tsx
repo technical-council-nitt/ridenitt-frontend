@@ -4,7 +4,7 @@ import Redirect from '../Components/Redirect'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-const RideCard = ({ ride }: { ride: any }) => {
+const RideCard = ({ ride }: { ride: Ride }) => {
   const st = new Date(ride.earliestDeparture)
   const ed = new Date(ride.latestDeparture)
 
@@ -20,7 +20,7 @@ const RideCard = ({ ride }: { ride: any }) => {
         </span>
         <br />
         <span className='text-neutral-600'>
-          {ride.vehicleType} | {ride.peopleCount} people
+          {ride.vehicleType} | {ride.participants.length} people
         </span>
       </div>
       <div className=''>

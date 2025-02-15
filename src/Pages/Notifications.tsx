@@ -2,6 +2,7 @@ import React from 'react'
 import { useAuth } from '../Hooks/useAuth'
 import axios from 'axios'
 import { age } from '../Utils/datetime'
+import { FaEnvelope, FaInbox, FaRegEnvelope } from 'react-icons/fa'
 
 export default function Notifications() {
   const { user } = useAuth()
@@ -31,7 +32,8 @@ export default function Notifications() {
         {loading ? <li>Loading...</li> : notifications.length === 0 && <li>No notifications</li>}
 
         {notifications.map(notification => (
-          <li key={notification.id} className='bg-white p-4 mb-2 shadow-lg rounded-2xl'>
+          <li key={notification.id} className='bg-white p-2 mb-2 shadow rounded-lg'>
+            <FaRegEnvelope className='text-neutral-600 inline-block mr-2' />
             {notification.message}
 
             <div className='text-right text-sm text-neutral-600'>

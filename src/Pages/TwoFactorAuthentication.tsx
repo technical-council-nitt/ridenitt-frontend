@@ -98,8 +98,9 @@ const TwoFactorAuthentication: React.FC = () => {
         
         {/* Verify Button */}
         <button
+          disabled={loading}
           onClick={handleSubmit}
-          className="mt-6 w-full max-w-sm sm:max-w-md md:max-w-lg py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg border border-black hover:bg-[#007144] transition"
+          className="mt-6 w-full disabled:opacity-50 max-w-sm sm:max-w-md md:max-w-lg py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg border border-black hover:bg-[#007144] transition"
         >
           Verify
         </button>

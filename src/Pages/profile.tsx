@@ -44,8 +44,8 @@ export const ProfileComponent: React.FC = () => {
                 </div>
             </section>
             <main className="details grid grid-cols-1 relative top-[12vh] p-[4vw] gap-y-[10px]">
-                <div className="email text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-[15px] font-[600] font-[Poppins] relative">
-                    {user.email}
+                <div className="username text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-[15px] font-[600] font-[Poppins] relative">
+                    {user.name}
                     <img src="edit.svg" className="absolute top-[20%] right-[5%]"></img>
                 </div>
                 <div className="email text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-[15px] font-[600] font-[Poppins] relative">

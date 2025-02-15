@@ -1,7 +1,6 @@
 interface User {
   id: string;
   name: string;
-  email: string;
   password: string;
   phoneNumber: string;
   gender: string;
@@ -29,11 +28,10 @@ interface Ride {
       id: string
       name: string
       phoneNumber?: string
-      gender: "MALE" | "FEMALE"
     }
   ],
-  participantsCount?: number
   myInvite?: Invite
+  createdAt: string
 }
 
 interface Invite {
@@ -41,9 +39,14 @@ interface Invite {
   status: "PENDING" | "ACCEPTED" | "DECLINED"
   senderId: string
   receiverRideId: string
+  receiverRide: Ride
+  sender: { id: string; name: string; phoneNumber?: string }
+  createdAt: string
 }
 
 interface Stop {
   id: string;
   name: string;
+  lat: number;
+  lng: number;
 }

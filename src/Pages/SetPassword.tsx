@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const SetPassword: React.FC = () => {
-  const { ongoingResetPw } = useAuth();
+  const { ongoingResetPw, setOngoingResetPw } = useAuth();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,7 +36,7 @@ const SetPassword: React.FC = () => {
       return;
     }
 
-    if (ongoingResetPw === false) {
+    if (ongoingResetPw.phoneNumber === null) {
       toast.error("Failed to Reset Password")
       return
     }
@@ -55,6 +55,7 @@ const SetPassword: React.FC = () => {
       .then(() => {
         toast.success("Password Reset Successfully");
         navigate("/login");
+        setOngoingResetPw({ phoneNumber: null });
       })
       .catch((err) => {
         console.error(err);
@@ -66,7 +67,7 @@ const SetPassword: React.FC = () => {
   };
 
   const resendOtp = () => {
-    if (ongoingResetPw === false) {
+    if (ongoingResetPw.phoneNumber === null) {
       toast.error("Failed to Reset Password")
       return
     }
@@ -141,7 +142,7 @@ const SetPassword: React.FC = () => {
         <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg mb-6">
           {ongoingResetPw && (
             <span>
-              OTP Sent to +91 xxxxx xx{ongoingResetPw.slice(-3)}
+              OTP Sent to +91 xxxxx xx{ongoingResetPw.phoneNumber?.slice(-3)}
             </span>
           )}
           <input
