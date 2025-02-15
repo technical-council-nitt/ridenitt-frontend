@@ -70,7 +70,7 @@ const Login: React.FC = () => {
 
       {/* Start Sharing Button - Centered */}
       <button
-        onClick={() => navigate("/home")}
+        onClick={() => navigate("/postride")}
         className="mt-6 px-6 py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg w-full max-w-sm hover:bg-[#007144] transition border border-black"
       >
         Start Sharing!

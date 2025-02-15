@@ -6,7 +6,12 @@ import Start2 from "./Pages/Start2";
 import Signup from "./Pages/Signup";
 import TwoFactorAuthentication from "./Pages/TwoFactorAuthentication";
 import SetPassword from "./Pages/SetPassword";
-import NotFound from "./Pages/NotFound"; // Create a 404 Page
+import NotFound from "./Pages/NotFound"; // 404 Page
+
+// Import Map Pages Individually
+
+import MapPage2 from "./Pages/MapPage2";
+
 
 const router = createBrowserRouter([
   { path: "/", element: <Start /> },
@@ -16,7 +21,12 @@ const router = createBrowserRouter([
   { path: "/signup", element: <Signup /> },
   { path: "/twofactorauthentication", element: <TwoFactorAuthentication /> },
   { path: "/setpassword", element: <SetPassword /> },
-  { path: "*", element: <NotFound /> }, // Catch-all for undefined routes
+
+  // Separate Routes for Each Map Page
+  { path: "/map2", element: <MapPage2 /> },
+
+  // Catch-all for undefined routes
+  { path: "*", element: <NotFound /> },
 ]);
 
 function App() {
