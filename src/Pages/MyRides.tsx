@@ -1,37 +1,79 @@
-import React, { useState } from 'react'
-import Navigation from '../Components/Navigation'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../Hooks/useAuth'
 import Redirect from '../Components/Redirect'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
-const RideCard = ({ ride }: { ride: any }) => (
-  <li className='p-2 flex justify-between gap-4 bg-white border-2 border-solid border-green-700 rounded-xl'>
-    <div>
-      <span className='font-semibold'>
-        {ride.name}
-      </span>
-      <br />
-      <span className='text-neutral-600'>
-        Car | 4 people sharing
-      </span>
-    </div>
-    <div className='font-semibold text-neutral-600'>
-      Today at 12:00 PM
-    </div>
-  </li>
-)
+const RideCard = ({ ride }: { ride: any }) => {
+  const st = new Date(ride.earliestDeparture)
+  const ed = new Date(ride.latestDeparture)
+
+  return (
+    <li className='p-2 flex justify-between gap-4 bg-white border-2 border-solid border-green-700 rounded-xl'>
+      <div>
+        <span className='font-semibold'>
+          {ride.owner.name}
+        </span>
+        <br />
+        <span>
+          {ride.stops[0].name} to {ride.stops[1].name}
+        </span>
+        <br />
+        <span className='text-neutral-600'>
+          {ride.vehicleType} | {ride.peopleCount} people
+        </span>
+      </div>
+      <div className=''>
+        <span className="text font-Quicksand font-semibold">
+          {st.toLocaleString('default', { month: 'short', day: '2-digit', year: 'numeric' })}
+          <br />
+          {st.getHours()}:{st.getMinutes().toString().padStart(2, '0')} - {ed.getHours()}:{ed.getMinutes().toString().padStart(2, '0')}
+        </span>
+      </div>
+    </li>
+  )
+}
 
 export default function MyRides() {
-  const { authLoading, user } = useAuth()
+  const { user } = useAuth()
 
   const [tab, setTab] = useState<'upcoming' | 'completed' | 'cancelled'>('upcoming')
-  const [upcomingRides, setUpcomingRides] = useState(new Array(3).fill({ name: 'Nate' }))
-  const [completedRides, setCompletedRides] = useState(new Array(3).fill({ name: 'Nate' }))
-  const [cancelledRides, setCancelledRides] = useState(new Array(3).fill({ name: 'Nate' }))
+  const [upcomingRides, setUpcomingRides] = useState<Ride[]>([])
+  const [completedRides, setCompletedRides] = useState<Ride[]>([])
+  const [cancelledRides, setCancelledRides] = useState<Ride[]>([])
+  const [loading, setLoading] = useState(true)
 
+  useEffect(() => {
+    setLoading(true)
 
-  if (authLoading) {
-    return <div>Loading...</div>
-  }
+    axios.get('/api/rides')
+      .then(res => {
+        const data = res.data.data
+
+        const up = [], cp = [], ca = []
+
+        for (let ride of data) {
+          if (ride.status === 'PENDING') {
+            up.push(ride)
+          } else if (ride.status === 'COMPLETED') {
+            cp.push(ride)
+          } else if (ride.status === 'CANCELLED') {
+            ca.push(ride)
+          }
+        }
+
+        setUpcomingRides(up)
+        setCompletedRides(cp)
+        setCancelledRides(ca)
+      })
+      .catch(err => {
+        console.log(err)
+        toast.error('Failed to fetch rides')
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [user])
 
   if (!user) {
     return (
@@ -53,6 +95,22 @@ export default function MyRides() {
         <button className={`p-2 rounded-xl ${tab === 'completed' ? 'bg-green-700 text-white' : ''}`} onClick={() => setTab('completed')}>Completed</button>
         <button className={`p-2 rounded-xl ${tab === 'cancelled' ? 'bg-green-700 text-white' : ''}`} onClick={() => setTab('cancelled')}>Cancelled</button>
       </div>
+
+      {loading ? (
+        <div className=''>
+          <p>
+            Loading rides...
+          </p>
+        </div>
+      ) : ((tab === 'upcoming' && upcomingRides.length === 0)
+        || (tab === 'completed' && completedRides.length === 0)
+        || (tab === 'cancelled' && cancelledRides.length === 0)) && (
+        <div className='text-center'>
+          <p>
+            No rides found in this category
+          </p>
+        </div>
+      )}
 
       {tab === 'upcoming' && (
         <ul className='flex flex-col gap-2'>

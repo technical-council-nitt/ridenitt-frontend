@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import imgLogin from "../Images/login-image.png"; // Update path if needed
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../Hooks/useAuth";
+import Redirect from "../Components/Redirect";
 
 const Login: React.FC = () => {
-  const { authLoading, user, refreshAuth } = useAuth()
+  const { user, refreshAuth } = useAuth()
   
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -41,12 +41,10 @@ const Login: React.FC = () => {
     navigate("/reset-password")
   } 
 
-  if (authLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (user) {
-    navigate("/");
+    return (
+      <Redirect to="/" />
+    )
   }
 
   return (
@@ -66,7 +64,7 @@ const Login: React.FC = () => {
 
       {/* Centered Image with Balanced Size */}
       <img
-        src={imgLogin}
+        src="/Images/login-image.png"
         alt="Login"
         className="w-[85%] sm:w-[50%] md:w-[40%] lg:w-[30%] max-w-[350px] max-h-[220px] md:max-h-[260px] lg:max-h-[280px] object-contain"
       />

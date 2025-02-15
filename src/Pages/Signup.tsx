@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../Hooks/useAuth";
 import axios from "axios";
+import Redirect from "../Components/Redirect";
 
 const Signup: React.FC = () => {
-  const { setOngoingSignup } = useAuth();
+  const { user, setOngoingSignup } = useAuth();
   const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
   const [name, setName] = useState("");
@@ -54,6 +55,12 @@ const Signup: React.FC = () => {
 
   const handleLogin = () => {
     navigate("/login");
+  }
+
+  if (user) {
+    return (
+      <Redirect to="/" />
+    )
   }
 
   return (

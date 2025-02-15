@@ -15,7 +15,6 @@ const SetPassword: React.FC = () => {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(60);
-  const [otpSent, setOtpSent] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {

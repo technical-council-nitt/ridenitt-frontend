@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import Navigation from '../../Components/Navigation'
-import Modal from './Components/Modal'
+import { useEffect, useState } from 'react'
 import ReceivedRequest from './Components/ReceivedRequest'
 import SentRequest from './Components/SentRequest'
+import { useCurrentRide } from '../../Hooks/useCurrentRide'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useAuth } from '../../Hooks/useAuth'
 
 export default function Requests() {
-  const [sentRequests, setSentRequests] = useState<any[]>(
-    new Array(4).fill({
-      name: 'Nate',
-      vehicle: 'Car',
-      capacity: 4,
-      status: 'Cancelled',
-      time: 'Today at 09:20 AM'
-    })
-  )
-  const [receivedRequests, setReceivedRequests] = useState<any[]>(
-    new Array(1).fill({
-      name: 'Nate',
-      vehicle: 'Car',
-      capacity: 4,
-      time: 'Today at 09:20 AM',
-      requests: new Array(4).fill({
-        name: 'Nate',
-        status: 'Pending',
-        time: 'Today at 09:20 AM'
-      })
-    })
-  )
+  const { user } = useAuth()
+  const { currentRide } = useCurrentRide()
+  const [requests, setRequests] = useState<Invite[]>([])
+  const [loading, setLoading] = useState(true)
 
   const [tab, setTab] = useState<"sent" | "received">('sent')
-  const [receivedRequestsModalOpen, setReceivedRequestsModalOpen] = useState(false)
+
+  const fetchRequests = () => {
+    setLoading(true)
+
+    axios.get('/api/invites')
+      .then(res => {
+        setRequests(res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+        setRequests([])
+        toast.error(err.response.data?.error ?? 'Failed to fetch invites')
+      })
+      .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    if (!user) return
+
+    if (currentRide?.owner.id === user?.id) {
+      setTab('received')
+    } else {
+      setTab('sent')
+    }
+
+    fetchRequests()
+  }, [user, currentRide])
 
   return (
     <div className='p-4 pb-40'>
@@ -40,36 +50,43 @@ export default function Requests() {
         Gateway to find your ride partner
       </h2>
 
-      <div className='mt-4 w-full rounded-xl border border-green-700 border-solid grid grid-cols-2 place-items-stretch'>
-        <button className={`py-2 rounded-xl ${tab === 'sent' ? "bg-green-700 text-white" : ""}`} onClick={() => setTab('sent')}>
+      <div className='mt-4 w-full rounded-xl border border-green-700 border-solid grid grid-cols-1 place-items-stretch'>
+        <button disabled className={`py-2 rounded-xl ${tab === 'sent' ? "bg-green-700 text-white" : "hidden"}`}>
           Posted Requests
         </button>
-        <button className={`py-2 rounded-xl ${tab === 'received' ? "bg-green-700 text-white" : ""}`} onClick={() => setTab('received')}>
+        <button disabled className={`py-2 rounded-xl ${tab === 'received' ? "bg-green-700 text-white" : "hidden"}`}>
           Your Requests
         </button>
       </div>
 
-      {receivedRequestsModalOpen && (
-        <Modal
-          isOpen={receivedRequestsModalOpen}
-          onClose={() => setReceivedRequestsModalOpen(false)}
-          requests={receivedRequests}
-        />
+      {loading ? (
+        <div className='mt-4'>
+          <p className='text-center text-gray-500'>
+            Loading requests...
+          </p>
+        </div>
+      ) : requests.length === 0 && (
+        <div className='mt-4'>
+          <p className='text-center text-gray-500'>
+            No requests found
+          </p>
+        </div>
       )}
 
       {tab === 'received' && (
         <ul className='mt-4 flex flex-col gap-2'>
-          {receivedRequests.map((req, idx) => (
+          {requests.map((req, idx) => (
             <ReceivedRequest
               key={idx}
               request={req}
+              refreshRequests={fetchRequests}
             />
           ))}
         </ul>
       )}
 
       {tab === 'sent' && <ul className='mt-4 flex flex-col gap-2'>
-        {sentRequests.map((req, idx) => (
+        {requests.map((req, idx) => (
           <SentRequest
             key={idx}
             request={req}
