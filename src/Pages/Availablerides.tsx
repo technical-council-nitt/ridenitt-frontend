@@ -1,4 +1,4 @@
-import Navigation from "../Components/Navigation";
+// import Navigation from "../Components/Navigation";
 import React from "react";
 import {useState} from "react";
 
@@ -115,7 +115,7 @@ export const AvailableRidesComponent: React.FC = () => {
                     </section>
                 </div>
             </main>
-            <Navigation />
+            {/* <Navigation /> */}
         </div>
         
     )

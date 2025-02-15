@@ -1,6 +1,8 @@
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+// import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, BrowserRouter, Route, Routes } from "react-router-dom";
 import AvailableRidesComponent from "./Pages/Availablerides"
+import FaqAccordion from './Pages/Faq'
 import ProfileComponent from './Pages/profile'
 import Start from "./Pages/Start";
 import Login from "./Pages/Login";
@@ -25,7 +27,16 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AvailableRidesComponent />} />
+        <Route path="/profile" element={<ProfileComponent />} />
+        <Route path="/faq" element={<FaqAccordion />} />
+      </Routes>
+    
+    </BrowserRouter>
+  )
+}
 
-
-export default App;
+export default App
