@@ -215,10 +215,10 @@ const LocationForm: React.FC = () => {
             Auto
           </button>
           <button
-            onClick={() => setVehicle('bike')}
-            className={`w-1/3 p-2 ${vehicle === 'bike' ? 'bg-green-600' : 'bg-gray-300'} rounded-lg`}
+            onClick={() => setVehicle('taxi')}
+            className={`w-1/3 p-2 ${vehicle === 'taxi' ? 'bg-green-600' : 'bg-gray-300'} rounded-lg`}
           >
-            Bike
+            Taxi
           </button>
         </div>
 

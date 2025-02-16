@@ -37,7 +37,7 @@ export default function CurrentRide() {
         toast.error(err.response.data?.error ?? 'Failed to cancel the ride')
       })
   }
-  
+
   const handleConfirmRide = () => {
     axios.post("/api/rides/current/confirm")
       .then(() => {
@@ -68,32 +68,37 @@ export default function CurrentRide() {
         Your current Ride
       </h1>
 
-      <p>
-        <strong>Owner:</strong> {currentRide.owner.name}
+      <p className='mb-2'>
+        <strong>{currentRide.participants.length} Participants:</strong>
+        <br />
+        {currentRide.participants.map(p => (
+          <li className='block ml-4' key={p.id}>
+            {p.name}
+            {p.id === currentRide.owner.id && p.id === user?.id ? " (Owner, You)" : 
+              p.id === currentRide.owner.id ? " (Owner)" :
+              p.id === user?.id ? " (You)" : " "}
+              <code> {p.phoneNumber} </code>
+            <br />
+          </li>
+        ))}
       </p>
 
-      <p>
-        <strong>Participants:</strong>
-        <br/>
-        {currentRide.participants.map(p => `${p.name} (${p.phoneNumber})`).reduce((acc, p) => {acc.push(p, <br/>); return acc}, [] as any)}
-      </p>
-
-      <p>
+      <p className='mb-2'>
         <strong>Vehicle:</strong> {currentRide.vehicleType}
       </p>
 
-      <p>
+      <p className='mb-2'>
         <strong>Capacity:</strong> {currentRide.capacity}
       </p>
 
-      <p>
+      <p className='mb-2'>
         <strong>Status:</strong> {currentRide.status}
       </p>
 
-      <p>
+      <p className='mb-2'>
         {currentRide.stops.map((stop, i) => (
           <div key={stop.name}>
-            <p>
+            <p className='mb-2'>
               Stop {i + 1}: {stop.name}
             </p>
           </div>

@@ -15,7 +15,9 @@ const ResetPassword: React.FC = () => {
   const handleResetPassword = () => {
     let ph = "+91" + phoneNumber.replaceAll(/\s+/g, "");
     
-    setOngoingResetPw(ph);
+    setOngoingResetPw({
+      phoneNumber: ph
+    });
     
     setLoading(true);
 

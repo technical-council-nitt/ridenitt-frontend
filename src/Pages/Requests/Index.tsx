@@ -5,6 +5,7 @@ import { useCurrentRide } from '../../Hooks/useCurrentRide'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../Hooks/useAuth'
+import Redirect from '../../Components/Redirect'
 
 export default function Requests() {
   const { user } = useAuth()
@@ -41,6 +42,10 @@ export default function Requests() {
     fetchRequests()
   }, [user, currentRide])
 
+  if (!user) {
+    return (<Redirect to='/start' />)
+  }
+  
   return (
     <div className='p-4 pb-40'>
       <h1 className='font-semibold text-2xl text-green-600'>

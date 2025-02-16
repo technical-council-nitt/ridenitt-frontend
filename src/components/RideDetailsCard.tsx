@@ -33,17 +33,17 @@ const RideDetailsCard = ({ ride, refreshRide }: {
       <div className="text absolute top-[20%] left-[10px] font-Quicksand text-[#B8B8B8] font-[700] text-[85%] mt-[3px]">
         {st.toLocaleString('default', { month: 'short', day: '2-digit', year: 'numeric' })} | {st.getHours()}:{st.getMinutes().toString().padStart(2, '0')} - {ed.getHours()}:{ed.getMinutes().toString().padStart(2, '0')}
         {' | '}
-        {ride.participantsCount || ride.peopleCount} People sharing
+        {ride.participants.length} People sharing
       </div>
       <img src="profile.svg" className=" img_car absolute top-[37%] left-[3%]"></img>
       <div className="posted absolute top-[56px] left-[30px] text-[#414141] text-[16px] font-[600]">Posted by {ride.owner.name}</div>
       <div className="sendreq absolute bottom-[7%] left-[10px] border-2 h-[54px] w-[94%] border-[#008955] rounded-[10px]">
         {ride.myInvite ? (
-          <button disabled>
+          <button disabled className="absolute top-[25%] left-[37%] text-[#008955] font-Quicksand font-[600]">
             {ride.myInvite.status}
           </button>
         ) : (
-          <button onClick={handleSend} className="absolute top-[25%] left-[37%] text-[#008955] font-Quicksand font-[600]">
+          <button onClick={handleSend} className="absolute top-[25%] left-[37%] bg-[#008955] text-white font-Quicksand font-[600]">
             Send Request
           </button>
         )}

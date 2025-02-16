@@ -10,7 +10,7 @@ const Login: React.FC = () => {
   const { user, refreshAuth } = useAuth()
   
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ const Login: React.FC = () => {
   const handleLogin = () => {
     setLoading(true);
 
-    axios.post("/auth/login", { email, password })
+    axios.post("/auth/login", { name, password })
     .then(() => {
       toast.success("Logged in");
       refreshAuth()
@@ -72,10 +72,10 @@ const Login: React.FC = () => {
       {/* Input Fields - Centered */}
       <div className="w-full max-w-sm flex flex-col gap-4 mt-5">
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           className="w-full px-4 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008955]"
         />
         <div className="relative w-full">

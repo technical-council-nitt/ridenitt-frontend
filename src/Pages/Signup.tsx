@@ -10,7 +10,6 @@ const Signup: React.FC = () => {
   const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +21,7 @@ const Signup: React.FC = () => {
       return;
     }
 
-    if (!name || !email || !phoneNumber || !gender || !password) {
+    if (!name || !phoneNumber || !gender || !password) {
       toast("Please fill all the fields")
       return;
     }
@@ -31,7 +30,6 @@ const Signup: React.FC = () => {
 
     setOngoingSignup({
       name,
-      email,
       phoneNumber: ph,
       password,
       gender
@@ -68,7 +66,7 @@ const Signup: React.FC = () => {
       <div className="flex flex-col items-center justify-center h-screen px-6">
         {/* Signup Text */}
         <h2 className="text-2xl sm:text-3xl font-bold text-black text-left w-full max-w-sm">
-          Sign up with your email or phone number
+          Sign up with your phone number
         </h2>
 
         <div className="mt-4 w-full max-w-sm">
@@ -76,9 +74,10 @@ const Signup: React.FC = () => {
           <input
             onChange={(e) => setName(e.target.value)}
             type="text"
-            placeholder="Name"
-            className="w-full border border-black px-4 py-2 rounded-md mb-3"
+            placeholder="Username"
+            className="w-full border border-black px-4 py-2 rounded-md"
           />
+          <span className="text-xs text-neutral-800 block mb-3">Please remember username for login</span>
 
           {/* phoneNumber Number Input with +91 */}
           <div className="flex border border-black rounded-md overflow-hidden mb-3">
@@ -90,14 +89,6 @@ const Signup: React.FC = () => {
               className="w-full px-4 py-2 outline-none"
             />
           </div>
-
-          {/* Email Input */}
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            placeholder="Email"
-            className="w-full border border-black px-4 py-2 rounded-md mb-3"
-          />
 
           {/* Password Input */}
           <input

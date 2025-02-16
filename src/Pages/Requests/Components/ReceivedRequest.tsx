@@ -1,12 +1,13 @@
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { useCurrentRide } from '../../../Hooks/useCurrentRide'
+import { age } from '../../../Utils/datetime'
 
 export default function ReceivedRequest({
   request,
   refreshRequests
 }: {
-  request: any,
+  request: Invite,
   refreshRequests: () => void
 }) {
   const { refreshCurrentRide } = useCurrentRide()
@@ -50,7 +51,7 @@ export default function ReceivedRequest({
 
   return (
     <>
-      <li role="button" className='p-2 border-2 border-green-700 rounded-xl'>
+      <li className='p-2 border-2 border-green-700 rounded-xl'>
         <div className='flex gap-2 justify-between items-start'>
           <div>
             <span>
@@ -68,28 +69,32 @@ export default function ReceivedRequest({
             </span>
             <br />
             <span className='text-neutral-600'>
-              {request.receiverRide.vehicleType} | {request.receiverRide.capacity} people sharing
+              {request.receiverRide.vehicleType} | {request.receiverRide.participants.length} people sharing
             </span>
           </div>
-          <div>
+          <div className='flex justify-between flex-col items-end gap-4'>
             <div className={`mt-2 font-semibold text-sm ${request.status === 'ACCEPTED' ? 'text-green-700' : request.status === 'PENDING' ? 'text-amber-700' : 'text-red-700'}`}>
               {request.status}
             </div>
 
             {request.status === 'PENDING' ? (
               <div className='mt-2'>
-                <button className='p-1 border-2 border-green-600 text-green-600 text-sm m-2 rounded-lg font-semibold' onClick={handleAccept}>
+                <button className='p-1 border-2 border-green-600 text-green-600 text-sm rounded-lg font-semibold' onClick={handleAccept}>
                   Accept
                 </button>
-                <button className='p-1 border-2 border-red-600 text-red-600 text-sm m-2 rounded-lg font-semibold' onClick={handleDecline}>
+                <button className='p-1 border-2 border-red-600 text-red-600 text-sm rounded-lg font-semibold' onClick={handleDecline}>
                   Decline
                 </button>
               </div>
             ) : request.status === 'ACCEPTED' ? (
-              <button className='mt-2 p-1 border-2 border-red-600 text-red-600 text-sm m-2 rounded-lg font-semibold' onClick={handleDecline}>
+              <button className='mt-2 p-1 border-2 border-red-600 text-red-600 text-sm rounded-lg font-semibold' onClick={handleDecline}>
                 Remove
               </button>
             ) : null}
+
+            <span>
+              {age(Date.now() - new Date(request.createdAt).getTime())}
+            </span>
           </div>
         </div>
       </li>

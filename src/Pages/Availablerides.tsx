@@ -1,4 +1,3 @@
-import Navigation from "../Components/Navigation";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useAuth } from "../Hooks/useAuth";
@@ -12,7 +11,7 @@ export const AvailableRidesComponent: React.FC = () => {
     const { currentRide, loading: currentRideLoading } = useCurrentRide();
 
     const [ishidden, setishidden] = useState(true);
-    const { user, authLoading } = useAuth();
+    const { user } = useAuth();
     const [rides, setRides] = useState<Ride[]>([]);
 
     const fetchRides = () => {
