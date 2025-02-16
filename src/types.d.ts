@@ -27,11 +27,17 @@ interface Ride {
     {
       id: string
       name: string
+      gender: string
       phoneNumber?: string
     }
   ],
   myInvite?: Invite
   createdAt: string
+}
+
+interface ClusteredInvites {
+  rideId: string
+  invites: Invite[]
 }
 
 interface Invite {

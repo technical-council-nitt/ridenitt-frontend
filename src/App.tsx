@@ -14,9 +14,9 @@ import Requests from "./Pages/Requests/Index";
 import MyRides from "./Pages/MyRides";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider, useAuth } from "./Hooks/useAuth";
-import Navigation from "./components/Navigation";
+import Navigation from "./Components/Navigation";
 import ResetPassword from "./Pages/ResetPassword";
-import LocationForm from "./components/PostRideForm";
+import LocationForm from "./Components/PostRideForm";
 import { CurrentRideProvider, useCurrentRide } from "./Hooks/useCurrentRide";
 import CurrentRide from "./Pages/CurrentRide";
 import Notifications from "./Pages/Notifications";
@@ -57,8 +57,7 @@ const CustomRouter = () => {
         <Route path="/create-ride" element={<LocationForm />} />
         
         <Route element={<Layout />}>
-          <Route index element={<CurrentRide />} />
-          <Route path="/suggestions" element={<AvailableRidesComponent />} />
+          <Route index element={<AvailableRidesComponent />} />
           <Route path="/requests" element={<Requests />} />
           <Route path="/profile" element={<ProfileComponent />} />
           <Route path="/notifications" element={<Notifications />} />

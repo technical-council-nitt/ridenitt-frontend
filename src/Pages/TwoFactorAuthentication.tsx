@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const TwoFactorAuthentication: React.FC = () => {
-  const { ongoingSignup, refreshAuth } = useAuth();
+  const { ongoingSignup, setOngoingSignup, refreshAuth } = useAuth();
 
   const navigate = useNavigate();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -49,6 +49,7 @@ const TwoFactorAuthentication: React.FC = () => {
     .then(() => {
       toast.success("Success");
       refreshAuth()
+      setOngoingSignup(false);
       setTimeout(() => navigate("/"), 2000);
     })
     .catch((err) => {

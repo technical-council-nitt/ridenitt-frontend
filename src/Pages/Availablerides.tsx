@@ -28,12 +28,6 @@ export const AvailableRidesComponent: React.FC = () => {
         fetchRides()
     }, [currentRideLoading, currentRide])
 
-    if (currentRide) {
-        return (
-            <Redirect to="/" />
-        )
-    }
-
     if (!user) {
         return (
             <Redirect to="/start" />
@@ -63,10 +57,6 @@ export const AvailableRidesComponent: React.FC = () => {
                 </div>
             </section>
             <main className="pb-40 feed relative top-[10vh] p-2">
-                <Link to="/create-ride" className="fixed bottom-20 text-white rounded-lg p-1 bg-green-600 drop-shadow-2xl font-bold right-4">
-                    Post a Ride?
-                </Link>
-
                 {rides.length === 0 && (
                     <p className="mt-8 text-center text-xl">
                         No rides available
@@ -75,10 +65,21 @@ export const AvailableRidesComponent: React.FC = () => {
 
                 <ul className="flex flex-col gap-4">
                     {rides.map(ride => (
-                        <RideDetailsCard refreshRide={fetchRides} key={ride.id} ride={ride} />
+                        <RideDetailsCard alreadyInGroup={!!currentRide} refreshRide={fetchRides} key={ride.id} ride={ride} />
                     ))}
                 </ul>
+
+                <div className="fixed bottom-[70px] border-t border-solid border-neutral-300 p-4 inset-x-0 flex flex-col justify-center items-center gap-2 backdrop-blur-3xl">
+                    <p className="leading-5">
+                        Unable to find a match? Fret not, click here to post your ride.
+                    </p>
+
+                    <Link to="/create-ride" className="text-white w-full max-w-60 text-center p-2 bg-green-600 border border-black border-solid rounded-full drop-shadow-2xl font-bold right-4">
+                        Post a Ride
+                    </Link>
+                </div>
             </main>
+
         </div>
 
     )
