@@ -1,10 +1,10 @@
 const Header: React.FC = () => {
     return (
-        <header className="header h-[20vh] w-[100vw] fixed left-[4vw] z-10 bg-white pt-[9vw]">
-            <div className="input relative rounded-[50px] p-2">
-                <input type="text" placeholder="Search" className="border-[1px] border-black w-[73vw] h-[20%] rounded-[50px] p-[3vw] text-[2vh] mr-[-3vw]" />
-                <img src="search-glass.svg" className="absolute inline right-[15%] top-[30%] h-[35%] w-[35%]"></img>
-                <img src="faq.svg" className="h-[4.5vh] w-[4.5vh] relative inline ml-[20px] "></img>
+        <header className="header min-h-min w-[100vw] fixed left-[4vw] z-10 bg-white pt-6">
+            <div className="input relative rounded-[50px] p-2 flex">
+                <input type="text" placeholder="Search" className="border-[1px] border-black w-[73vw] h-[40px] rounded-[50px] p-[20px] text-[2vh] mr-[-3vw]" />
+                <img src="search-glass.svg" className="h-6 w-6 mt-2.5 -ml-5"></img>
+                <img src="faq.svg" className="h-10 w-10 ml-5"></img>
             </div>
         </header>
     );
