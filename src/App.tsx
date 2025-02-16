@@ -1,11 +1,12 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import AvailableRidesComponent from "./Pages/Availablerides"
-import ProfileComponent from './Pages/Profile'
+import ProfileComponent from './Pages/profile'
 import Start from "./Pages/Start";
 import Login from "./Pages/Login";
 import Start1 from "./Pages/Start1";
 import Start2 from "./Pages/Start2";
 import Signup from "./Pages/Signup";
+import SetPassword from "./Pages/SetPassword";
 import TwoFactorAuthentication from "./Pages/TwoFactorAuthentication"; // 404 Page
 
 // Import Map Pages Individually
@@ -16,13 +17,12 @@ import Requests from "./Pages/Requests/Index";
 import MyRides from "./Pages/MyRides";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider, useAuth } from "./Hooks/useAuth";
-import Navigation from "./Components/Navigation";
+import Navigation from "./components/Navigation";
 import ResetPassword from "./Pages/ResetPassword";
-import LocationForm from "./Components/PostRideForm";
+import LocationForm from "./components/PostRideForm";
 import { CurrentRideProvider, useCurrentRide } from "./Hooks/useCurrentRide";
 import CurrentRide from "./Pages/CurrentRide";
 import Notifications from "./Pages/Notifications";
-import MapPage2 from "./Pages/MapPage2";
 
 
 const App: React.FC = () => {
