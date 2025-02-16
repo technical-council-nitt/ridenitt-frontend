@@ -1,19 +1,19 @@
- import Navigation from "../Components/Navigation";
+import Navigation from "../Components/Navigation";
 import React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import Header from "../Components/Header";
 export const AvailableRidesComponent: React.FC = () => {
-    const [ishidden,setishidden]=useState(true);
+    const [ishidden, setishidden] = useState(true);
 
-    
-    
-    return(
+
+
+    return (
         <div className="page bg-gradient-to-b from-[#FFFFFF] to-[#C1EDE08C] min-h-min w-[100vw] relative [@media(min-height:900px)]:h-min overflow-y-scroll">
             <Header />
             <section className="fixed z-20 top-[13vh] p-6 pt-0 pb-0 bg-white w-[100vw]">
                 <p className="connect text-2xl text-[#2F2E6B] font-Quicksand text-left font-[600]">Connect. Ride. Save. Repeat.</p>
                 <p className="welcome text-0.5xl  text-[#01653F] font-Quicksand text-left font-[600]">Welcome Back, User_Name!</p>
-                <img src="filter.svg" id="filter_img" className="absolute h-[max] w-[max] right-[5%] block" onClick={()=> setishidden(!ishidden)}></img>
+                <img src="filter.svg" id="filter_img" className="absolute h-[max] w-[max] right-[5%] block" onClick={() => setishidden(!ishidden)}></img>
                 <p className="ridematch text-2xl text-[#008955] font-Quicksand text-left font-[700]">Ride-Match</p>
                 <div className="date relative">
                     <p className="leftbar border-[1px] border-[#B9B9B9] w-[30vw] absolute top-[50%] left-[0%]"></p>
@@ -22,76 +22,140 @@ export const AvailableRidesComponent: React.FC = () => {
                 </div>
             </section>
             <main className="feed relative w-[100vw] flex flex-wrap p-6 pt-2 gap-y-4 top-[35vh] [@media(min-height:900px)]:top-[25vh] mb-[55vh]">
-                <section className="border-[2px] border-[#08B783] bg-[#C1EDE08C] h-[170px] w-[100%] rounded-[10px] relative">
-                    <div className="dest text-xl font-Quicksand font-[700] text-[#5A5A5A] absolute top-[6%] left-[3%] h-[23px] w-[max]">Chathiram Bus Stand</div>
-                    <img src="car.svg" className="h-[75px] absolute right-[5%]"></img>
-                    <div className="car absolute top-[75px] right-[9%] font-Quicksand font-[600]">Car</div>
-                    <div className="text absolute top-[20%] left-[3%] font-Quicksand text-[#B8B8B8] font-[700] text-[85%] mt-[3px]">10:00 - 11:00 AM  | 2 people sharing</div>
-                    <img src="profile.svg" className=" img_car absolute top-[37%] left-[3%]"></img>
-                    <div className="posted absolute top-[56px] left-[30px] text-[#414141] text-[16px] font-[600]">Posted by Laxmi</div>
-                    <div className="sendreq absolute bottom-[7%] left-[10px] border-2 h-[54px] w-[94%] border-[#008955] rounded-[10px]">
-                        <div className="send absolute top-[25%] left-[37%] text-[#008955] font-Quicksand font-[600]">Requested</div>
+                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
+                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
+                        </div>
+                        <div>
+                            <img src="car.svg" alt="Car" className="w-14 h-14" />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center">
+                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
+                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
+                    </div>
+
+                    <div className="flex justify-end mr-4 -mt-8">
+                        <span className="text-gray-800 font-semibold">Car</span>
+                    </div>
+
+                    <div className="mt-10">
+                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
+                            Requested
+                        </button>
                     </div>
                 </section>
-                <section className="border-[2px] border-[#08B783] bg-[#C1EDE08C] h-[170px] w-[100%] rounded-[10px] relative">
-                    <div className="dest text-xl font-Quicksand font-[700] text-[#5A5A5A] absolute top-[6%] left-[3%] h-[23px] w-[max]">Chathiram Bus Stand</div>
-                    <img src="car.svg" className="h-[75px] absolute right-[5%]"></img>
-                    <div className="car absolute top-[75px] right-[9%] font-Quicksand font-[600]">Car</div>
-                    <div className="text absolute top-[20%] left-[3%] font-Quicksand text-[#B8B8B8] font-[700] text-[85%] mt-[3px]">10:00 - 11:00 AM  | 2 people sharing</div>
-                    <img src="profile.svg" className=" img_car absolute top-[37%] left-[3%]"></img>
-                    <div className="posted absolute top-[56px] left-[30px] text-[#414141] text-[16px] font-[600]">Posted by Laxmi</div>
-                    <div className="sendreq absolute bottom-[7%] left-[10px] border-2 h-[54px] w-[94%] border-[#008955] rounded-[10px]">
-                        <div className="send absolute top-[25%] left-[37%] text-[#008955] font-Quicksand font-[600]">Requested</div>
+                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
+                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
+                        </div>
+                        <div>
+                            <img src="car.svg" alt="Car" className="w-14 h-14" />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center">
+                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
+                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
+                    </div>
+
+                    <div className="flex justify-end mr-4 -mt-8">
+                        <span className="text-gray-800 font-semibold">Car</span>
+                    </div>
+
+                    <div className="mt-10">
+                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
+                            Requested
+                        </button>
                     </div>
                 </section>
-                <section className="border-[2px] border-[#08B783] bg-[#C1EDE08C] h-[170px] w-[100%] rounded-[10px] relative">
-                    <div className="dest text-xl font-Quicksand font-[700] text-[#5A5A5A] absolute top-[6%] left-[3%] h-[23px] w-[max]">Chathiram Bus Stand</div>
-                    <img src="car.svg" className="h-[75px] absolute right-[5%]"></img>
-                    <div className="car absolute top-[75px] right-[9%] font-Quicksand font-[600]">Car</div>
-                    <div className="text absolute top-[20%] left-[3%] font-Quicksand text-[#B8B8B8] font-[700] text-[85%] mt-[3px]">10:00 - 11:00 AM  | 2 people sharing</div>
-                    <img src="profile.svg" className=" img_car absolute top-[37%] left-[3%]"></img>
-                    <div className="posted absolute top-[56px] left-[30px] text-[#414141] text-[16px] font-[600]">Posted by Laxmi</div>
-                    <div className="sendreq absolute bottom-[7%] left-[10px] border-2 h-[54px] w-[94%] border-[#008955] rounded-[10px]">
-                        <div className="send absolute top-[25%] left-[37%] text-[#008955] font-Quicksand font-[600]">Requested</div>
+                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
+                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
+                        </div>
+                        <div>
+                            <img src="car.svg" alt="Car" className="w-14 h-14" />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center">
+                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
+                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
+                    </div>
+
+                    <div className="flex justify-end mr-4 -mt-8">
+                        <span className="text-gray-800 font-semibold">Car</span>
+                    </div>
+
+                    <div className="mt-10">
+                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
+                            Requested
+                        </button>
                     </div>
                 </section>
-                <section className="border-[2px] border-[#08B783] bg-[#C1EDE08C] h-[170px] w-[100%] rounded-[10px] relative">
-                    <div className="dest text-xl font-Quicksand font-[700] text-[#5A5A5A] absolute top-[6%] left-[3%] h-[23px] w-[max]">Chathiram Bus Stand</div>
-                    <img src="car.svg" className="h-[75px] absolute right-[5%]"></img>
-                    <div className="car absolute top-[75px] right-[9%] font-Quicksand font-[600]">Car</div>
-                    <div className="text absolute top-[20%] left-[3%] font-Quicksand text-[#B8B8B8] font-[700] text-[85%] mt-[3px]">10:00 - 11:00 AM  | 2 people sharing</div>
-                    <img src="profile.svg" className=" img_car absolute top-[37%] left-[3%]"></img>
-                    <div className="posted absolute top-[56px] left-[30px] text-[#414141] text-[16px] font-[600]">Posted by Laxmi</div>
-                    <div className="sendreq absolute bottom-[7%] left-[10px] border-2 h-[54px] w-[94%] border-[#008955] rounded-[10px]">
-                        <div className="send absolute top-[25%] left-[37%] text-[#008955] font-Quicksand font-[600]">Requested</div>
+                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
+                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
+                        </div>
+                        <div>
+                            <img src="car.svg" alt="Car" className="w-14 h-14" />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center">
+                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
+                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
+                    </div>
+
+                    <div className="flex justify-end mr-4 -mt-8">
+                        <span className="text-gray-800 font-semibold">Car</span>
+                    </div>
+
+                    <div className="mt-10">
+                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
+                            Requested
+                        </button>
                     </div>
                 </section>
-                <section className="border-[2px] border-[#08B783] bg-[#C1EDE08C] h-[170px] w-[100%] rounded-[10px] relative">
-                    <div className="dest text-xl font-Quicksand font-[700] text-[#5A5A5A] absolute top-[6%] left-[3%] h-[23px] w-[max]">Chathiram Bus Stand</div>
-                    <img src="car.svg" className="h-[75px] absolute right-[5%]"></img>
-                    <div className="car absolute top-[75px] right-[9%] font-Quicksand font-[600]">Car</div>
-                    <div className="text absolute top-[20%] left-[3%] font-Quicksand text-[#B8B8B8] font-[700] text-[85%] mt-[3px]">10:00 - 11:00 AM  | 2 people sharing</div>
-                    <img src="profile.svg" className=" img_car absolute top-[37%] left-[3%]"></img>
-                    <div className="posted absolute top-[56px] left-[30px] text-[#414141] text-[16px] font-[600]">Posted by Laxmi</div>
-                    <div className="sendreq absolute bottom-[7%] left-[10px] border-2 h-[54px] w-[94%] border-[#008955] rounded-[10px]">
-                        <div className="send absolute top-[25%] left-[37%] text-[#008955] font-Quicksand font-[600]">Requested</div>
+                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
+                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
+                        </div>
+                        <div>
+                            <img src="car.svg" alt="Car" className="w-14 h-14" />
+                        </div>
                     </div>
-                </section>
-                <section className="border-[2px] border-[#08B783] bg-[#C1EDE08C] h-[170px] w-[100%] rounded-[10px] relative">
-                    <div className="dest text-xl font-Quicksand font-[700] text-[#5A5A5A] absolute top-[6%] left-[3%] h-[23px] w-[max]">Chathiram Bus Stand</div>
-                    <img src="car.svg" className="h-[75px] absolute right-[5%]"></img>
-                    <div className="car absolute top-[75px] right-[9%] font-Quicksand font-[600]">Car</div>
-                    <div className="text absolute top-[20%] left-[3%] font-Quicksand text-[#B8B8B8] font-[700] text-[85%] mt-[3px]">10:00 - 11:00 AM  | 2 people sharing</div>
-                    <img src="profile.svg" className="img_car absolute top-[37%] left-[3%]"></img>
-                    <div className="posted absolute top-[56px] left-[8%] text-[#414141] text-[16px] font-[600]">Posted by Laxmi</div>
-                    <div className="sendreq absolute bottom-[7%] left-[10px] border-2 h-[54px] w-[94%] border-[#008955] rounded-[10px]">
-                        <div className="send absolute top-[25%] left-[37%] text-[#008955] font-Quicksand font-[600]">Requested</div>
+
+                    <div className="flex items-center">
+                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
+                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
+                    </div>
+
+                    <div className="flex justify-end mr-4 -mt-8">
+                        <span className="text-gray-800 font-semibold">Car</span>
+                    </div>
+
+                    <div className="mt-10">
+                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
+                            Requested
+                        </button>
                     </div>
                 </section>
                 <section className="unable_to_find ml-[20vw] fixed bottom-[80px]">
                     <div className="postridebutton left-[15%] mt-[10px] bg-[#008955] border-2 h-[50px] w-[200px] border-[#000000] rounded-[90px]">
                         <div className="postridetext  text-[#FFFFFF] font-Quicksand font-[700] text-md pt-3 pl-12">Post a ride</div>
-                    </div> 
+                    </div>
                 </section>
                 <div className={ishidden ? "hidden" : "block"} id="filter">
                     <section className="filter fixed top-[40vh] left-0 opacity-1 h-[50vh] w-[100vw] bg-[#F3FCF9] grid grid-cols-[2vw,0.5fr,5vw,1fr,6vw] pt-[10px] [@media(min-height:900px)]:top-[45vh]">
@@ -110,7 +174,7 @@ export const AvailableRidesComponent: React.FC = () => {
             </main>
             <Navigation />
         </div>
-        
+
     )
 
 }
