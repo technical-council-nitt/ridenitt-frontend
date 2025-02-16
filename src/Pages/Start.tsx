@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../Images/logo.png";
-import "../index.css"; 
 
 const StartScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +15,7 @@ const StartScreen: React.FC = () => {
     <div className="flex flex-col items-center justify-center h-screen bg-green-100 px-4">
       {/* Logo with improved scaling */}
       <img
-        src={logo}
+        src="/Images/logo.png"
         alt="RideNITT Logo"
         className="w-[60%] sm:w-28 md:w-36 lg:w-44 xl:w-52 2xl:w-64 mb-4"
       />

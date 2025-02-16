@@ -6,6 +6,7 @@
 
 body {
   font-family: 'Quicksand', sans-serif;
+  width:100vw;
 }
 .gradient-background {
   background: linear-gradient(to bottom, #FFFFFF 10%, #C1EDE0 100%);
@@ -18,4 +19,5 @@ body {
 .leaflet-control-zoom {
   display: none !important;
 }
+
 

@@ -1,13 +1,51 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import imgLogin from "../Images/login-image.png"; // Update path if needed
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useAuth } from "../Hooks/useAuth";
+import Redirect from "../Components/Redirect";
 
 const Login: React.FC = () => {
+  const { user, refreshAuth } = useAuth()
+  
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = () => {
+    setLoading(true);
+
+    axios.post("/auth/login", { name, password })
+    .then(() => {
+      toast.success("Logged in");
+      refreshAuth()
+      navigate("/");
+    })
+    .catch((err) => {
+      console.error(err)
+      toast.error(err.response.data.error ?? "Failed to Login");
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+  };
+
+  const handleSignup = () => {
+    navigate("/signup");
+  };
+  
+  const handleForgotPassword = () => {
+    navigate("/reset-password")
+  } 
+
+  if (user) {
+    return (
+      <Redirect to="/" />
+    )
+  }
 
   return (
     <div className="gradient-background flex flex-col items-center justify-center h-screen px-6">
@@ -26,7 +64,7 @@ const Login: React.FC = () => {
 
       {/* Centered Image with Balanced Size */}
       <img
-        src={imgLogin}
+        src="/Images/login-image.png"
         alt="Login"
         className="w-[85%] sm:w-[50%] md:w-[40%] lg:w-[30%] max-w-[350px] max-h-[220px] md:max-h-[260px] lg:max-h-[280px] object-contain"
       />
@@ -35,9 +73,9 @@ const Login: React.FC = () => {
       <div className="w-full max-w-sm flex flex-col gap-4 mt-5">
         <input
           type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           className="w-full px-4 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008955]"
         />
         <div className="relative w-full">
@@ -60,18 +98,20 @@ const Login: React.FC = () => {
       {/* Sign Up & Forgot Password - Centered */}
       <div className="w-full max-w-sm flex justify-between text-lg mt-3">
         <button
-          onClick={() => navigate("/signup")}
+          disabled={loading}
+          onClick={handleSignup}
           className="text-black font-semibold"
         >
           Sign Up
         </button>
-        <button className="text-black font-semibold">Forgot Password?</button>
+        <button onClick={handleForgotPassword} className="text-black font-semibold">Forgot Password?</button>
       </div>
 
       {/* Start Sharing Button - Centered */}
       <button
-        onClick={() => navigate("/postride")}
-        className="mt-6 px-6 py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg w-full max-w-sm hover:bg-[#007144] transition border border-black"
+        disabled={loading}
+        onClick={handleLogin}
+        className="disabled:opacity-50 mt-6 px-6 py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg w-full max-w-sm hover:bg-[#007144] transition border border-black"
       >
         Start Sharing!
       </button>
