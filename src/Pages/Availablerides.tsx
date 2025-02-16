@@ -10,7 +10,7 @@ export const AvailableRidesComponent: React.FC = () => {
     return (
         <div className="page bg-gradient-to-b from-[#FFFFFF] to-[#C1EDE08C] min-h-max w-[100vw] relative [@media(min-height:900px)]:h-min overflow-y-scroll">
             <Header />
-            <section className="fixed z-20 top-[13vh] p-6 pt-0 pb-0 bg-white w-[100vw]">
+            <section className="fixed z-20 top-20 p-6 pt-0 pb-0 bg-white w-[100vw]">
                 <p className="connect text-2xl text-[#2F2E6B] font-Quicksand text-left font-[600]">Connect. Ride. Save. Repeat.</p>
                 <p className="welcome text-0.5xl  text-[#01653F] font-Quicksand text-left font-[600]">Welcome Back, User_Name!</p>
                 <img src="filter.svg" id="filter_img" className="absolute h-[max] w-[max] right-[5%] block" onClick={() => setishidden(!ishidden)}></img>
@@ -21,7 +21,7 @@ export const AvailableRidesComponent: React.FC = () => {
                     <p className="rightbar border-[1px] border-[#B9B9B9] w-[30vw] absolute top-[50%] right-[0%]"></p>
                 </div>
             </section>
-            <main className="feed relative w-[100vw] flex flex-wrap p-6 pt-2 gap-y-4 top-[35vh] [@media(min-height:900px)]:top-[25vh] mb-[52vh] [@media(min-height:900px)]:mb-[39vh]">
+            <main className="feed relative w-[100vw] flex flex-wrap p-6 pt-2 gap-y-4 top-[35vh] [@media(min-height:900px)]:top-[20vh] mb-[52vh] [@media(min-height:900px)]:mb-[35vh]">
                 <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
                     <div className="flex items-center justify-between">
                         <div>
@@ -204,10 +204,10 @@ export const AvailableRidesComponent: React.FC = () => {
                         </button>
                     </div>
                 </section>
-                <section className="unable_to_find ml-[25%] fixed bottom-[80px]">
-                    <div className="postridebutton left-[15%] mt-[10px] bg-[#008955] border-2 h-[50px] w-[200px] border-[#000000] rounded-[90px]">
-                        <div className="postridetext  text-[#FFFFFF] font-Quicksand font-[700] text-md pt-3 pl-12">Post a ride</div>
-                    </div>
+                <section className="unable_to_find ml-[20%] fixed bottom-[80px] flex justify-center items-center">
+                    <button className="postridebutton  mt-[10px] bg-[#008955] border-2 h-[50px] w-[200px] border-[#000000] rounded-[90px] text-white font-semibold">
+                        Post a ride
+                    </button>
                 </section>
                 <div className={ishidden ? "hidden" : "block"} id="filter">
                     <section className="filter fixed top-[40vh] left-0 opacity-1 h-[50vh] w-[100vw] bg-[#F3FCF9] grid grid-cols-[2vw,0.5fr,5vw,1fr,6vw] pt-[10px] [@media(min-height:900px)]:top-[45vh]">
