@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navigation from "../components/Navigation";
+import Navigation from "../Components/Navigation";
 
 interface FAQ {
     question: string;
@@ -22,12 +22,12 @@ const FaqAccordion: React.FC = () => {
     };
 
     return (
-        <div className="page bg-gradient-to-b from-[#FFFFFF] to-[#C1EDE08C] h-[90vh] w-[100vw] relative [@media(min-height:900px)]:h-[100vh] overflow-y-scroll">
-            <header className="header w-screen h-[max] relative top-[3vh] pl-[20px]">
+        <div className="p-4 bg-gradient-to-b from-[#FFFFFF] to-[#C1EDE08C] min-h-screen relative">
+            <header className="">
                 <div className="heading text-[#008955] text-5xl font-Quicksand font-[700]">FAQs</div>
                 <div className="stayupdated font-Quicksand font-[450] mt-[5px] text-lg">Clear your doubts instantly</div>
             </header>
-            <section className="faq w-screen h-[max] relative top-[10vh] mt-[2.5vh] p-[15px]">
+            <section className="mt-4 relative">
                 {faqs.map((faq, index) => (
                     <div
                         key={index}

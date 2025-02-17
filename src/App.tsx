@@ -1,29 +1,26 @@
-import React from "react";
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { AuthProvider, useAuth } from "./Hooks/useAuth";
-import { CurrentRideProvider, useCurrentRide } from "./Hooks/useCurrentRide";
-import Navigation from "./components/Navigation";
-
-import AvailableRidesComponent from "./Pages/Availablerides";
-import FaqAccordion from "./Pages/Faq";
-import ProfileComponent from "./Pages/profile";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import AvailableRidesComponent from "./Pages/Availablerides"
+import ProfileComponent from './Pages/Profile'
 import Start from "./Pages/Start";
 import Login from "./Pages/Login";
 import Start1 from "./Pages/Start1";
 import Start2 from "./Pages/Start2";
 import Signup from "./Pages/Signup";
 import SetPassword from "./Pages/SetPassword";
-import ResetPassword from "./Pages/ResetPassword";
 import TwoFactorAuthentication from "./Pages/TwoFactorAuthentication";
 import NotFound from "./Pages/NotFound";
 import MapPage2 from "./Pages/MapPage2";
 import Requests from "./Pages/Requests/Index";
 import MyRides from "./Pages/MyRides";
-
-import CurrentRide from "./Pages/CurrentRide";
+import { ToastContainer } from "react-toastify";
+import { AuthProvider, useAuth } from "./Hooks/useAuth";
+import Navigation from "./Components/Navigation";
+import ResetPassword from "./Pages/ResetPassword";
+import LocationForm from "./Components/PostRideForm";
+import { CurrentRideProvider, useCurrentRide } from "./Hooks/useCurrentRide";
 import Notifications from "./Pages/Notifications";
-import LocationForm from "./components/PostRideForm";
+import UpdatePhoneNumber from "./Pages/UpdatePhoneNumber";
+import FaqAccordion from "./Pages/Faq";
 
 const App: React.FC = () => {
   return (
@@ -37,8 +34,9 @@ const App: React.FC = () => {
 };
 
 const CustomRouter = () => {
-  const { user, authLoading } = useAuth();
-  const { loading: currentRideLoading } = useCurrentRide();
+  const { authLoading } = useAuth()
+
+  const { loading: currentRideLoading } = useCurrentRide()
 
   if (authLoading || currentRideLoading) {
     return <div>Loading...</div>;
@@ -56,6 +54,7 @@ const CustomRouter = () => {
         <Route path="/2fa" element={<TwoFactorAuthentication />} />
         <Route path="/setpassword" element={<SetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/update-phone-number" element={<UpdatePhoneNumber />} />
 
         {/* Authenticated Routes */}
         <Route element={<Layout />}>
