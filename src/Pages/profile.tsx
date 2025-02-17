@@ -111,6 +111,7 @@ export const ProfileComponent: React.FC = () => {
     }
 
     return (
+
         <div className="p-8 pb-40  bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] relative">
             <div>
                 <header className="header h-[max] relative">

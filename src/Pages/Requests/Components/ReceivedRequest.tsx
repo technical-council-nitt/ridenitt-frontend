@@ -87,7 +87,7 @@ export default function ReceivedRequest({
         </div>
         <ul>
           {request.invites.map(invite => (
-            <div className='flex justify-between items-center gap-4'>
+            <div key={invite.id} className='flex justify-between items-center gap-4'>
               <span className='block'>
                 <strong>{invite.sender.name}</strong>
               </span>

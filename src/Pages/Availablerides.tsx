@@ -1,3 +1,5 @@
+
+
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useAuth } from "../Hooks/useAuth";
@@ -66,6 +68,7 @@ export const AvailableRidesComponent: React.FC = () => {
                     ))}
                 </ul>
 
+
                 <div className="fixed bottom-[70px] border-t border-solid border-neutral-300 p-4 inset-x-0 flex flex-col justify-center items-center gap-2 backdrop-blur-3xl">
                     <p className="leading-5">
                         Unable to find a match? Fret not, click here to post your ride.
@@ -75,6 +78,7 @@ export const AvailableRidesComponent: React.FC = () => {
                         Post a Ride
                     </Link>
                 </div>
+
             </main>
 
         </div>
