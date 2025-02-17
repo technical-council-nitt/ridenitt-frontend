@@ -1,6 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import AvailableRidesComponent from "./Pages/Availablerides"
-import ProfileComponent from './Pages/profile'
+import ProfileComponent from './Pages/Profile'
 import Start from "./Pages/Start";
 import Login from "./Pages/Login";
 import Start1 from "./Pages/Start1";
@@ -18,8 +18,8 @@ import Navigation from "./Components/Navigation";
 import ResetPassword from "./Pages/ResetPassword";
 import LocationForm from "./Components/PostRideForm";
 import { CurrentRideProvider, useCurrentRide } from "./Hooks/useCurrentRide";
-import CurrentRide from "./Pages/CurrentRide";
 import Notifications from "./Pages/Notifications";
+import UpdatePhoneNumber from "./Pages/updatePhoneNumber";
 
 
 const App: React.FC = () => {
@@ -34,7 +34,7 @@ const App: React.FC = () => {
 }
 
 const CustomRouter = () => {
-  const { user, authLoading } = useAuth()
+  const { authLoading } = useAuth()
 
   const { loading: currentRideLoading } = useCurrentRide()
 
@@ -53,6 +53,7 @@ const CustomRouter = () => {
         <Route path="/2fa" element={<TwoFactorAuthentication />} />
         <Route path="/setpassword" element={<SetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/update-phone-number" element={<UpdatePhoneNumber />} />
 
         <Route path="/create-ride" element={<LocationForm />} />
         

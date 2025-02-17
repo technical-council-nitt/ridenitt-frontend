@@ -3,7 +3,8 @@ interface User {
   name: string;
   password: string;
   phoneNumber: string;
-  gender: string;
+  gender: 'MALE' | 'FEMALE';
+  address?: string;
 }
 
 interface Ride {

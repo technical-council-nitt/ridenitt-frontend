@@ -8,6 +8,8 @@ interface AuthContextType {
   setOngoingSignup: (user: Omit<User, 'id'> | false) => void;
   ongoingResetPw: { phoneNumber: string | null };
   setOngoingResetPw: (data:  { phoneNumber: string | null }) => void;
+  ongoingUpdatePh: { name: string, oldPh: string, newPh: string } | false;
+  setOngoingUpdatePh: (data: { name: string, oldPh: string, newPh: string } | false) => void;
   authLoading: boolean;
   refreshAuth: () => void;
 }
@@ -28,6 +30,7 @@ export const AuthProvider = ({ children }: {
   const [user, setUser] = useState<User | null>(null);
   const [ongoingSignup, _setOngoingSignup] = useState<Omit<User, 'id'> | false>(false);
   const [ongoingResetPw, _setOngoingResetPw] = useState<{ phoneNumber: string | null }>({ phoneNumber: null});
+  const [ongoingUpdatePh, _setOngoingUpdatePh] = useState<{ name: string, oldPh: string, newPh: string } | false>(false);
   const [authLoading, setAuthLoading] = useState(true);
 
   const setOngoingSignup = (user: Omit<User, 'id'> | false) => {
@@ -36,6 +39,10 @@ export const AuthProvider = ({ children }: {
 
   const setOngoingResetPw = (data: { phoneNumber: string | null }) => {
     _setOngoingResetPw(data);
+  }
+
+  const setOngoingUpdatePh = (data: { name: string, oldPh: string, newPh: string } | false) => {
+    _setOngoingUpdatePh(data);
   }
 
   const refreshAuth = async () => {
@@ -73,7 +80,7 @@ export const AuthProvider = ({ children }: {
 
   return (
     <AuthContext.Provider value={{
-      user, ongoingResetPw, setOngoingResetPw, ongoingSignup, setOngoingSignup, authLoading, refreshAuth
+      user, ongoingResetPw, setOngoingResetPw, ongoingSignup, setOngoingSignup, ongoingUpdatePh, setOngoingUpdatePh, authLoading, refreshAuth
     }}>
       {children}
     </AuthContext.Provider>
