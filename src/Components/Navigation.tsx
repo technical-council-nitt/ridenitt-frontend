@@ -6,6 +6,7 @@ const Navigation: React.FC = () => {
     const { user } = useAuth()
 
     return (
+
         <footer className="fixed bottom-[0px] h-[70px] left-0 right-0 bg-[#008955] flex justify-around items-center">
             <Link to ="/">
                 <img src="speed.svg" className="h-[40px]" />
@@ -19,6 +20,7 @@ const Navigation: React.FC = () => {
                     <Link to="/signup"><img src="profile-footer.svg" className="h-[50px] w-[50px] rounded-[50%]" /></Link>
                 )
             }
+
         </footer>
 
     );
