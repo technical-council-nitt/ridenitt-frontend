@@ -1,230 +1,87 @@
-import Navigation from "../Components/Navigation";
-import React from "react";
+
+
+import React, { useEffect } from "react";
 import { useState } from "react";
-import Header from "../Components/Header";
+import { useAuth } from "../Hooks/useAuth";
+import Redirect from "../Components/Redirect";
+import { useCurrentRide } from "../Hooks/useCurrentRide";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import RideDetailsCard from "../Components/RideDetailsCard";
+
 export const AvailableRidesComponent: React.FC = () => {
+    const { currentRide, loading: currentRideLoading } = useCurrentRide();
+
     const [ishidden, setishidden] = useState(true);
+    const { user } = useAuth();
+    const [rides, setRides] = useState<Ride[]>([]);
 
+    const fetchRides = () => {
+        axios.get(`/api/suggestions`)
+            .then(res => {
+                setRides(res.data.data);
+            })
+            .catch(err => {
+                console.error("Error fetching suggestions", err);
+            })
+    }
 
+    useEffect(() => {
+        fetchRides()
+    }, [currentRideLoading, currentRide])
+
+    if (currentRide) {
+        return (
+            <Redirect to="/" />
+        )
+    }
+
+    if (!user) {
+        return (
+            <Redirect to="/start" />
+        )
+    }
 
     return (
-        <div className="page bg-gradient-to-b from-[#FFFFFF] to-[#C1EDE08C] min-h-max w-[100vw] relative [@media(min-height:900px)]:h-min overflow-y-scroll">
-            <Header />
-            <section className="fixed z-20 top-20 p-6 pt-0 pb-0 bg-white w-[100vw]">
-                <p className="connect text-2xl text-[#2F2E6B] font-Quicksand text-left font-[600]">Connect. Ride. Save. Repeat.</p>
-                <p className="welcome text-0.5xl  text-[#01653F] font-Quicksand text-left font-[600]">Welcome Back, User_Name!</p>
-                <img src="filter.svg" id="filter_img" className="absolute h-[max] w-[max] right-[5%] block" onClick={() => setishidden(!ishidden)}></img>
-                <p className="ridematch text-2xl text-[#008955] font-Quicksand text-left font-[700]">Ride-Match</p>
+        <div className="bg-gradient-to-b from-[#FFFFFF] to-[#C1EDE08C] min-h-screen relative">
+            <header className="header h-[max] top-[5vh] relative w-fit mx-auto">
+                <div className="input relative rounded-[50px] p-2 bg-[white]">
+                    <input type="text" placeholder="Search" className="border-[1px] border-black w-[73vw] h-[6vh] rounded-[50px] p-[3vw] text-[2vh]" />
+                    <img src="search-glass.svg" className="absolute inline right-[13%] top-[30%] h-[35%] w-[35%]"></img>
+                    <img src="faq.svg" className="h-[6vh] w-[6vh] relative inline ml-[20px]"></img>
+                </div>
+            </header>
+            <section className="relative top-[8vh] px-2">
+                <p className="connect text-[26px] text-[#2F2E6B] font-Quicksand text-left font-[600]">Connect. Ride. Save. Repeat.</p>
+                <p className="welcome text-[21px]  text-[#01653F] font-Quicksand text-left font-[600]">Welcome Back, {user.name}!</p>
+                <img src="filter.svg" id="filter_img" className="absolute h-[max] right-[5%] block" onClick={() => setishidden(!ishidden)}></img>
+                <p className="ridematch text-[34px] text-[#008955] font-Quicksand text-left font-[700]">Ride-Match</p>
                 <div className="date relative">
-                    <p className="leftbar border-[1px] border-[#B9B9B9] w-[30vw] absolute top-[50%] left-[0%]"></p>
-                    <p className="datetext font-Quicksand font-[700px] text-[#91908E] text-[0.95em] relative left-[34.5%] inline">2nd May 2024</p>
-                    <p className="rightbar border-[1px] border-[#B9B9B9] w-[30vw] absolute top-[50%] right-[0%]"></p>
+                    <p className="leftbar border-[1px] border-[#B9B9B9] w-[34vw] absolute top-[50%] left-[0%]"></p>
+                    <p className="datetext font-Quicksand font-[700px] text-[#91908E] text-[4vw] relative left-[37%] inline">
+                        {new Date().toDateString()}
+                    </p>
+                    <p className="rightbar border-[1px] border-[#B9B9B9] w-[34vw] absolute top-[50%] right-[0%]"></p>
                 </div>
             </section>
-            <main className="feed relative w-[100vw] flex flex-wrap p-6 pt-2 gap-y-4 top-[35vh] [@media(min-height:900px)]:top-[20vh] mb-[52vh] [@media(min-height:900px)]:mb-[35vh]">
-                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
-                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
-                        </div>
-                        <div>
-                            <img src="car.svg" alt="Car" className="w-14 h-14" />
-                        </div>
-                    </div>
+            <main className="pb-40 feed relative top-[10vh] p-2">
+                <Link to="/create-ride" className="fixed bottom-20 text-white rounded-lg p-1 bg-green-600 drop-shadow-2xl font-bold right-4">
+                    Post a Ride?
+                </Link>
 
-                    <div className="flex items-center">
-                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
-                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
-                    </div>
+                {rides.length === 0 && (
+                    <p className="mt-8 text-center text-xl">
+                        No rides available
+                    </p>
+                )}
 
-                    <div className="flex justify-end mr-4 -mt-8">
-                        <span className="text-gray-800 font-semibold">Car</span>
-                    </div>
+                <ul className="flex flex-col gap-4">
+                    {rides.map(ride => (
+                        <RideDetailsCard refreshRide={fetchRides} key={ride.id} ride={ride} />
+                    ))}
+                </ul>
 
-                    <div className="mt-10">
-                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
-                            Requested
-                        </button>
-                    </div>
-                </section>
-                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
-                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
-                        </div>
-                        <div>
-                            <img src="car.svg" alt="Car" className="w-14 h-14" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center">
-                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
-                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
-                    </div>
-
-                    <div className="flex justify-end mr-4 -mt-8">
-                        <span className="text-gray-800 font-semibold">Car</span>
-                    </div>
-
-                    <div className="mt-10">
-                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
-                            Requested
-                        </button>
-                    </div>
-                </section>
-                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
-                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
-                        </div>
-                        <div>
-                            <img src="car.svg" alt="Car" className="w-14 h-14" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center">
-                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
-                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
-                    </div>
-
-                    <div className="flex justify-end mr-4 -mt-8">
-                        <span className="text-gray-800 font-semibold">Car</span>
-                    </div>
-
-                    <div className="mt-10">
-                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
-                            Requested
-                        </button>
-                    </div>
-                </section>
-                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
-                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
-                        </div>
-                        <div>
-                            <img src="car.svg" alt="Car" className="w-14 h-14" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center">
-                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
-                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
-                    </div>
-
-                    <div className="flex justify-end mr-4 -mt-8">
-                        <span className="text-gray-800 font-semibold">Car</span>
-                    </div>
-
-                    <div className="mt-10">
-                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
-                            Requested
-                        </button>
-                    </div>
-                </section>
-                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
-                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
-                        </div>
-                        <div>
-                            <img src="car.svg" alt="Car" className="w-14 h-14" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center">
-                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
-                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
-                    </div>
-
-                    <div className="flex justify-end mr-4 -mt-8">
-                        <span className="text-gray-800 font-semibold">Car</span>
-                    </div>
-
-                    <div className="mt-10">
-                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
-                            Requested
-                        </button>
-                    </div>
-                </section>
-                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
-                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
-                        </div>
-                        <div>
-                            <img src="car.svg" alt="Car" className="w-14 h-14" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center">
-                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
-                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
-                    </div>
-
-                    <div className="flex justify-end mr-4 -mt-8">
-                        <span className="text-gray-800 font-semibold">Car</span>
-                    </div>
-
-                    <div className="mt-10">
-                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
-                            Requested
-                        </button>
-                    </div>
-                </section>
-                <section className="border-2 border-[#08B783] rounded-lg p-4 bg-[#C1EDE08C] w-[400px]">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-xl font-semibold text-[#5A5A5A]">Chathiram Bus Stand</h2>
-                            <p className="text-sm text-gray-400 font-semibold">10:00 - 11:00 AM | 2 people sharing</p>
-                        </div>
-                        <div>
-                            <img src="car.svg" alt="Car" className="w-14 h-14" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center">
-                        <span><img src="profile.svg" className="h-[15px] mr-2"></img></span>
-                        <p className="font-semibold text-gray-800">Posted by Laxmi</p>
-                    </div>
-
-                    <div className="flex justify-end mr-4 -mt-8">
-                        <span className="text-gray-800 font-semibold">Car</span>
-                    </div>
-
-                    <div className="mt-10">
-                        <button className="w-full py-2 text-green-700 font-semibold rounded-lg border-2 border-[#08B783]">
-                            Requested
-                        </button>
-                    </div>
-                </section>
-                <section className="unable_to_find ml-[20%] fixed bottom-[80px] flex justify-center items-center">
-                    <button className="postridebutton  mt-[10px] bg-[#008955] border-2 h-[50px] w-[200px] border-[#000000] rounded-[90px] text-white font-semibold">
-                        Post a ride
-                    </button>
-                </section>
-                <div className={ishidden ? "hidden" : "block"} id="filter">
-                    <section className="filter fixed top-[40vh] left-0 opacity-1 h-[50vh] w-[100vw] bg-[#F3FCF9] grid grid-cols-[2vw,0.5fr,5vw,1fr,6vw] pt-[10px] [@media(min-height:900px)]:top-[45vh]">
-                        <div className="time col-start-2 col-end-3 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">Time</div>
-                        <div className="time col-start-4 col-end-5 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">5:30 PM - 6:30 PM</div>
-                        <div className="time col-start-2 col-end-3 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">Date</div>
-                        <div className="time col-start-4 col-end-5 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">2nd May 2025</div>
-                        <div className="time col-start-2 col-end-3 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center pl-[20px]">Preferred Gender</div>
-                        <div className="time col-start-4 col-end-5 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">Not selected</div>
-                        <div className="time col-start-2 col-end-3 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">Share Count</div>
-                        <div className="time col-start-4 col-end-5 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">Not Selected</div>
-                        <div className="time col-start-2 col-end-3 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">Vehicle Type</div>
-                        <div className="time col-start-4 col-end-5 border-2 bg-[#FFFFFF] border-[#008955] h-[60px] rounded-[13px] flex justify-center items-center">Car</div>
-                    </section>
-                </div>
             </main>
-            <Navigation />
         </div>
 
     )

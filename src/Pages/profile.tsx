@@ -1,36 +1,70 @@
-import Navigation from "../Components/Navigation";
+import { Link, redirect } from "react-router-dom";
 import React from "react";
+import { useAuth } from "../Hooks/useAuth";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Redirect from "../Components/Redirect";
 
 export const ProfileComponent: React.FC = () => {
+    const { user, refreshAuth } = useAuth();
+
+    const handleLogout = () => {
+        axios.delete("/auth/logout")
+            .then(() => {
+                redirect("/start")
+                refreshAuth()
+            })
+            .catch((err) => {
+                console.log(err);
+                toast.error("Failed to logout");
+            });
+    }
+
+    const handleEdit = () => {
+        toast("Feature coming soon!");
+    }
+
+    if (!user) {
+        return (
+            <Redirect to="/start" />
+        )
+    }
+
     return (
-        <div className="page bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] h-screen w-[100vw] relative">
-            <header className="header w-screen h-[max] relative top-[3vh] pl-28 block">
-                <div className="heading text-[#008955] text-[8.7vw] font-Quicksand font-semibold">My Profile</div>
-                <div className="stayupdated font-Quicksand font-[600] mt-[-5px] text-[4.5vw]">Stay updated!</div>
+
+        <div className="pb-40  bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] relative">
+            <header className="header h-[max] relative top-[5vh] pl-[10px]">
+                <div className="heading text-[#008955] text-[10vw] font-Quicksand font-[700]">My Profile</div>
+                <div className="stayupdated font-Quicksand font-[600] mt-[-5px]">Stay updated!</div>
             </header>
-            <section className="profile  h-[max] w-[100vw] relative top-[5vh]">
-                <img src="profilepic.svg" className="profilepic left-[30%] relative h-[35%] w-[35%]"></img>
-                <img src="camera.svg" className="h-[20%] w-[20%] absolute top-[50%] right-[29%]"></img>
-                <div className="name text-[#5A5A5A] font-semibold mt-[5px] text-[6vw] font-[Poppins] ml-[33%]">Navin Kumar</div>
+            <section className="profile top-[12vh] relative">
+                <img src="profilepic.svg" className="profilepic left-[30%] relative h-[40%] w-[40%]"></img>
+                <img src="camera.svg" className="h-[23%] w-[23%] absolute top-[50%] right-[25%]"></img>
+                <div className="name text-[#5A5A5A] font-[700] mt-[5px] text-[7vw] font-[Poppins] ml-[30%]">
+                    {user.name}
+                </div>
             </section>
-            <main className="details grid grid-cols-1 relative top-[1vh] p-8 gap-y-[10px]">
-                <div className="email text-[#414141] text-[4.5vw] border-[1.5px] border-[#989393] rounded-[10px] p-2.5 font-[600] font-[Poppins] relative">navinnit2006@gmail.com
+            <main className="details grid grid-cols-1 relative top-[12vh] p-[4vw] gap-y-[10px]">
+                <div className="username text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-[15px] font-[600] font-[Poppins] relative">
+                    {user.name}
                     <img src="edit.svg" className="absolute top-[20%] right-[5%]"></img>
                 </div>
-                <div className="email text-[#414141] text-[4.5vw] border-[1.5px] border-[#989393] rounded-[10px] p-2.5 font-[600] font-[Poppins] relative">+919985483586
+                <div className="email text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-[15px] font-[600] font-[Poppins] relative">
+                    {user.phoneNumber}
                     <img src="edit.svg" className="absolute top-[20%] right-[5%]"></img>
                 </div>
-                <div className="email text-[#414141] text-[4.5vw] border-[1.5px] border-[#989393] rounded-[10px] p-2.5 font-[600] font-[Poppins] relative">Address
+                <div className="email text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-[15px] font-[600] font-[Poppins] relative">
+                    Address
                     <img src="edit.svg" className="absolute top-[20%] right-[5%]"></img>
                 </div>
             </main>
-            <section className="relative top-[-5vh] w-[100vw] grid grid-cols-[1fr,1fr] p-8 gap-y-[10px]">
-                <div className="myrides h-12 flex justify-center items-center border-[2px] border-[#008955] rounded-[10px] bg-[white] font-[Quicksand] font-[900] text-[#414141] text-lg pr-[20px]">My Rides</div>
+            <section className="relative top-[10vh] grid grid-cols-[1fr_1fr] p-[4vw] gap-y-[20px] gap-x-[13px]">
+                <Link to="/my-rides" className="myrides h-[50px] w-[50vw] flex justify-center items-center border-[2px] border-[#008955] rounded-[10px] bg-[white] font-[Quicksand] font-[900] text-[#414141] text-[20px] pr-[20px]">My Rides</Link>
                 <div className="myrides"></div>
-                <div className="myrides h-[45px] flex justify-center items-center border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-semibold text-lg">Update</div>
-                <div className="myrides h-[45px] flex justify-center items-center border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-semibold text-lg ml-[10px]">Logout</div>
+                <button onClick={handleEdit} className="myrides h-[50px] flex justify-center items-center border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700] text-[22px]">Update</button>
+                <button onClick={handleLogout} className="myrides h-[50px] flex justify-center items-center border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700] text-[22px]">Logout</button>
+
             </section>
-            <Navigation />
         </div>
 
 
