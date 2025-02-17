@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import imgLogin from "../Images/login-image.png"; // Update path if needed
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../Hooks/useAuth";
 
 const ResetPassword: React.FC = () => {
-  const { authLoading, user, setOngoingResetPw } = useAuth()
+  const { user, setOngoingResetPw } = useAuth()
 
   const navigate = useNavigate();
 
@@ -17,7 +15,9 @@ const ResetPassword: React.FC = () => {
   const handleResetPassword = () => {
     let ph = "+91" + phoneNumber.replaceAll(/\s+/g, "");
     
-    setOngoingResetPw(ph);
+    setOngoingResetPw({
+      phoneNumber: ph
+    });
     
     setLoading(true);
 
@@ -34,10 +34,6 @@ const ResetPassword: React.FC = () => {
         setLoading(false);
       });
   };
-
-  if (authLoading) {
-    return <div>Loading...</div>;
-  }
 
   if (user) {
     navigate("/");
@@ -57,7 +53,7 @@ const ResetPassword: React.FC = () => {
 
       {/* Centered Image with Balanced Size */}
       <img
-        src={imgLogin}
+        src="/Images/login-image.png"
         alt="Reset Password"
         className="w-[85%] sm:w-[50%] md:w-[40%] lg:w-[30%] max-w-[350px] max-h-[220px] md:max-h-[260px] lg:max-h-[280px] object-contain"
       />

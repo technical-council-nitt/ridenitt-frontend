@@ -6,8 +6,8 @@ interface AuthContextType {
   user: User | null;
   ongoingSignup: Omit<User, 'id'> | false;
   setOngoingSignup: (user: Omit<User, 'id'> | false) => void;
-  ongoingResetPw: string | false;
-  setOngoingResetPw: (phoneNumber: string | false) => void;
+  ongoingResetPw: { phoneNumber: string | null };
+  setOngoingResetPw: (data:  { phoneNumber: string | null }) => void;
   authLoading: boolean;
   refreshAuth: () => void;
 }
@@ -27,15 +27,15 @@ export const AuthProvider = ({ children }: {
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [ongoingSignup, _setOngoingSignup] = useState<Omit<User, 'id'> | false>(false);
-  const [ongoingResetPw, _setOngoingResetPw] = useState<string | false>(false);
+  const [ongoingResetPw, _setOngoingResetPw] = useState<{ phoneNumber: string | null }>({ phoneNumber: null});
   const [authLoading, setAuthLoading] = useState(true);
 
   const setOngoingSignup = (user: Omit<User, 'id'> | false) => {
     _setOngoingSignup(user);
   }
 
-  const setOngoingResetPw = (phoneNumber: string | false) => {
-    _setOngoingResetPw(phoneNumber);
+  const setOngoingResetPw = (data: { phoneNumber: string | null }) => {
+    _setOngoingResetPw(data);
   }
 
   const refreshAuth = async () => {
