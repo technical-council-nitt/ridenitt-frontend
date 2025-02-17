@@ -1,5 +1,5 @@
 import { useCurrentRide } from '../Hooks/useCurrentRide';
-import Redirect from '../Components/Redirect';
+import Redirect from '../components/Redirect';
 import { useAuth } from '../Hooks/useAuth';
 import axios from 'axios';
 import { toast } from 'react-toastify';

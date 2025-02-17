@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../Hooks/useAuth";
 import axios from "axios";
-import Redirect from "../Components/Redirect";
+import Redirect from "../components/Redirect";
 
 const Signup: React.FC = () => {
   const { user, setOngoingSignup } = useAuth();

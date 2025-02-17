@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../Hooks/useAuth'
-import Redirect from '../Components/Redirect'
+import Redirect from '../components/Redirect'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 

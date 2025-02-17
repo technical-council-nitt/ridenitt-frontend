@@ -3,9 +3,6 @@ import { MapContainer, TileLayer, Marker, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-import pickupIcon from "../Images/pickup.png";
-import dropIcon from "../Images/drop.png";
-
 const customIcon = new L.Icon({
   iconUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
@@ -14,10 +11,18 @@ const customIcon = new L.Icon({
 });
 
 const MapPage2: React.FC = () => {
-  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [pickupLocation, setPickupLocation] = useState("");
-  const [dropLocation, setDropLocation] = useState("");
-  
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
+
+  // States for pickup & drop locations
+  const [pickupLocation, setPickupLocation] = useState("Select Pickup Location");
+  const [dropLocation, setDropLocation] = useState("Select Drop Location");
+
+  // Dropdown visibility states
+  const [isPickupDropdownOpen, setIsPickupDropdownOpen] = useState(false);
+  const [isDropDropdownOpen, setIsDropDropdownOpen] = useState(false);
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -58,37 +63,109 @@ const MapPage2: React.FC = () => {
       )}
 
       {/* Bottom Section */}
-      <div className="absolute bottom-0 left-0 w-full p-6 bg-white border-t-2 border-[#08B783] rounded-t-2xl overflow-hidden">
+      <div className="absolute bottom-0 left-0 w-full p-4 bg-white border-t-2 border-[#08B783] rounded-t-2xl shadow-lg pb-4">
+        
         {/* Select Pickup Location */}
-        <div className="relative flex items-center border-2 border-[#8AD4B5] rounded-2xl bg-[#E2F5ED] p-3">
-          <img src={pickupIcon} alt="Pickup Icon" className="w-6 h-6 mr-3" />
-          <select 
-            className="w-full bg-transparent outline-none"
-            value={pickupLocation}
-            onChange={(e) => setPickupLocation(e.target.value)}
+        <div className="relative z-50 mb-2"> 
+          <button
+            onClick={() => {
+              setIsPickupDropdownOpen(!isPickupDropdownOpen);
+              setIsDropDropdownOpen(false); // Close drop dropdown
+            }}
+            className={`w-full flex justify-between items-center bg-[#D8F3E7] text-gray-700 border-2 border-[#8AD4B5] px-4 py-2 focus:outline-none transition-all ${
+              isPickupDropdownOpen ? "rounded-t-2xl" : "rounded-2xl"
+            }`}
           >
-            <option value="">Current location</option>
-            <option value="Aquamarine-B">Aquamarine-B</option>
-          </select>
+            {pickupLocation}
+            <svg className="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+            </svg>
+          </button>
+
+          {/* Dropdown Menu */}
+          {isPickupDropdownOpen && (
+            <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-b-lg shadow-lg z-50">
+              <ul className="text-gray-700">
+                <li>
+                  <button
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      setPickupLocation("Current location");
+                      setIsPickupDropdownOpen(false);
+                    }}
+                  >
+                    Current location
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      setPickupLocation("Aquamarine-B");
+                      setIsPickupDropdownOpen(false);
+                    }}
+                  >
+                    Aquamarine-B
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* Select Drop Location */}
-        <div className="relative flex items-center border-2 border-[#8AD4B5] rounded-2xl bg-[#E2F5ED] p-3 mt-2">
-          <img src={dropIcon} alt="Drop Icon" className="w-6 h-6 mr-3" />
-          <select 
-            className="w-full bg-transparent outline-none"
-            value={dropLocation}
-            onChange={(e) => setDropLocation(e.target.value)}
+        <div className="relative z-40 mb-2">
+          <button
+            onClick={() => {
+              setIsDropDropdownOpen(!isDropDropdownOpen);
+              setIsPickupDropdownOpen(false); // Close pickup dropdown
+            }}
+            className={`w-full flex justify-between items-center bg-[#D8F3E7] text-gray-700 border-2 border-[#8AD4B5] px-4 py-2 focus:outline-none transition-all ${
+              isDropDropdownOpen ? "rounded-t-2xl" : "rounded-2xl"
+            }`}
           >
-            <option value="">Current location</option>
-            <option value="Aquamarine-B">Aquamarine-B</option>
-          </select>
+            {dropLocation}
+            <svg className="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+            </svg>
+          </button>
+
+          {/* Dropdown Menu */}
+          {isDropDropdownOpen && (
+            <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-b-lg shadow-lg z-50">
+              <ul className="text-gray-700">
+                <li>
+                  <button
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      setDropLocation("Current location");
+                      setIsDropDropdownOpen(false);
+                    }}
+                  >
+                    Current location
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      setDropLocation("Aquamarine-B");
+                      setIsDropDropdownOpen(false);
+                    }}
+                  >
+                    Aquamarine-B
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* Confirm Button */}
-        <button className="w-full mt-4 py-3 bg-[#008955] text-white font-semibold rounded-2xl">
+        <button className="w-full py-3 bg-[#008955] text-white font-semibold rounded-2xl  mb-12">
           Confirm Location
         </button>
+        <div className="mb-4"></div>
       </div>
     </div>
   );

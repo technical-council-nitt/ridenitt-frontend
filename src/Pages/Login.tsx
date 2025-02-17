@@ -4,7 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../Hooks/useAuth";
-import Redirect from "../Components/Redirect";
+import Redirect from "../components/Redirect";
 
 const Login: React.FC = () => {
   const { user, refreshAuth } = useAuth()

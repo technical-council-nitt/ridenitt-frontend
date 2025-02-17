@@ -123,7 +123,7 @@ const SetPassword: React.FC = () => {
         </div>
 
         {/* Confirm Password Input */}
-        <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg mb-6">
+        <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg mb-2">
           <input
             type={showConfirmPassword ? "text" : "password"}
             placeholder="Confirm new password"
@@ -139,7 +139,7 @@ const SetPassword: React.FC = () => {
           </span>
         </div>
 
-        <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg mb-6">
+        <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg mb-4">
           {ongoingResetPw && (
             <span>
               OTP Sent to +91 xxxxx xx{ongoingResetPw.phoneNumber?.slice(-3)}

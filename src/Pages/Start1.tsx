@@ -11,8 +11,8 @@ const Start1: React.FC = () => {
         {/* Centered Image */}
         <img src="/Images/start-image-1.png" alt="Trusted Users" className="max-w-[90%] md:max-w-[70%]" />
 
-        <div>
-          {/* Left-Aligned Text Below Image */}
+        <div className="pl-4 md:pl-8">
+          {/* Shifted Right-Aligned Text Below Image */}
           <div className="text-left">
             <h1 className="text-black font-bold leading-snug"
                 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}> {/* Reduced for large screens */}
@@ -26,12 +26,12 @@ const Start1: React.FC = () => {
 
           {/* Left-Aligned Arrow Button */}
           <div className="relative mt-6 flex justify-start w-fit">
-            <div className="p-1 md:p-2 w-16 h-16 bg-[#B9E5D1] rounded-full flex items-center justify-center">
+            <div className="p-2 md:p-3 w-20 h-20 md:w-24 md:h-24 bg-[#B9E5D1] rounded-full flex items-center justify-center">
               <div
-                className="w-10 h-10 bg-[#008955] rounded-full flex items-center justify-center cursor-pointer"
+                className="w-14 h-14 md:w-16 md:h-16 bg-[#008955] rounded-full flex items-center justify-center cursor-pointer"
                 onClick={() => navigate("/start2")}
               >
-                <FiArrowRight className="text-white text-2xl sm:text-xl" />
+                <FiArrowRight className="text-white text-3xl md:text-4xl" />
               </div>
             </div>
           </div>

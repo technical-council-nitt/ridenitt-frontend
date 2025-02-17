@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useAuth } from "../Hooks/useAuth";
-import Redirect from "../Components/Redirect";
+import Redirect from "../components/Redirect";
 import { useCurrentRide } from "../Hooks/useCurrentRide";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import RideDetailsCard from "../Components/RideDetailsCard";
+import RideDetailsCard from "../components/RideDetailsCard";
 
 export const AvailableRidesComponent: React.FC = () => {
     const { currentRide, loading: currentRideLoading } = useCurrentRide();
