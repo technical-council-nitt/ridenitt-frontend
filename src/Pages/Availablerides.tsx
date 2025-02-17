@@ -1,3 +1,5 @@
+
+
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useAuth } from "../Hooks/useAuth";
@@ -78,6 +80,7 @@ export const AvailableRidesComponent: React.FC = () => {
                         <RideDetailsCard refreshRide={fetchRides} key={ride.id} ride={ride} />
                     ))}
                 </ul>
+
             </main>
         </div>
 

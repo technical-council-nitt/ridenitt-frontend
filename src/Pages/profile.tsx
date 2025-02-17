@@ -31,6 +31,7 @@ export const ProfileComponent: React.FC = () => {
     }
 
     return (
+
         <div className="pb-40  bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] relative">
             <header className="header h-[max] relative top-[5vh] pl-[10px]">
                 <div className="heading text-[#008955] text-[10vw] font-Quicksand font-[700]">My Profile</div>
@@ -62,6 +63,7 @@ export const ProfileComponent: React.FC = () => {
                 <div className="myrides"></div>
                 <button onClick={handleEdit} className="myrides h-[50px] flex justify-center items-center border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700] text-[22px]">Update</button>
                 <button onClick={handleLogout} className="myrides h-[50px] flex justify-center items-center border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700] text-[22px]">Logout</button>
+
             </section>
         </div>
 
