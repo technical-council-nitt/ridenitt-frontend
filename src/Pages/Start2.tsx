@@ -15,7 +15,7 @@ const Start2: React.FC = () => {
           {/* Left-Aligned Text Below Image */}
           <div className="text-left">
             <h1
-              className="text-black font-bold leading-snug"
+              className="text-black font-bold leading-snug px-5"
               style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }} // Same as Start1
             >
               Ride Together, <br />
@@ -27,10 +27,10 @@ const Start2: React.FC = () => {
           </div>
 
           {/* Left-Aligned Arrow Button */}
-          <div className="relative mt-6 flex justify-start w-fit">
-            <div className="p-1 md:p-2 w-16 h-16 bg-[#B9E5D1] rounded-full flex items-center justify-center">
+          <div className="relative mt-6 flex justify-start w-fit pl-4">
+            <div className="p-1 md:p-2 w-20 h-20 bg-[#B9E5D1] rounded-full flex items-center justify-center">
               <div
-                className="w-10 h-10 bg-[#008955] rounded-full flex items-center justify-center cursor-pointer"
+                className="w-14 h-14 bg-[#008955] rounded-full flex items-center justify-center cursor-pointer"
                 onClick={() => navigate("/login")}
               >
                 <FiArrowRight className="text-white text-2xl sm:text-xl" />

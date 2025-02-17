@@ -84,19 +84,19 @@ export function DateTimeModal({
       <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40" onClick={onClose} />
 
       {/* Modal */}
-      <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-white rounded-[40px] p-6 z-50 max-h-[80vh] overflow-auto">
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-center">Your Ride, Your Way.</h2>
+      <div className="fixed inset-x-5 top-1/2 -translate-y-1/2 bg-white rounded-[40px] mt-2 mb-5 p-6 z-50 border-2 border-black overflow-hidden">
+
+          <h2 className=" text-2xl font-bold text-center">Your Ride, Your Way.</h2>
 
           {/* Calendar Section */}
-          <div className="space-y-4">
-            <h3 className="text-gray-500">Ride Date</h3>
+
+            <h3 className="text-gray-500 mt-2 mb-2 ">Ride Date</h3>
             <div className="flex justify-between items-center">
               <button
                 onClick={() => handleMonthChange("prev")}
                 className="text-gray-500 text-xl"
               >
-                &#60;
+                &#8592;
               </button>
               <span className="text-xl font-semibold">
                 {new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} {currentYear}
@@ -105,10 +105,10 @@ export function DateTimeModal({
                 onClick={() => handleMonthChange("next")}
                 className="text-gray-500 text-xl"
               >
-                &#62;
+                &#8594;
               </button>
             </div>
-            <div className="grid grid-cols-7 gap-2 text-center">
+            <div className="grid grid-cols-7 gap-2 mt-2 text-center">
               {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
                 <div key={day} className="text-gray-500 text-sm">
                   {day}
@@ -122,23 +122,23 @@ export function DateTimeModal({
                   className={`
                     rounded-full w-8 h-8 flex items-center justify-center
                     ${Number.parseInt(day) < today ? "text-gray-300" : "text-gray-700"}
-                    ${selectedDate === day ? "bg-green-600 text-white" : ""}
+                    ${selectedDate === day ? "bg-[#008955] text-white" : ""}
                   `}
                 >
                   {day}
                 </button>
               ))}
             </div>
-          </div>
+
 
           {/* Time Range Section */}
-          <div className="space-y-4">
+
             {/* Start Time */}
-            <div className="space-y-2">
-              <h3 className="text-gray-500">Ride Start Time</h3>
-              <div className="flex gap-4">
+            <div className="space-y-1">
+              <h3 className="text-gray-500 mt-2 mb-2">Ride Start Time</h3>
+              <div className="flex justify-center gap-4">
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="w-1/4 p-2 border-2 border-black rounded-full"
                   value={startHour}
                   onChange={(e) => handleTimeChange("start", "hour", e.target.value)}
                 >
@@ -149,7 +149,7 @@ export function DateTimeModal({
                   ))}
                 </select>
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="w-1/4 p-2 border-2 border-black rounded-full"
                   value={startMinute}
                   onChange={(e) => handleTimeChange("start", "minute", e.target.value)}
                 >
@@ -160,7 +160,7 @@ export function DateTimeModal({
                   ))}
                 </select>
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="w-1/4 p-2 border-2 border-black rounded-full"
                   value={startAmPm}
                   onChange={(e) => handleTimeChange("start", "amPm", e.target.value)}
                 >
@@ -170,15 +170,15 @@ export function DateTimeModal({
                     </option>
                   ))}
                 </select>
-              </div>
+              
             </div>
 
             {/* End Time */}
             <div className="space-y-2">
-              <h3 className="text-gray-500">Ride End Time</h3>
-              <div className="flex gap-4">
+              <h3 className="text-gray-500 mb-2 mt-2">Ride End Time</h3>
+              <div className="flex justify-center gap-4">
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="w-1/4 p-2 border-2 border-black rounded-full"
                   value={endHour}
                   onChange={(e) => handleTimeChange("end", "hour", e.target.value)}
                 >
@@ -189,7 +189,7 @@ export function DateTimeModal({
                   ))}
                 </select>
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="w-1/4 p-2 border-2 border-black rounded-full"
                   value={endMinute}
                   onChange={(e) => handleTimeChange("end", "minute", e.target.value)}
                 >
@@ -200,7 +200,7 @@ export function DateTimeModal({
                   ))}
                 </select>
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="w-1/4 p-2 border-2 border-black rounded-full"
                   value={endAmPm}
                   onChange={(e) => handleTimeChange("end", "amPm", e.target.value)}
                 >
@@ -217,11 +217,11 @@ export function DateTimeModal({
           {/* Confirm Button */}
           <button
             onClick={handleConfirm}
-            className="w-full py-4 bg-green-600 text-white rounded-full text-lg font-semibold"
+            className="w-full mt-5 bottom-5 max-h-md mb-2 py-4 bg-[#008955] border-2 border-black text-white rounded-full text-lg font-semibold"
           >
             Confirm
           </button>
-        </div>
+
       </div>
     </>
   )

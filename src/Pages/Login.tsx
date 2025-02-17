@@ -50,17 +50,14 @@ const Login: React.FC = () => {
   return (
     <div className="gradient-background flex flex-col items-center justify-center h-screen px-6">
       {/* Left-Aligned Title Container */}
-      <div className="w-full max-w-sm">
-        <h2 className="text-black text-2xl md:text-3xl font-semibold text-left">
+      <div className="w-full max-w-sm mb-6">
+        <h2 className="text-black text-2xl -mt-6 md:text-3xl font-semibold text-left">
           Hop In!
         </h2>
         <h2 className="text-black text-2xl md:text-3xl font-semibold text-left">
           Smarter Rides Start Here.
         </h2>
       </div>
-
-      {/* Increased Gap Between Text and Image */}
-      <div className="mt-6"></div>
 
       {/* Centered Image with Balanced Size */}
       <img
@@ -96,11 +93,11 @@ const Login: React.FC = () => {
       </div>
 
       {/* Sign Up & Forgot Password - Centered */}
-      <div className="w-full max-w-sm flex justify-between text-lg mt-3">
+      <div className="w-full max-w-sm flex justify-between text-md mt-2 px-2">
         <button
           disabled={loading}
           onClick={handleSignup}
-          className="text-black font-semibold"
+          className="text-black font-semibold hover:underline"
         >
           Sign Up
         </button>
@@ -111,7 +108,7 @@ const Login: React.FC = () => {
       <button
         disabled={loading}
         onClick={handleLogin}
-        className="disabled:opacity-50 mt-6 px-6 py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg w-full max-w-sm hover:bg-[#007144] transition border border-black"
+        className="disabled:opacity-50 mt-4 px-6 py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg w-full max-w-sm hover:bg-[#007144] transition border border-black"
       >
         Start Sharing!
       </button>

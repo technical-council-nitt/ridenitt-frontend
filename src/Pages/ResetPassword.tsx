@@ -61,7 +61,7 @@ const ResetPassword: React.FC = () => {
       {/* Input Fields - Centered */}
       <div className="w-full max-w-sm flex flex-col gap-4 mt-5">
         <div className="flex border border-black rounded-md overflow-hidden mb-3">
-          <span className="bg-gray-200 px-4 py-2">+91</span>
+          <span className="bg-gray-200 px-4 py-4">+91</span>
           <input
             onChange={(e) => setPhoneNumber(e.target.value)}
             type="tel"
@@ -75,7 +75,7 @@ const ResetPassword: React.FC = () => {
       <button
         disabled={loading}
         onClick={handleResetPassword}
-        className="disabled:opacity-50 mt-6 px-6 py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg w-full max-w-sm hover:bg-[#007144] transition border border-black"
+        className="disabled:opacity-50 mt-3 px-9 py-3 bg-[#008955] text-white font-semibold rounded-lg text-lg  max-w-sm hover:bg-[#007144] transition border border-black"
       >
         Send OTP
       </button>

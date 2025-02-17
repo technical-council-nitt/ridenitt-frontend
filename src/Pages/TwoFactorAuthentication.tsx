@@ -66,7 +66,7 @@ const TwoFactorAuthentication: React.FC = () => {
         <span className="ml-2 text-lg font-semibold">Back</span>
       </div>
       
-      <div className="flex flex-col items-center w-full max-w-lg mt-6 md:mt-12">
+      <div className="flex flex-col items-center w-full max-w-lg md:mt-12">
         <h2 className="text-2xl sm:text-3xl font-bold text-black mb-4 text-center">Phone Verification</h2>
         <p className="text-[#878585] font-semibold mb-6 text-center">Enter your OTP code</p>
         

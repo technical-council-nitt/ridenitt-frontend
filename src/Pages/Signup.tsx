@@ -65,7 +65,7 @@ const Signup: React.FC = () => {
     <div className="gradient-background flex flex-col items-center justify-center h-screen px-6">
       <div className="flex flex-col items-center justify-center h-screen px-6">
         {/* Signup Text */}
-        <h2 className="text-2xl sm:text-3xl font-bold text-black text-left w-full max-w-sm">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl -mt-14 font-bold text-black text-left w-full max-w-sm">
           Sign up with your phone number
         </h2>
 
@@ -77,7 +77,7 @@ const Signup: React.FC = () => {
             placeholder="Username"
             className="w-full border border-black px-4 py-2 rounded-md"
           />
-          <span className="text-xs text-neutral-800 block mb-3">Please remember username for login</span>
+          <span className="text-xs text-black font-normal block mb-3 pt-1 pl-2">Please remember username for login</span>
 
           {/* phoneNumber Number Input with +91 */}
           <div className="flex border border-black rounded-md overflow-hidden mb-3">
@@ -99,14 +99,14 @@ const Signup: React.FC = () => {
           />
 
           {/* Gender Dropdown */}
-          <select onChange={(e) => setGender(e.currentTarget.value)} className="w-full border border-black px-4 py-2 rounded-md mb-3">
+          <select onChange={(e) => setGender(e.currentTarget.value)} className="w-full border border-black px-2 py-2 rounded-md mb-3">
             <option value="">Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
 
           {/* Terms & Conditions Checkbox */}
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-4 pl-2">
             <input
               type="checkbox"
               checked={agree}

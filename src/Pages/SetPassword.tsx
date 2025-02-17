@@ -4,8 +4,10 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAuth } from "../Hooks/useAuth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Redirect from "../Components/Redirect";
 
 const SetPassword: React.FC = () => {
+  const { user } = useAuth()
   const { ongoingResetPw, setOngoingResetPw } = useAuth();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
@@ -88,6 +90,9 @@ const SetPassword: React.FC = () => {
       });
   }
 
+  if (!user) {
+    return <Redirect to="/start" />
+  }
   return (
     <div className="gradient-background flex flex-col items-center justify-center h-screen px-6 relative">
 
@@ -141,9 +146,10 @@ const SetPassword: React.FC = () => {
 
         <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg mb-6">
           {ongoingResetPw && (
-            <span>
-              OTP Sent to +91 xxxxx xx{ongoingResetPw.phoneNumber?.slice(-3)}
-            </span>
+            <span className="mb-5 py-6">
+            OTP Sent to +91 xxxxx xx{ongoingResetPw.phoneNumber?.slice(-3)}
+          </span>
+          
           )}
           <input
             type={"text"}
