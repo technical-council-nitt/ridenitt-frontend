@@ -23,14 +23,13 @@ interface Ride {
   stops: [
     Stop, Stop
   ]
-  participants: [
-    {
-      id: string
-      name: string
-      gender: string
-      phoneNumber?: string
-    }
-  ],
+  participants:
+  {
+    id: string
+    name: string
+    gender: string
+    phoneNumber?: string
+  }[],
   myInvite?: Invite
   createdAt: string
 }

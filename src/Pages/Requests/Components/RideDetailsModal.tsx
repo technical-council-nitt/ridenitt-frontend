@@ -43,6 +43,12 @@ export default function RideDetailsModal({
             Ride Partners
           </span>
           <ul>
+            {ride.participants.length === 0 && (
+              <li>
+                No participants yet
+              </li>
+            )}
+            
             {ride.participants.map(participant => (
               <div className="flex justify-between">
                 <span>

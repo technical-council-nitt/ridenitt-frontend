@@ -5,27 +5,32 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import Header from '../Components/Header'
 import { displayTimeRange } from '../Utils/datetime'
+import RideDetailsModal from './Requests/Components/RideDetailsModal'
 
 const RideCard = ({ ride }: { ride: Ride }) => {
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false)
   const st = new Date(ride.earliestDeparture)
   const ed = new Date(ride.latestDeparture)
   const d = new Date()
 
   return (
-    <li className='p-2 flex justify-between gap-4 bg-white border-2 border-solid border-green-700 rounded-xl'>
-      <div>
-        <span className='font-semibold'>
-          {ride.owner.name}
-        </span>
-        <br />
-        <span className='text-neutral-600'>
-          {ride.vehicleType[0] + ride.vehicleType.substring(1).toLowerCase()} | {ride.participants.length} people
-        </span>
-      </div>
-      <div className=''>
-        <span className="text-sm text-neutral-600 font-Quicksand">
-          {displayTimeRange(st, ed, d)}
-        </span>
+    <li className='p-2 bg-white border-2 border-solid border-green-700 rounded-xl'>
+      <RideDetailsModal ride={ride} open={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />
+      <div role="button" onClick={() => setDetailsModalOpen(true)} className='flex justify-between gap-4'>
+        <div className=''>
+          <span className='font-semibold'>
+            {ride.owner.name}
+          </span>
+          <br />
+          <span className='text-neutral-600'>
+            {ride.vehicleType[0] + ride.vehicleType.substring(1).toLowerCase()} | {ride.participants.length} people
+          </span>
+        </div>
+        <div className=''>
+          <span className="text-sm text-neutral-600 font-Quicksand">
+            {displayTimeRange(st, ed, d)}
+          </span>
+        </div>
       </div>
     </li>
   )

@@ -20,8 +20,8 @@ export const displayTimeRange = (st: Date, ed: Date, cmp: Date | false) => {
   const [isToday, isTomorrow, isYesterday] = cmp === false ? [false, false, false] : [st.getDate() === cmp?.getDate() && st.getMonth() === cmp?.getMonth() && st.getFullYear() === cmp?.getFullYear(), st.getDate() === cmp?.getDate() + 1 && st.getMonth() === cmp?.getMonth() && st.getFullYear() === cmp?.getFullYear(), st.getDate() === cmp?.getDate() - 1 && st.getMonth() === cmp?.getMonth() && st.getFullYear() === cmp?.getFullYear()]
 
   return (
-    <span className="leading-3">
-      <span className="block">
+    <span className="">
+      <span className="max-sm:block sm:mr-1">
         {isToday ? 'Today' : isTomorrow ? 'Tomorrow' : isYesterday ? 'Yesterday' : st.toLocaleString('default', { month: 'short', day: '2-digit', year: 'numeric' })}
       </span>
       <span>

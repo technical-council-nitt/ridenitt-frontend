@@ -6,6 +6,7 @@ import { useCurrentRide } from "../Hooks/useCurrentRide";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import RideDetailsCard from "../Components/RideDetailsCard";
+import Header from "../Components/Header";
 
 export const AvailableRidesComponent: React.FC = () => {
     const { currentRide, loading: currentRideLoading } = useCurrentRide();
@@ -35,28 +36,24 @@ export const AvailableRidesComponent: React.FC = () => {
     }
 
     return (
-        <div className="bg-gradient-to-b from-[#FFFFFF] to-[#C1EDE08C] min-h-screen relative">
-            <header className="header h-[max] top-[5vh] relative w-fit mx-auto">
-                <div className="input relative rounded-[50px] p-2 bg-[white]">
-                    <input type="text" placeholder="Search" className="border-[1px] border-black w-[73vw] h-[6vh] rounded-[50px] p-[3vw] text-[2vh]" />
-                    <img src="search-glass.svg" className="absolute inline right-[13%] top-[30%] h-[35%] w-[35%]"></img>
-                    <img src="faq.svg" className="h-[6vh] w-[6vh] relative inline ml-[20px]"></img>
-                </div>
-            </header>
-            <section className="relative top-[8vh] px-2">
+        <div className="p-4 bg-gradient-to-b from-[#FFFFFF] to-[#C1EDE08C] min-h-screen relative">
+            <Header />
+            <section className="mt-4">
                 <p className="connect text-[26px] text-[#2F2E6B] font-Quicksand text-left font-[600]">Connect. Ride. Save. Repeat.</p>
                 <p className="welcome text-[21px]  text-[#01653F] font-Quicksand text-left font-[600]">Welcome Back, {user.name}!</p>
-                <img src="filter.svg" id="filter_img" className="absolute h-[max] right-[5%] block" onClick={() => setishidden(!ishidden)}></img>
-                <p className="ridematch text-[34px] text-[#008955] font-Quicksand text-left font-[700]">Ride-Match</p>
-                <div className="date relative">
-                    <p className="leftbar border-[1px] border-[#B9B9B9] w-[34vw] absolute top-[50%] left-[0%]"></p>
-                    <p className="datetext font-Quicksand font-[700px] text-[#91908E] text-[4vw] relative left-[37%] inline">
+                <div className="flex justify-between items-center gap-4">
+                    <p className="ridematch text-[34px] text-[#008955] font-Quicksand text-left font-[700]">Ride-Match</p>
+                    <img src="filter.svg" id="filter_img" className="" onClick={() => setishidden(!ishidden)}></img>
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className="grow border border-[#B9B9B9]"></div>
+                    <div className="w-fit font-Quicksand font-[700px] text-[#91908E]">
                         {new Date().toDateString()}
-                    </p>
-                    <p className="rightbar border-[1px] border-[#B9B9B9] w-[34vw] absolute top-[50%] right-[0%]"></p>
+                    </div>
+                    <div className="grow border border-[#B9B9B9]"></div>
                 </div>
             </section>
-            <main className="pb-40 feed relative top-[10vh] p-2">
+            <main className="pb-60 mt-4 p-2">
                 {rides.length === 0 && (
                     <p className="mt-8 text-center text-xl">
                         No rides available
