@@ -20,6 +20,7 @@ import NotFound from "./Pages/NotFound";
 import MapPage2 from "./Pages/MapPage2";
 import Requests from "./Pages/Requests/Index";
 import MyRides from "./Pages/MyRides";
+
 import CurrentRide from "./Pages/CurrentRide";
 import Notifications from "./Pages/Notifications";
 import LocationForm from "./components/PostRideForm";
@@ -58,10 +59,13 @@ const CustomRouter = () => {
 
         {/* Authenticated Routes */}
         <Route element={<Layout />}>
-          <Route index element={<CurrentRide />} />
+
+          <Route index element={<AvailableRidesComponent />} />
+
           <Route path="/create-ride" element={<LocationForm />} />
           <Route path="/suggestions" element={<AvailableRidesComponent />} />
           <Route path="/faq" element={<FaqAccordion />} />
+
           <Route path="/requests" element={<Requests />} />
           <Route path="/profile" element={<ProfileComponent />} />
           <Route path="/notifications" element={<Notifications />} />

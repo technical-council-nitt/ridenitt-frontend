@@ -16,7 +16,7 @@ export default function CurrentRide() {
 
   if (!currentRide) {
     return (
-      <Redirect to="/suggestions" />
+      <Redirect to="/" />
     )
   }
 

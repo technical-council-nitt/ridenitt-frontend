@@ -23,15 +23,20 @@ interface Ride {
   stops: [
     Stop, Stop
   ]
-  participants: [
-    {
-      id: string
-      name: string
-      phoneNumber?: string
-    }
-  ],
+  participants:
+  {
+    id: string
+    name: string
+    gender: string
+    phoneNumber?: string
+  }[],
   myInvite?: Invite
   createdAt: string
+}
+
+interface ClusteredInvites {
+  rideId: string
+  invites: Invite[]
 }
 
 interface Invite {

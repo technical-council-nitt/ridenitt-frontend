@@ -3,6 +3,7 @@ import { useAuth } from '../Hooks/useAuth'
 import axios from 'axios'
 import { age } from '../Utils/datetime'
 import { FaEnvelope, FaInbox, FaRegEnvelope } from 'react-icons/fa'
+import Header from '../Components/Header'
 
 export default function Notifications() {
   const { user } = useAuth()
@@ -24,7 +25,9 @@ export default function Notifications() {
 
   return (
     <div className='p-4 bg-neutral-100 min-h-screen'>
-      <h1 className='text-2xl text-green-600 font-semibold mb-4'>
+      <Header />
+
+      <h1 className='mt-4 text-2xl text-green-600 font-semibold mb-4'>
         Notifications
       </h1>
 
@@ -33,7 +36,7 @@ export default function Notifications() {
 
         {notifications.map(notification => (
           <li key={notification.id} className='bg-white p-2 mb-2 shadow rounded-lg'>
-            <FaRegEnvelope className='text-neutral-600 inline-block mr-2' />
+            <FaRegEnvelope className='text-neutral-600 inline-block mr-3' />
             {notification.message}
 
             <div className='text-right text-sm text-neutral-600'>
