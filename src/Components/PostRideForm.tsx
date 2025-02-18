@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useCurrentRide } from '../Hooks/useCurrentRide';
+import { DateTimeModal } from './DateTimeModal';
 
 // Declare the Google Maps global object for TypeScript to recognize it
 declare global {
@@ -119,7 +120,12 @@ const LocationForm: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-green-50 bg-opacity-30 px-4">
-      <div className="bg-white p-4 rounded-lg shadow-lg w-[375px] h-[667px] overflow-auto">
+      {/* <DateTimeModal
+        isOpen={true}
+        onClose={() => {}}
+        onConfirm={() => {}}
+      /> */}
+      <div className="bg-white p-4 pb-40 rounded-lg w-[375px]">
         <h2 className="text-xl font-semibold text-green-600 text-center mb-3">Your Ride, Your Way</h2>
 
         {/* Departure and Destination Selects */}

@@ -6,8 +6,11 @@
 
 body {
   font-family: 'Quicksand', sans-serif;
-  width:100vw;
+  margin: 0;
+  padding: 0;
+  @apply overflow-x-hidden
 }
+
 .gradient-background {
   background: linear-gradient(to bottom, #FFFFFF 10%, #C1EDE0 100%);
 }

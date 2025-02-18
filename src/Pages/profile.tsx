@@ -72,6 +72,7 @@ export const ProfileComponent: React.FC = () => {
             }
         } catch (e) {
             console.log(e);
+            setLoading(false);
             toast.error("Failed to update profile");
             return;
         }
@@ -85,6 +86,8 @@ export const ProfileComponent: React.FC = () => {
         })
 
         try {
+            setLoading(true);
+            
             await axios.post("/auth/send-otp", { phoneNumber: p })
             
             toast.success("OTP Sent for phone number update");
@@ -92,6 +95,8 @@ export const ProfileComponent: React.FC = () => {
         } catch (e) {
             console.log(e);
             toast.error("Failed to send OTP for phone number update");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -118,37 +123,55 @@ export const ProfileComponent: React.FC = () => {
                     <div className="text-4xl font-semibold text-[#008955] font-Quicksand">My Profile</div>
                     <div className="mt-2 text-neutral-600 font-Quicksand font-[600]">Stay updated!</div>
                 </header>
-                <section className="mt-4 w-fit mx-auto">
+                {/* <section className="mt-4 w-fit mx-auto">
                     <img src="profilepic.svg" className="profilepic relative h-32 w-32"></img>
-                    <div className="name text-[#5A5A5A] font-[700] text-center text-2xl">
+                    <div className="name text-black font-[700] text-center text-2xl">
                         {user.name}
                     </div>
-                </section>
+                </section> */}
                 <main className="details grid grid-cols-1 gap-4 mt-4">
                     {editing ? <>
+                        <span className="-mb-3">
+                            Username
+                        </span>
                         <input id="name-input" placeholder="John Doe" value={name} onChange={e => setName(e.currentTarget.value)} className="p-2 px-4 text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] font-[600] font-[Poppins] relative">
                         </input>
 
-                        <select className="px-4 py-2 font-semibold text-neutral-600 rounded-lg border-[#989393] border-[1.5px] bg-transparent" aria-placeholder="Gender" value={gender} onChange={e => setGender(e.currentTarget.value as any)}>
+                        <span className="-mb-3">
+                            Gender
+                        </span>
+                        <select className="p-2 px-4 font-[600] font-[Poppins] relative text-neutral-600 rounded-[10px] border-[#989393] border-[1.5px] bg-transparent" aria-placeholder="Gender" value={gender} onChange={e => setGender(e.currentTarget.value as any)}>
                             <option value="MALE"> Male </option>
                             <option value="FEMALE"> Female </option>
                         </select>
 
+                        <span className="-mb-3">
+                            Mobile
+                        </span>
                         <div className="py-2 pl-12 pr-4 outline-2 outline-transparent outline has-[input:focus]:outline-blue-700 has-[input:focus]:border-transparent relative text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] font-[600] font-[Poppins]">
-                            <div className="bg-neutral-300 rounded-l-[10px] p-2 absolute inset-y-0 left-0 grid place-items-center">+91</div>
+                            <div className="bg-green-100 rounded-l-[10px] p-2 absolute inset-y-0 left-0 grid place-items-center">+91</div>
                             <input placeholder="+91 xxxxx xxxxx" value={phoneNumber} onChange={e => setPhoneNumber(e.currentTarget.value)} className="bg-transparent outline-none" />
                         </div>
                         {/* <input placeholder="Enter Address" value={address} onChange={e => setAddress(e.currentTarget.value)} className="email text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-2 px-4 font-[600] font-[Poppins] relative">
                         </input> */}
                     </> : <>
+                        <span className="-mb-3">
+                            Username
+                        </span>
                         <div className="p-2 px-4 text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] font-[600] font-[Poppins] relative">
                             {name}
                         </div>
+                        <span className="-mb-3">
+                            Gender
+                        </span>
                         <div className="p-2 px-4 text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] font-[600] font-[Poppins] relative">
                             {gender}
                         </div>
+                        <span className="-mb-3">
+                            Mobile
+                        </span>
                         <div className="p-2 pl-12 px-4 relative text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] font-[600] font-[Poppins]">
-                            <div className="bg-neutral-300 rounded-l-[10px] p-2 absolute inset-y-0 left-0 grid place-items-center">+91</div>
+                            <div className="bg-green-100 rounded-l-[10px] p-2 absolute inset-y-0 left-0 grid place-items-center">+91</div>
                             {phoneNumber}
                         </div>
                         {/* <div className="email text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-2 px-4 font-[600] font-[Poppins] relative">
@@ -156,7 +179,7 @@ export const ProfileComponent: React.FC = () => {
                         </div> */}
                     </>}
                 </main>
-                <section className="mt-8 grid grid-cols-2 gap-2">
+                <section className="mt-4 grid grid-cols-2 gap-4">
                     {editing ? (
                         <>
                             <button disabled={loading} onClick={handleCancelEdit} className="p-2 disabled:opacity-50 border-[1.5px] border-[black] rounded-[90px] text-[#008955] font-[Quicksand] font-[700]">Cancel</button>
@@ -164,7 +187,7 @@ export const ProfileComponent: React.FC = () => {
                         </>
                     ) : (
                         <>
-                            <Link to="/my-rides" className="p-2 border-[2px] border-[#008955] rounded-lg bg-[white] font-[Quicksand] font-[900] text-[#414141] ">My Rides</Link>
+                            <Link to="/my-rides" className="px-2 py-1 border-[2px] border-[#008955] rounded-full bg-[white] font-[Quicksand] font-[900] text-[#414141] text-center">My Rides</Link>
                             <div />
                             <button onClick={() => setEditing(true)} className="p-2 border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700]">Update</button>
                             <button onClick={handleLogout} className="p-2 border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700]">Logout</button>

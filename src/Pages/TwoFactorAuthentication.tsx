@@ -50,12 +50,31 @@ const TwoFactorAuthentication: React.FC = () => {
       toast.success("Success");
       refreshAuth()
       setOngoingSignup(false);
-      setTimeout(() => navigate("/"), 2000);
+      navigate("/");
     })
     .catch((err) => {
       console.log(err);
       toast.error(err.response.data.error ?? "Failed to Login");
       setLoading(false);
+    })
+  }
+
+  const handleResend = () => {
+    if (!ongoingSignup) {
+      toast.error("Invalid request");
+      navigate("/signup");
+      return;
+    }
+
+    axios.post("/auth/send-otp", {
+      phoneNumber: ongoingSignup.phoneNumber
+    })
+    .then(() => {
+      toast.success("OTP Sent");
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error(err.response.data.error ?? "Failed to send OTP");
     })
   }
 
@@ -93,8 +112,8 @@ const TwoFactorAuthentication: React.FC = () => {
           Didn’t receive code? 
           <span 
             className="text-[#008955] underline cursor-pointer" 
-            onClick={() => console.log("Resend OTP")}
-          > Resend again</span>
+            onClick={handleResend}
+          > Send again</span>
         </p>
         
         {/* Verify Button */}

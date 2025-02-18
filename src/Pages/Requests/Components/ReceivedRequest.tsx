@@ -58,7 +58,7 @@ export default function ReceivedRequest({
       <li className='p-2 border-2 border-green-700 rounded-xl'>
         <RideDetailsModal open={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} ride={ride} />
 
-        <div role="button" onClick={() => setDetailsModalOpen(true)} className='flex gap-4s justify-between items-start'>
+        <div role="button" onClick={() => setDetailsModalOpen(true)} className='flex gap-4 justify-between items-start'>
           <div>
             <span className='font-semibold'>
               From {ride.stops[0].name}
@@ -78,11 +78,11 @@ export default function ReceivedRequest({
               {displayTimeRange(st, ed, new Date())}
             </span>
 
-            {ride.id === currentRide?.id && (
+            {/* {ride.id === currentRide?.id && (
               <span className='text-green-700'>
                 Current Ride
               </span>
-            )}
+            )} */}
           </div>
         </div>
         <ul>
@@ -93,21 +93,23 @@ export default function ReceivedRequest({
               </span>
 
               {invite.status === 'PENDING' ? (
-                <div className='mt-2'>
-                  <button className='mr-2 p-1 border-2 border-green-600 bg-green-600 text-white text-sm rounded-lg font-semibold' onClick={() => handleAccept(invite.id)}>
+                <div className='mt-2 text-xs'>
+                  <button className='mr-2 w-20 p-1 border-2 border-green-600 bg-green-600 text-white rounded-lg font-semibold' onClick={() => handleAccept(invite.id)}>
                     Accept
                   </button>
-                  <button className='p-1 border-2 border-red-600 bg-red-100 text-neutral-800 text-sm rounded-lg font-semibold' onClick={() => handleDecline(invite.id)}>
+                  <button className='w-20 p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => handleDecline(invite.id)}>
                     Decline
                   </button>
                 </div>
               ) : invite.status === 'ACCEPTED' ? (
-                <button className='mt-2 p-1 border-2 border-red-600 bg-red-100 text-neutral-800 text-sm rounded-lg font-semibold' onClick={() => handleDecline(invite.id)}>
+                <button className='mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => handleDecline(invite.id)}>
                   Remove
                 </button>
-              ) : <span className='mt-2 text-red-700'>
-                Declined
-              </span>}
+              ) : (
+                <button disabled className='mt-2 text-xs opacity-50 w-20 p-1 border-2 border-neutral-600 bg-neutral-100 text-neutral-800 rounded-lg font-semibold' onClick={() => handleDecline(invite.id)}>
+                  Declined
+                </button>
+              )}
             </div>
           ))}
         </ul>

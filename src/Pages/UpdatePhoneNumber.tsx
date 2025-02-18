@@ -41,7 +41,7 @@ const UpdatePhoneNumber: React.FC = () => {
       return;
     }
 
-    axios.post("/auth/update-phone-number", {
+    axios.post("/api/users/update-phone-number", {
       phoneNumber: ongoingUpdatePh.newPh,
       otp: otp.join("")
     })
@@ -55,6 +55,25 @@ const UpdatePhoneNumber: React.FC = () => {
       console.log(err);
       toast.error(err.response.data.error ?? "Failed to update phone number");
       setLoading(false);
+    })
+  }
+
+  const handleResend = () => {
+    if (!ongoingUpdatePh) {
+      toast.error("Invalid request");
+      navigate("/signup");
+      return;
+    }
+
+    axios.post("/auth/send-otp", {
+      phoneNumber: ongoingUpdatePh.newPh
+    })
+    .then(() => {
+      toast.success("OTP Sent");
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error(err.response.data.error ?? "Failed to send OTP");
     })
   }
 
@@ -92,8 +111,8 @@ const UpdatePhoneNumber: React.FC = () => {
           Didn’t receive code? 
           <span 
             className="text-[#008955] underline cursor-pointer" 
-            onClick={() => console.log("Resend OTP")}
-          > Resend again</span>
+            onClick={handleResend}
+          > Send again</span>
         </p>
         
         {/* Verify Button */}

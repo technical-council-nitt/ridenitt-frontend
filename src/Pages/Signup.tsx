@@ -81,7 +81,7 @@ const Signup: React.FC = () => {
 
           {/* phoneNumber Number Input with +91 */}
           <div className="flex border border-black rounded-md overflow-hidden mb-3">
-            <span className="bg-gray-200 px-4 py-2">+91</span>
+            <span className="bg-green-100 px-4 py-2">+91</span>
             <input
               onChange={(e) => setPhoneNumber(e.target.value)}
               type="tel"
