@@ -13,6 +13,7 @@ interface Ride {
   owner: {
     id: string
     name: string
+    phoneNumber?: string
   }
   vehicleType: "CAR" | "AUTO" | "SUV"
   myInvite: Invite
@@ -49,6 +50,7 @@ interface Invite {
   receiverRide: Ride
   sender: { id: string; name: string; phoneNumber?: string }
   createdAt: string
+  declineReason?: string
 }
 
 interface Stop {

@@ -101,6 +101,7 @@ export default function Requests() {
           <SentRequest
             key={idx}
             request={req}
+            refreshRequests={fetchRequests}
           />
         ))}
       </ul>}

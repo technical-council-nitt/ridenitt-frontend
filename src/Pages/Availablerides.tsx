@@ -48,7 +48,7 @@ export const AvailableRidesComponent: React.FC = () => {
                 <p className="welcome text-[21px]  text-[#01653F] font-Quicksand text-left font-[600]">Welcome Back, {user.name}!</p>
                 <div className="flex justify-between items-center gap-4">
                     <p className="ridematch text-[34px] text-[#008955] font-Quicksand text-left font-[700]">Ride-Match</p>
-                    <FaFilter size={32} className="text-[#008955] cursor-pointer" onClick={() => setishidden(!ishidden)} />
+                    {/* <FaFilter size={32} className="text-[#008955] cursor-pointer" onClick={() => setishidden(!ishidden)} /> */}
                 </div>
                 <div className="flex items-center gap-2">
                     <div className="grow border border-[#B9B9B9]"></div>

@@ -60,7 +60,7 @@ const RideDetailsCard = ({ ride, refreshRide }: {
         </div>
       </div>
       <div className="mt-2 border-2 border-[#008955] rounded-[10px]">
-        {ride.myInvite ? (
+        {false /*TODO*/ ? (
           <button disabled className="p-2 text-[#008955] w-full font-Quicksand font-[600]">
             {ride.myInvite.status}
           </button>
