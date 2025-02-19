@@ -48,7 +48,7 @@ const SetPassword: React.FC = () => {
 
     setLoading(true);
     axios.post("/auth/verify-otp?reset=true", {
-      phoneNumber: ongoingResetPw,
+      phoneNumber: ongoingResetPw.phoneNumber,
       password,
       otp
     })

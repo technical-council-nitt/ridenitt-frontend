@@ -5,6 +5,7 @@ interface User {
   phoneNumber: string;
   gender: 'MALE' | 'FEMALE';
   address?: string;
+  activeRides: string[]
 }
 
 interface Ride {
@@ -12,12 +13,13 @@ interface Ride {
   owner: {
     id: string
     name: string
+    phoneNumber?: string
   }
-  vehicleType: "CAR" | "AUTO" | "TAXI"
+  vehicleType: "CAR" | "AUTO" | "SUV"
   myInvite: Invite
   earliestDeparture: string
   latestDeparture: string
-  peopleCount: number
+  prefersGender: "MALE" | "FEMALE" | null
   femaleCount: number
   capacity: number
   status: "PENDING" | "FULL" | "COMPLETED" | "CANCELLED"
@@ -48,6 +50,7 @@ interface Invite {
   receiverRide: Ride
   sender: { id: string; name: string; phoneNumber?: string }
   createdAt: string
+  declineReason?: string
 }
 
 interface Stop {

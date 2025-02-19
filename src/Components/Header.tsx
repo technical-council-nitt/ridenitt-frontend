@@ -1,13 +1,16 @@
+import { FaComments, FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom'
 
 const Header: React.FC = () => {
     return (
-        <header className="header w-screen">
-            <div className="input relative rounded-[50px] p-2 flex">
-                <input type="text" placeholder="Search" className="border-[1px] border-black w-[73vw] h-[40px] rounded-[50px] p-[20px] text-[2vh] mr-[-3vw]" />
-                <img src="search-glass.svg" className="h-6 w-6 mt-2.5 -ml-5"></img>
-                <Link to="/faq"><img src="faq.svg" className="h-10 w-10 ml-5"></img></Link>
+        <header className='w-full flex justify-between items-center gap-4'>
+            <div className='relative grow'>
+                <input type="text" placeholder="Search" className="p-2 pl-4 pr-12 w-full rounded-full border border-solid border-black grow"></input>
+                <FaSearch size={20} className='absolute right-4 top-1/2 -translate-y-1/2 text-gray-400' />
             </div>
+            <Link to="/faq" className='bg-green-600 p-2 w-10 grid place-items-center aspect-square rounded-full text-white'>
+                <FaComments size={20} />
+            </Link>
         </header>
     );
 

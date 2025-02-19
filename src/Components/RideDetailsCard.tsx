@@ -3,10 +3,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { displayTimeRange } from "../Utils/datetime";
 
-const RideDetailsCard = ({ ride, refreshRide, alreadyInGroup }: {
+const RideDetailsCard = ({ ride, refreshRide }: {
   ride: Ride,
   refreshRide: () => void,
-  alreadyInGroup: boolean
 }) => {
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -14,23 +13,19 @@ const RideDetailsCard = ({ ride, refreshRide, alreadyInGroup }: {
   const ed = new Date(ride.latestDeparture)
 
   const handleSend = () => {
-    if (alreadyInGroup) {
-      setShowModal(true)
-    } else {
-      setLoading(true)
-      axios.post('/api/invites', {
-        rideId: ride.id
+    setLoading(true)
+    axios.post('/api/invites', {
+      rideId: ride.id
+    })
+      .then(() => {
+        toast.success('Request sent successfully!');
+        refreshRide()
       })
-        .then(() => {
-          toast.success('Request sent successfully!');
-          refreshRide()
-        })
-        .catch((error) => {
-          console.error(error);
-          toast.error('Failed to send request. Please try again later.');
-        })
-        .finally(() => setLoading(false))
-    }
+      .catch((error) => {
+        console.error(error);
+        toast.error('Failed to send request. Please try again later.');
+      })
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -47,30 +42,30 @@ const RideDetailsCard = ({ ride, refreshRide, alreadyInGroup }: {
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="font-Quicksand font-[700]">
+        {ride.stops[0].name} to {ride.stops[1].name}
+      </div>
+      <div className="flex items-center justify-start gap-4">
+        <img src={`${ride.vehicleType.toLowerCase()}.svg`} className="w-full max-w-16 aspect-square"></img>
         <div className="min-w-44 max-sm:text-sm">
-          <div className="font-Quicksand font-[700] text-[#5A5A5A]">
-            {ride.stops[0].name} to {ride.stops[1].name}
-          </div>
-          <div className="mt-2 text font-Quicksand text-neutral-500 font-[700]">
+          <div className="mt-2 text font-Quicksand text-neutral-700 font-[700]">
             {displayTimeRange(st, ed, new Date())}
             <br />
             {ride.vehicleType[0] + ride.vehicleType.substring(1).toLowerCase()} | {ride.participants.length} People sharing
           </div>
           <div className="mt-2 flex items-center gap-2">
             <img src="profile.svg" className=""></img>
-            <div className="text-[#414141] font-[600]">Posted by {ride.owner.name}</div>
+            <div className="text-neutral-700 font-[600]">Posted by {ride.owner.name}</div>
           </div>
         </div>
-        <img src={`${ride.vehicleType.toLowerCase()}.svg`} className="w-full max-w-52 aspect-square"></img>
       </div>
       <div className="mt-2 border-2 border-[#008955] rounded-[10px]">
-        {ride.myInvite ? (
+        {false /*TODO*/ ? (
           <button disabled className="p-2 text-[#008955] w-full font-Quicksand font-[600]">
             {ride.myInvite.status}
           </button>
         ) : (
-          <button disabled={loading} onClick={handleSend} className="p-2 disabled:opacity-50 font-Quicksand font-[600]">
+          <button disabled={loading} onClick={handleSend} className="p-2 disabled:opacity-50 w-full text-center font-Quicksand font-[600]">
             Send Request
           </button>
         )}

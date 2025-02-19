@@ -23,7 +23,7 @@ const RideCard = ({ ride }: { ride: Ride }) => {
           </span>
           <br />
           <span className='text-neutral-600'>
-            {ride.vehicleType[0] + ride.vehicleType.substring(1).toLowerCase()} | {ride.participants.length} people
+            {ride.vehicleType[0] + ride.vehicleType.substring(1).toLowerCase()} | {ride.participants.length} people sharing
           </span>
         </div>
         <div className=''>

@@ -15,7 +15,7 @@ export default function RideDetailsModal({
   if (!open) return null
 
   return (
-    <div onClick={onClose} className='fixed inset-0 bg-black/25 grid place-items-center backdrop-blur-sm'>
+    <div onClick={onClose} className='fixed z-[1] inset-0 bg-black/25 grid place-items-center backdrop-blur-sm'>
       <div onClick={e => e.stopPropagation()} className='p-4 bg-white border border-black border-solid rounded-lg'>
         <div className="flex gap-4 text-sm">
           <div>
@@ -50,7 +50,7 @@ export default function RideDetailsModal({
             )}
             
             {ride.participants.map(participant => (
-              <div className="flex justify-between">
+              <div key={participant.id} className="flex justify-between">
                 <span>
                   <strong>{participant.name}</strong>
                   <span className="text-xs">
