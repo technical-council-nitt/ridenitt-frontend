@@ -29,7 +29,6 @@ const RideDetailsCard = ({ ride, refreshRide }: {
   }
 
   return (
-    // TODO: why everyhing is absolute? use flex instead
     <li key={ride.id} className="p-4 border-[2px] border-[#08B783] bg-[#C1EDE08C] w-[auto] rounded-[10px]">
       <div className={`fixed inset-0 grid place-items-center bg-black/25 z-[2] ${showModal ? 'block' : 'hidden'}`} onClick={() => setShowModal(false)}>
         <div className="p-4 m-4 bg-white rounded-lg" onClick={(e) => e.stopPropagation()}>
@@ -60,7 +59,7 @@ const RideDetailsCard = ({ ride, refreshRide }: {
         </div>
       </div>
       <div className="mt-2 border-2 border-[#008955] rounded-[10px]">
-        {false /*TODO*/ ? (
+        {ride.myInvite ? (
           <button disabled className="p-2 text-[#008955] w-full font-Quicksand font-[600]">
             {ride.myInvite.status}
           </button>
