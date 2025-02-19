@@ -33,7 +33,7 @@ const UpdatePhoneNumber: React.FC = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    
+
     if (!user || !ongoingUpdatePh) {
       toast.error("Invalid request");
       setLoading(false);
@@ -45,17 +45,17 @@ const UpdatePhoneNumber: React.FC = () => {
       phoneNumber: ongoingUpdatePh.newPh,
       otp: otp.join("")
     })
-    .then(() => {
-      toast.success("Phone number updated");
-      refreshAuth()
-      setOngoingUpdatePh(false)
-      setTimeout(() => navigate("/profile"), 2000);
-    })
-    .catch((err) => {
-      console.log(err);
-      toast.error(err.response.data.error ?? "Failed to update phone number");
-      setLoading(false);
-    })
+      .then(() => {
+        toast.success("Phone number updated");
+        refreshAuth()
+        setOngoingUpdatePh(false)
+        setTimeout(() => navigate("/profile"), 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.error ?? "Failed to update phone number");
+        setLoading(false);
+      })
   }
 
   const handleResend = () => {
@@ -68,27 +68,27 @@ const UpdatePhoneNumber: React.FC = () => {
     axios.post("/auth/send-otp", {
       phoneNumber: ongoingUpdatePh.newPh
     })
-    .then(() => {
-      toast.success("OTP Sent");
-    })
-    .catch((err) => {
-      console.log(err);
-      toast.error(err.response.data.error ?? "Failed to send OTP");
-    })
+      .then(() => {
+        toast.success("OTP Sent");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.error ?? "Failed to send OTP");
+      })
   }
 
   return (
     <div className="gradient-background flex flex-col items-center justify-center h-screen px-4 sm:px-6 md:px-8 relative">
       {/* Back Button */}
-      <div className="absolute top-4 left-4 flex items-center cursor-pointer" onClick={() => navigate("/profile")}> 
+      <div className="absolute top-4 left-4 flex items-center cursor-pointer" onClick={() => navigate("/profile")}>
         <span className="text-2xl">&lt;</span>
         <span className="ml-2 text-lg font-semibold">Back</span>
       </div>
-      
+
       <div className="flex flex-col items-center w-full max-w-lg mt-6 md:mt-12">
         <h2 className="text-2xl sm:text-3xl font-bold text-black mb-4 text-center">Phone Verification</h2>
         <p className="text-[#878585] font-semibold mb-6 text-center">Enter your OTP code</p>
-        
+
         {/* OTP Input Fields */}
         <div className="flex justify-center gap-3 sm:gap-4 md:gap-5 w-full max-w-xs sm:max-w-sm">
           {otp.map((digit, index) => (
@@ -105,16 +105,16 @@ const UpdatePhoneNumber: React.FC = () => {
             />
           ))}
         </div>
-        
+
         {/* Resend Code */}
         <p className="text-gray-700 text-sm sm:text-base font-semibold mt-4">
-          Didn’t receive code? 
-          <span 
-            className="text-[#008955] underline cursor-pointer" 
+          Didn’t receive code?
+          <span
+            className="text-[#008955] underline cursor-pointer"
             onClick={handleResend}
           > Send again</span>
         </p>
-        
+
         {/* Verify Button */}
         <button
           disabled={loading}

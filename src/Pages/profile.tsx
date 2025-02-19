@@ -1,4 +1,4 @@
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useAuth } from "../Hooks/useAuth";
 import axios from "axios";
@@ -14,18 +14,6 @@ export const ProfileComponent: React.FC = () => {
     const [gender, setGender] = React.useState<'MALE' | 'FEMALE'>(user?.gender || 'MALE')
     // const [address, setAddress] = React.useState(user?.address || '');
     const [loading, setLoading] = React.useState(false);
-
-    const handleLogout = () => {
-        axios.delete("/auth/logout")
-            .then(() => {
-                redirect("/start")
-                refreshAuth()
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error("Failed to logout");
-            });
-    }
 
     const handleCancelEdit = () => {
         setEditing(false);
@@ -116,7 +104,6 @@ export const ProfileComponent: React.FC = () => {
     }
 
     return (
-
         <div className="p-8 pb-40  bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] relative">
             <div>
                 <header className="header h-[max] relative">
@@ -141,8 +128,8 @@ export const ProfileComponent: React.FC = () => {
                             Gender
                         </span>
                         <select className="p-2 px-4 font-[600] font-[Poppins] relative text-neutral-600 rounded-[10px] border-[#989393] border-[1.5px] bg-transparent" aria-placeholder="Gender" value={gender} onChange={e => setGender(e.currentTarget.value as any)}>
-                            <option value="MALE"> Male </option>
-                            <option value="FEMALE"> Female </option>
+                            <option value="MALE"> MALE </option>
+                            <option value="FEMALE"> FEMALE </option>
                         </select>
 
                         <span className="-mb-3">
@@ -187,10 +174,7 @@ export const ProfileComponent: React.FC = () => {
                         </>
                     ) : (
                         <>
-                            <Link to="/my-rides" className="px-2 py-1 border-[2px] border-[#008955] rounded-full bg-[white] font-[Quicksand] font-[900] text-[#414141] text-center">My Rides</Link>
-                            <div />
                             <button onClick={() => setEditing(true)} className="p-2 border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700]">Update</button>
-                            <button onClick={handleLogout} className="p-2 border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700]">Logout</button>
                         </>
                     )}
                 </section>

@@ -8,38 +8,44 @@ import Redirect from "../Components/Redirect";
 
 const Login: React.FC = () => {
   const { user, refreshAuth } = useAuth()
-  
+
   const navigate = useNavigate();
-  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
+    const p = phoneNumber.replaceAll(/\s+/g, '');
+    if (p.length !== 10) {
+      toast.error("Invalid Phone Number");
+      return
+    }
+
     setLoading(true);
 
-    axios.post("/auth/login", { name, password })
-    .then(() => {
-      toast.success("Logged in");
-      refreshAuth()
-      navigate("/");
-    })
-    .catch((err) => {
-      console.error(err)
-      toast.error(err.response.data.error ?? "Failed to Login");
-    })
-    .finally(() => {
-      setLoading(false);
-    });
+    axios.post("/auth/login", { phoneNumber: "+91"+p, password })
+      .then(() => {
+        toast.success("Logged in");
+        refreshAuth()
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error(err)
+        toast.error(err.response.data.error ?? "Failed to Login");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleSignup = () => {
     navigate("/signup");
   };
-  
+
   const handleForgotPassword = () => {
     navigate("/reset-password")
-  } 
+  }
 
   if (user) {
     return (
@@ -71,13 +77,16 @@ const Login: React.FC = () => {
 
       {/* Input Fields - Centered */}
       <div className="w-full max-w-sm flex flex-col gap-4 mt-5">
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full px-4 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008955]"
-        />
+        <div className="flex border border-black rounded-md overflow-hidden mb-3">
+          <span className="bg-green-100 px-4 py-2">+91</span>
+          <input
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            type="tel"
+            placeholder="Enter number"
+            className="w-full px-4 py-2 outline-none"
+          />
+        </div>
+
         <div className="relative w-full">
           <input
             type={showPassword ? "text" : "password"}

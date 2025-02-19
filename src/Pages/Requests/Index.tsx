@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import ReceivedRequest from './Components/ReceivedRequest'
 import SentRequest from './Components/SentRequest'
-import { useCurrentRide } from '../../Hooks/useCurrentRide'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../Hooks/useAuth'
@@ -10,7 +9,6 @@ import Header from '../../Components/Header'
 
 export default function Requests() {
   const { user } = useAuth()
-  const { currentRide } = useCurrentRide()
   const [sentRequests, setSentRequests] = useState<Invite[]>([])
   const [receivedRequests, setReceivedRequests] = useState<ClusteredInvites[]>([])
   const [loading, setLoading] = useState(true)
@@ -45,16 +43,8 @@ export default function Requests() {
   }
 
   useEffect(() => {
-    if (!user) return
-
-    if (currentRide?.owner.id === user?.id) {
-      setTab('received')
-    } else {
-      setTab('sent')
-    }
-
     fetchRequests()
-  }, [user, currentRide])
+  }, [])
 
   if (!user) {
     return (<Redirect to='/start' />)

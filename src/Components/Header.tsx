@@ -1,5 +1,4 @@
-import { FaQuestion, FaSearch } from 'react-icons/fa';
-import { MdLiveHelp } from 'react-icons/md';
+import { FaComments, FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom'
 
 const Header: React.FC = () => {
@@ -10,7 +9,7 @@ const Header: React.FC = () => {
                 <FaSearch size={20} className='absolute right-4 top-1/2 -translate-y-1/2 text-gray-400' />
             </div>
             <Link to="/faq" className='bg-green-600 p-2 w-10 grid place-items-center aspect-square rounded-full text-white'>
-                <MdLiveHelp size={20} />
+                <FaComments size={20} />
             </Link>
         </header>
     );

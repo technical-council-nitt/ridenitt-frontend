@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import { useCurrentRide } from '../../../Hooks/useCurrentRide'
 import { displayTimeRange } from '../../../Utils/datetime'
 import RideDetailsModal from './RideDetailsModal'
 import { useState } from 'react'
@@ -13,8 +12,6 @@ export default function ReceivedRequest({
   refreshRequests: () => void
 }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false)
-  const { currentRide } = useCurrentRide()
-  const { refreshCurrentRide } = useCurrentRide()
   const ride = request.invites[0]!.receiverRide
   const st = new Date(ride.earliestDeparture)
   const ed = new Date(ride.latestDeparture)
@@ -24,7 +21,6 @@ export default function ReceivedRequest({
       .then(() => {
         toast.success('Request accepted')
         refreshRequests()
-        refreshCurrentRide()
       })
       .catch(err => {
         console.error(err)

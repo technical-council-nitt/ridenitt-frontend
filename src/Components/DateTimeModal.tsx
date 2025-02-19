@@ -1,38 +1,52 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
+
+interface DateTimeData {
+  date: number
+  month: number
+  year: number
+  startHour: number
+  startMinute: number
+  startAmPm: 'AM' | 'PM'
+  endHour: number
+  endMinute: number
+  endAmPm: 'AM' | 'PM'
+}
 
 interface DateTimeModalProps {
   isOpen: boolean
+  initialValue: DateTimeData
   onClose: () => void
-  onConfirm: (date: string, startTime: string, endTime: string) => void
-  initialDate?: string
-  initialStartTime?: string
-  initialEndTime?: string
+  onConfirm: (data: DateTimeData) => void
 }
 
 export function DateTimeModal({
   isOpen,
+  initialValue,
   onClose,
-  onConfirm,
-  initialDate,
-  initialStartTime,
-  initialEndTime,
+  onConfirm
 }: DateTimeModalProps) {
-  const [selectedDate, setSelectedDate] = useState(initialDate || "02")
-  const [startHour, setStartHour] = useState(initialStartTime ? initialStartTime.split(":")[0] : "07")
-  const [startMinute, setStartMinute] = useState(initialStartTime ? initialStartTime.split(":")[1].split(" ")[0] : "30")
-  const [startAmPm, setStartAmPm] = useState(initialStartTime?.split(" ")[1] || "PM")
+  const [selectedDate, setSelectedDate] = useState(initialValue.date)
+  const [startHour, setStartHour] = useState(initialValue.startHour.toString())
+  const [startMinute, setStartMinute] = useState(initialValue.startMinute.toString().padStart(2, "0"))
+  const [startAmPm, setStartAmPm] = useState<'AM' | 'PM'>(initialValue.startAmPm)
   
-  const [endHour, setEndHour] = useState(initialEndTime ? initialEndTime.split(":")[0] : "07")
-  const [endMinute, setEndMinute] = useState(initialEndTime ? initialEndTime.split(":")[1].split(" ")[0] : "45")
-  const [endAmPm, setEndAmPm] = useState(initialEndTime?.split(" ")[1] || "PM")
+  const [endHour, setEndHour] = useState(initialValue.endHour.toString())
+  const [endMinute, setEndMinute] = useState(initialValue.endMinute.toString().padStart(2, "0"))
+  const [endAmPm, setEndAmPm] = useState<'AM'| 'PM'>(initialValue.endAmPm)
 
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()) // Start with the current month
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
+  const [currentMonth, setCurrentMonth] = useState(initialValue.month)
+  const [currentYear, setCurrentYear] = useState(initialValue.year)
 
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate() // Get days in the current month
-  const today = new Date().getDate()
+  const today = new Date()
+  const todayDate = today.getDate()
+  const todayMonth = today.getMonth()
+  const todayYear = today.getFullYear()
+  
+  const daysInMonth = useMemo(() => {
+    return new Date(currentYear, currentMonth + 1, 0).getDate()
+  }, [currentMonth, currentYear])
 
   // Function to navigate between months
   const handleMonthChange = (direction: "prev" | "next") => {
@@ -55,25 +69,34 @@ export function DateTimeModal({
   
 
   // Generate days of the week for the current month
-  const days = Array.from({ length: daysInMonth }, (_, i) => String(i + 1).padStart(2, "0"))
+  const days = Array.from({ length: daysInMonth }, (_, i) => i)
 
   const handleConfirm = () => {
-    const startTime = `${startHour}:${startMinute} ${startAmPm}`
-    const endTime = `${endHour}:${endMinute} ${endAmPm}`
-    onConfirm(selectedDate, startTime, endTime)
+    onConfirm({
+      date: selectedDate,
+      month: currentMonth,
+      year: currentYear,
+      startHour: Number(startHour),
+      startMinute: Number(startMinute),
+      startAmPm,
+      endHour: Number(endHour),
+      endMinute: Number(endMinute),
+      endAmPm,
+    })
     onClose()
   }
 
-  const handleTimeChange = (type: "start" | "end", field: "hour" | "minute" | "amPm", value: string) => {
-    if (type === "start") {
-      if (field === "hour") setStartHour(value)
-      if (field === "minute") setStartMinute(value)
-      if (field === "amPm") setStartAmPm(value)
-    } else {
-      if (field === "hour") setEndHour(value)
-      if (field === "minute") setEndMinute(value)
-      if (field === "amPm") setEndAmPm(value)
-    }
+  const handleHourChange = (type: "start" | "end", value: number) => {
+    if (type === "start") setStartHour(initialValue.toString())
+    else setEndHour(initialValue.toString())
+  }
+  const handleMinuteChange = (type: "start" | "end", value: number) => {
+    if (type === "start") setStartMinute(initialValue.toString())
+    else setEndMinute(initialValue.toString())
+  }
+  const handleAmPmChange = (type: "start" | "end", value: "AM" | "PM") => {
+    if (type === "start") setStartAmPm(value)
+    else setEndAmPm(value)
   }
 
   if (!isOpen) return null
@@ -84,13 +107,13 @@ export function DateTimeModal({
       <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40" onClick={onClose} />
 
       {/* Modal */}
-      <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-white rounded-[40px] p-6 z-50 max-h-[80vh] overflow-auto">
+      <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-white rounded-[40px] p-6 z-50 text-sm overflow-auto">
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-center">Your Ride, Your Way.</h2>
+          <h2 className="text-xl font-bold text-center">Your Ride, Your Way.</h2>
 
           {/* Calendar Section */}
           <div className="space-y-4">
-            <h3 className="text-gray-500">Ride Date</h3>
+            {/* <h3 className="text-gray-500">Ride Date</h3> */}
             <div className="flex justify-between items-center">
               <button
                 onClick={() => handleMonthChange("prev")}
@@ -109,8 +132,8 @@ export function DateTimeModal({
               </button>
             </div>
             <div className="grid grid-cols-7 gap-2 text-center">
-              {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
-                <div key={day} className="text-gray-500 text-sm">
+              {["M", "T", "W", "T", "F", "S", "S"].map((day, i) => (
+                <div key={i} className="text-gray-500 text-xs">
                   {day}
                 </div>
               ))}
@@ -118,14 +141,13 @@ export function DateTimeModal({
                 <button
                   key={day}
                   onClick={() => setSelectedDate(day)}
-                  disabled={Number.parseInt(day) < today}
+                  disabled={todayMonth === currentMonth && todayYear === currentYear && day < todayDate}
                   className={`
-                    rounded-full w-8 h-8 flex items-center justify-center
-                    ${Number.parseInt(day) < today ? "text-gray-300" : "text-gray-700"}
+                    rounded-full w-8 h-8 mx-auto flex items-center justify-center disabled:text-gray-300 text-gray-700
                     ${selectedDate === day ? "bg-green-600 text-white" : ""}
                   `}
                 >
-                  {day}
+                  {day+1}
                 </button>
               ))}
             </div>
@@ -138,12 +160,12 @@ export function DateTimeModal({
               <h3 className="text-gray-500">Ride Start Time</h3>
               <div className="flex gap-4">
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="relative w-1/5 px-2 py-1 border-2 border-gray-300 rounded-full"
                   value={startHour}
-                  onChange={(e) => handleTimeChange("start", "hour", e.target.value)}
+                  onChange={(e) => handleHourChange("start", Number(e.target.value))}
                 >
                   {[...Array(12).keys()].map((i) => (
-                    <option key={i} value={String(i + 1).padStart(2, "0")}>
+                    <option key={i} value={i+1}>
                       {String(i + 1).padStart(2, "0")}
                     </option>
                   ))}
@@ -151,10 +173,10 @@ export function DateTimeModal({
                 <select
                   className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
                   value={startMinute}
-                  onChange={(e) => handleTimeChange("start", "minute", e.target.value)}
+                  onChange={(e) => handleMinuteChange("start", Number(e.target.value))}
                 >
                   {["00", "15", "30", "45"].map((minute) => (
-                    <option key={minute} value={minute}>
+                    <option key={minute} value={minute+1}>
                       {minute}
                     </option>
                   ))}
@@ -162,7 +184,7 @@ export function DateTimeModal({
                 <select
                   className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
                   value={startAmPm}
-                  onChange={(e) => handleTimeChange("start", "amPm", e.target.value)}
+                  onChange={(e) => handleAmPmChange("start", e.target.value as any)}
                 >
                   {["AM", "PM"].map((ampm) => (
                     <option key={ampm} value={ampm}>
@@ -180,10 +202,10 @@ export function DateTimeModal({
                 <select
                   className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
                   value={endHour}
-                  onChange={(e) => handleTimeChange("end", "hour", e.target.value)}
+                  onChange={(e) => handleHourChange("end", Number(e.target.value))}
                 >
                   {[...Array(12).keys()].map((i) => (
-                    <option key={i} value={String(i + 1).padStart(2, "0")}>
+                    <option key={i} value={i}>
                       {String(i + 1).padStart(2, "0")}
                     </option>
                   ))}
@@ -191,7 +213,7 @@ export function DateTimeModal({
                 <select
                   className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
                   value={endMinute}
-                  onChange={(e) => handleTimeChange("end", "minute", e.target.value)}
+                  onChange={(e) => handleMinuteChange("end", Number(e.target.value))}
                 >
                   {["00", "15", "30", "45"].map((minute) => (
                     <option key={minute} value={minute}>
@@ -202,7 +224,7 @@ export function DateTimeModal({
                 <select
                   className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
                   value={endAmPm}
-                  onChange={(e) => handleTimeChange("end", "amPm", e.target.value)}
+                  onChange={(e) => handleAmPmChange("end", e.target.value as any)}
                 >
                   {["AM", "PM"].map((ampm) => (
                     <option key={ampm} value={ampm}>

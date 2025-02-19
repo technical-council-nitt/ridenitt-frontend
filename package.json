@@ -10,11 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-
     "@tailwindcss/postcss": "^4.0.1",
-
     "axios": "^1.7.9",
     "classnames": "^2.5.1",
+    "daisyui": "^4.12.23",
     "dotenv": "^16.4.7",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",

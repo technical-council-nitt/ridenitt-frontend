@@ -5,6 +5,7 @@ interface User {
   phoneNumber: string;
   gender: 'MALE' | 'FEMALE';
   address?: string;
+  activeRides: string[]
 }
 
 interface Ride {
@@ -13,11 +14,11 @@ interface Ride {
     id: string
     name: string
   }
-  vehicleType: "CAR" | "AUTO" | "TAXI"
+  vehicleType: "CAR" | "AUTO" | "SUV"
   myInvite: Invite
   earliestDeparture: string
   latestDeparture: string
-  peopleCount: number
+  prefersGender: "MALE" | "FEMALE" | null
   femaleCount: number
   capacity: number
   status: "PENDING" | "FULL" | "COMPLETED" | "CANCELLED"

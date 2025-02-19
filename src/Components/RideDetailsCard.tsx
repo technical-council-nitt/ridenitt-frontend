@@ -3,10 +3,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { displayTimeRange } from "../Utils/datetime";
 
-const RideDetailsCard = ({ ride, refreshRide, alreadyInGroup }: {
+const RideDetailsCard = ({ ride, refreshRide }: {
   ride: Ride,
   refreshRide: () => void,
-  alreadyInGroup: boolean
 }) => {
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -14,23 +13,19 @@ const RideDetailsCard = ({ ride, refreshRide, alreadyInGroup }: {
   const ed = new Date(ride.latestDeparture)
 
   const handleSend = () => {
-    if (alreadyInGroup) {
-      setShowModal(true)
-    } else {
-      setLoading(true)
-      axios.post('/api/invites', {
-        rideId: ride.id
+    setLoading(true)
+    axios.post('/api/invites', {
+      rideId: ride.id
+    })
+      .then(() => {
+        toast.success('Request sent successfully!');
+        refreshRide()
       })
-        .then(() => {
-          toast.success('Request sent successfully!');
-          refreshRide()
-        })
-        .catch((error) => {
-          console.error(error);
-          toast.error('Failed to send request. Please try again later.');
-        })
-        .finally(() => setLoading(false))
-    }
+      .catch((error) => {
+        console.error(error);
+        toast.error('Failed to send request. Please try again later.');
+      })
+      .finally(() => setLoading(false))
   }
 
   return (

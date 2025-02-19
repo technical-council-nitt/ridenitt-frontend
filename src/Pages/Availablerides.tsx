@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useAuth } from "../Hooks/useAuth";
 import Redirect from "../Components/Redirect";
-import { useCurrentRide } from "../Hooks/useCurrentRide";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import RideDetailsCard from "../Components/RideDetailsCard";
@@ -12,8 +11,6 @@ import { FaFilter } from "react-icons/fa";
 import { PiRepeat } from "react-icons/pi";
 
 export const AvailableRidesComponent: React.FC = () => {
-    const { currentRide, loading: currentRideLoading } = useCurrentRide();
-
     const [ishidden, setishidden] = useState(true);
     const { user } = useAuth();
     const [rides, setRides] = useState<Ride[]>([]);
@@ -30,7 +27,7 @@ export const AvailableRidesComponent: React.FC = () => {
 
     useEffect(() => {
         fetchRides()
-    }, [currentRideLoading, currentRide])
+    }, [])
 
     if (!user) {
         return (
@@ -70,7 +67,7 @@ export const AvailableRidesComponent: React.FC = () => {
 
                 <ul className="flex flex-col gap-4">
                     {rides.map(ride => (
-                        <RideDetailsCard alreadyInGroup={!!currentRide} refreshRide={fetchRides} key={ride.id} ride={ride} />
+                        <RideDetailsCard refreshRide={fetchRides} key={ride.id} ride={ride} />
                     ))}
 
                     <li className="mt-4">

@@ -72,7 +72,7 @@ const TwoFactorAuthentication: React.FC = () => {
     .then(() => {
       toast.success("OTP Sent");
     })
-    .catch((err) => {
+    .catch((err) => {      
       console.log(err);
       toast.error(err.response.data.error ?? "Failed to send OTP");
     })

@@ -13,7 +13,6 @@ const Navigation: React.FC = () => {
     }, [location])
 
     return (
-
         <footer className="fixed bottom-[0px] h-[70px] left-0 right-0 text-white bg-[#008955] grid grid-cols-4 place-items-center">
             <Link className={`grid place-items-center p-4 rounded-full aspect-square ${location.pathname === "/" ? "bg-green-600" : "bg-[#008955]"}`} to="/">
                 {location.pathname === "/" ? (
@@ -36,7 +35,7 @@ const Navigation: React.FC = () => {
                     <FaRegBell className="opacity-80" size={24} />
                 )}
             </Link>
-            <Link className={`grid place-items-center p-4 rounded-full aspect-square ${location.pathname === "/profile" ? "bg-green-600" : "bg-[#008955]"}`} to={user ? "/profile" : "/signup"}>
+            <Link className={`grid place-items-center p-4 rounded-full aspect-square ${location.pathname === "/account" ? "bg-green-600" : "bg-[#008955]"}`} to={user ? "/account" : "/signup"}>
                 {location.pathname === "/profile" ? (
                     <FaUser size={24} />
                 ) : (

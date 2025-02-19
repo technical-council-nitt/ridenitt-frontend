@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useCurrentRide } from "../../../Hooks/useCurrentRide"
 import { displayTimeRange } from "../../../Utils/datetime"
 import RideDetailsModal from "./RideDetailsModal"
 import { useAuth } from "../../../Hooks/useAuth"
@@ -10,7 +9,6 @@ export default function SentRequest({
   request: Invite
 }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false)
-  const { currentRide } = useCurrentRide()
   const { user } = useAuth()
   const ride = request.receiverRide
   const st = new Date(ride.earliestDeparture)
@@ -45,7 +43,7 @@ export default function SentRequest({
             {displayTimeRange(st, ed, new Date())}
           </span>
 
-          {request.status === 'ACCEPTED' && currentRide?.id === request.receiverRideId ? (
+          {request.status === 'ACCEPTED' && user?.activeRides.includes(request.receiverRideId) ? (
             <button className='mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={handleLeave}>
               Leave
             </button>
