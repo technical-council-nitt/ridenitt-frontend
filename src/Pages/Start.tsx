@@ -15,13 +15,14 @@ const StartScreen: React.FC = () => {
     <div className="flex flex-col items-center justify-center h-screen bg-green-100 px-4">
       {/* Logo with improved scaling */}
       <img
+        width={300} height={300}
         src="/Images/logo.png"
         alt="RideNITT Logo"
         className="w-[60%] sm:w-28 md:w-36 lg:w-44 xl:w-52 2xl:w-64 mb-4"
       />
-      
+
       {/* RideNITT Title with better responsiveness */}
-      <h1 
+      <h1
         className="text-[#008955] font-bold text-center leading-snug whitespace-nowrap md:whitespace-normal"
         style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)" }}
       >
@@ -29,7 +30,7 @@ const StartScreen: React.FC = () => {
       </h1>
 
       {/* Tagline with improved text size */}
-      <p 
+      <p
         className="text-gray-700 text-center mt-2 font-bold leading-snug"
         style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
       >

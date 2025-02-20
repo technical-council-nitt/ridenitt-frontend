@@ -45,7 +45,7 @@ const RideDetailsCard = ({ ride, refreshRide }: {
         {ride.stops[0].name} to {ride.stops[1].name}
       </div>
       <div className="flex items-center justify-start gap-4">
-        <img src={`${ride.vehicleType.toLowerCase()}.svg`} className="w-full max-w-16 aspect-square"></img>
+        <img width={64} height={64} src={`/Images/${ride.vehicleType.toUpperCase()}.png`} className="w-full max-w-16 aspect-square"></img>
         <div className="min-w-44 max-sm:text-sm">
           <div className="mt-2 text font-Quicksand text-neutral-700 font-[700]">
             {displayTimeRange(st, ed, new Date())}
@@ -53,7 +53,7 @@ const RideDetailsCard = ({ ride, refreshRide }: {
             {ride.vehicleType[0] + ride.vehicleType.substring(1).toLowerCase()} | {ride.participants.length} People sharing
           </div>
           <div className="mt-2 flex items-center gap-2">
-            <img src="profile.svg" className=""></img>
+            <img width={24} height={24} src="profile.svg" className=""></img>
             <div className="text-neutral-700 font-[600]">Posted by {ride.owner.name}</div>
           </div>
         </div>

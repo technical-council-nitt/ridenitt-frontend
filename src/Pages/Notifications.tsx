@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuth } from '../Hooks/useAuth'
 import axios from 'axios'
 import { age } from '../Utils/datetime'
-import { FaEnvelope, FaInbox, FaRegEnvelope } from 'react-icons/fa'
+import { FaRegEnvelope } from 'react-icons/fa'
 import Header from '../Components/Header'
 
 export default function Notifications() {

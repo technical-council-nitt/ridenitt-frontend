@@ -7,11 +7,9 @@ import { Link } from "react-router-dom";
 import RideDetailsCard from "../Components/RideDetailsCard";
 import Header from "../Components/Header";
 import { MdAddLocationAlt } from "react-icons/md";
-import { FaFilter } from "react-icons/fa";
 import { PiRepeat } from "react-icons/pi";
 
 export const AvailableRidesComponent: React.FC = () => {
-    const [ishidden, setishidden] = useState(true);
     const { user } = useAuth();
     const [rides, setRides] = useState<Ride[]>([]);
 

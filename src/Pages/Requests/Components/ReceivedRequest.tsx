@@ -4,6 +4,7 @@ import { displayTimeRange } from '../../../Utils/datetime'
 import RideDetailsModal from './RideDetailsModal'
 import { useState } from 'react'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
+import Prompt from '../../../Components/Prompt'
 
 export default function ReceivedRequest({
   request,
@@ -14,6 +15,8 @@ export default function ReceivedRequest({
 }) {
   const [detailsOpen, setDetailsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [declineInvitePromptId, setDeclineInvitePromptId] = useState<string | false>(false) //string is the invite id
+  const [cancelPromptOpen, setCancelPromptOpen] = useState(false)
   const ride = request.invites[0]!.receiverRide
   const st = new Date(ride.earliestDeparture)
   const ed = new Date(ride.latestDeparture)
@@ -30,14 +33,14 @@ export default function ReceivedRequest({
       })
   }
 
-  const handleDecline = (inviteId: string) => {
-    const reason = window.prompt('Enter reason for declining')
-
+  const handleDecline = (inviteId: string, reason: string) => {
     if (!reason) return
     if (reason.length < 10) {
       return toast.error('Reason must be atleast 10 characters')
     }
 
+    setLoading(true)
+    
     axios.post(`/api/invites/${inviteId}/decline`, {
       reason
     })
@@ -49,11 +52,13 @@ export default function ReceivedRequest({
         console.error(err)
         toast.error(err.response.data?.error ?? 'Failed to decline request')
       })
+      .finally(() => {
+        setLoading(false)
+        setDeclineInvitePromptId(false)
+      })
   }
 
-  const handleCancel = () => {
-    const reason = prompt("Please enter the reason for cancelling the ride")
-
+  const handleCancel = (reason: string) => {
     if (!reason) return
     if (reason.length < 10) {
       return toast.error("Reason must be atleast 10 characters")
@@ -61,7 +66,7 @@ export default function ReceivedRequest({
 
     setLoading(true)
 
-    axios.delete("/api/rides/current", {
+    axios.delete("/api/rides/"+request.rideId, {
       data: {
         reason
       }
@@ -75,6 +80,7 @@ export default function ReceivedRequest({
         toast.error(err.response.data?.error ?? "Failed to cancel ride")
       })
       .finally(() => {
+        setCancelPromptOpen(false)
         setLoading(false)
       })
   }
@@ -83,6 +89,22 @@ export default function ReceivedRequest({
     <>
       <li className='p-2 border-2 border-green-700 rounded-xl'>
         <RideDetailsModal open={false} onClose={() => setDetailsOpen(false)} ride={ride} />
+
+        {declineInvitePromptId && (
+          <Prompt
+            label='Reason for declining'
+            onConfirm={v => handleDecline(declineInvitePromptId, v)}
+            onCancel={() => setDeclineInvitePromptId(false)}
+          />
+        )}
+
+        {cancelPromptOpen && (
+          <Prompt
+            label='Reason for cancelling'
+            onConfirm={v => handleCancel(v)}
+            onCancel={() => setCancelPromptOpen(false)}
+          />
+        )}
 
         <div className='flex gap-4 justify-between items-start'>
           <div>
@@ -96,11 +118,11 @@ export default function ReceivedRequest({
               {ride.vehicleType} | {ride.participants.length} people sharing
             </span>
             <button onClick={() => setDetailsOpen(p => !p)} className='mt-2 text-sm flex items-center gap-2'>
-              {request.invites.length} request{request.invites.length > 1 ? 's' : 'mt-1'} received
+              {request.invites.length} request{request.invites.length > 1 ? 's' : ''} received
               {detailsOpen ? (
-                <FaAngleDown />
-              ) : (
                 <FaAngleUp />
+              ) : (
+                <FaAngleDown />
               )}
             </button>
           </div>
@@ -110,7 +132,7 @@ export default function ReceivedRequest({
             </span>
 
             {ride.status === 'PENDING' ? (
-              <button onClick={handleCancel} disabled={loading} className='disabled:opacity-50 p-1 text-sm border-2 border-red-600 bg-red-600 text-white rounded-lg font-semibold'>
+              <button onClick={() => setCancelPromptOpen(true)} disabled={loading} className='disabled:opacity-50 p-1 text-sm border-2 border-red-600 bg-red-600 text-white rounded-lg font-semibold'>
                 Cancel Ride
               </button>
             ) : (
@@ -135,16 +157,16 @@ export default function ReceivedRequest({
                   <button className='mr-2 w-20 p-1 border-2 border-green-600 bg-green-600 text-white rounded-lg font-semibold' onClick={() => handleAccept(invite.id)}>
                     Accept
                   </button>
-                  <button className='w-20 p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => handleDecline(invite.id)}>
+                  <button className='w-20 p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => setDeclineInvitePromptId(invite.id)}>
                     Decline
                   </button>
                 </div>
               ) : invite.status === 'ACCEPTED' ? (
-                <button className='mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => handleDecline(invite.id)}>
+                <button className='mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => setDeclineInvitePromptId(invite.id)}>
                   Remove
                 </button>
               ) : (
-                <button disabled className='mt-2 text-xs opacity-50 w-20 p-1 border-2 border-neutral-600 bg-neutral-100 text-neutral-800 rounded-lg font-semibold' onClick={() => handleDecline(invite.id)}>
+                <button disabled className='mt-2 text-xs opacity-50 w-20 p-1 border-2 border-neutral-600 bg-neutral-100 text-neutral-800 rounded-lg font-semibold' onClick={() => setDeclineInvitePromptId(invite.id)}>
                   {invite.declineReason?.startsWith("Left:") ? "Left" : "Declined"}
                 </button>
               )}

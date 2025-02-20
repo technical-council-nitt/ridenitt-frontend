@@ -53,6 +53,7 @@ const ResetPassword: React.FC = () => {
 
       {/* Centered Image with Balanced Size */}
       <img
+        width={300} height={300}
         src="/Images/login-image.png"
         alt="Reset Password"
         className="w-[85%] sm:w-[50%] md:w-[40%] lg:w-[30%] max-w-[350px] max-h-[220px] md:max-h-[260px] lg:max-h-[280px] object-contain"
