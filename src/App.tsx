@@ -16,7 +16,7 @@ import Notifications from "./Pages/Notifications";
 import FaqAccordion from "./Pages/Faq";
 import AccountPage from "./Pages/Account";
 import LoadingScreen from "./Components/LoadingScreen";
-import React, { useEffect } from "react";
+import React from "react";
 import NewAccountSignup from "./Pages/NewAccountSignup.tsx";
 import Redirect from "./Components/Redirect.tsx";
 
@@ -32,7 +32,7 @@ const App: React.FC = () => {
 const CustomRouter = () => {
   const path = useLocation()
   console.log(path)
-  
+
   const { authLoading, user, hasSignedUp } = useAuth()
 
   return (
