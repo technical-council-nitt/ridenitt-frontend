@@ -1,4 +1,4 @@
-import { BrowserRouter, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import AvailableRidesComponent from "./Pages/Availablerides"
 import ProfileComponent from './Pages/Profile.tsx'
 import Start from "./Pages/Start";
@@ -30,9 +30,6 @@ const App: React.FC = () => {
 };
 
 const CustomRouter = () => {
-  const path = useLocation()
-  console.log(path)
-
   const { authLoading, user, hasSignedUp } = useAuth()
 
   return (
