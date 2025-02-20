@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Redirect from "../Components/Redirect";
 
-export const ProfileComponent: React.FC = () => {
+const ProfileComponent: React.FC = () => {
     const navigate = useNavigate()
     const { user, refreshAuth, setOngoingUpdatePh } = useAuth();
     const [editing, setEditing] = React.useState(false);
@@ -181,6 +181,6 @@ export const ProfileComponent: React.FC = () => {
             </div>
         </div>
     )
-
 }
+
 export default ProfileComponent;
