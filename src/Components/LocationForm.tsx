@@ -227,7 +227,7 @@ export default function ShareRide() {
             items={["", "Male", "Female", "Any"] as const}
             onChange={(v: any) => setPrefersGender(v)}
             Label={({ children }) => (
-              children || "Select Gender"
+              children || "Select Preferred Gender"
             )}
           />
         </div>

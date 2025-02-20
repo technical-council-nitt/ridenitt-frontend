@@ -47,12 +47,12 @@ const ProfileComponent: React.FC = () => {
             await axios.post("/api/users/me", {
                 name: n,
                 phoneNumber: p,
-                gender: user?.gender,
+                gender,
             })
 
             setEditing(false);
             toast.success("Profile updated successfully");
-            refreshAuth();
+            refreshAuth(true);
         } catch (e) {
             console.log(e);
             toast.error("Failed to update profile");

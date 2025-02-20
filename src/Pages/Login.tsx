@@ -39,7 +39,7 @@ const Login: React.FC = () => {
       {/* Not Link to force refresh page */}
       <a
         href="/auth/google"
-        className="disabled:opacity-50 mt-6 px-6 py-3 flex items-center gap-4 bg-[#008955] text-white font-semibold rounded-lg text-lg w-full max-w-sm hover:bg-[#007144] transition border border-black"
+        className="disabled:opacity-50 mt-6 px-6 py-3 flex items-center justify-center gap-4 bg-[#008955] text-white font-semibold rounded-lg text-lg w-full max-w-sm hover:bg-[#007144] transition border border-black"
       >
         <FaGoogle />
         Continue with Google

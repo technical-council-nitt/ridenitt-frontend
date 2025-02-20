@@ -37,7 +37,7 @@ interface Ride {
 }
 
 interface ClusteredInvites {
-  rideId: string
+  ride: Ride
   invites: Invite[]
 }
 

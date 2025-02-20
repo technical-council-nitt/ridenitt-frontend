@@ -20,18 +20,8 @@ export default function Requests() {
 
     axios.get('/api/invites')
       .then(res => {
-        const receivedMap = new Map<string, Invite[]>()
-        
-        for (let ri of res.data.data.received) {
-          if (!receivedMap.has(ri.receiverRideId)) {
-            receivedMap.set(ri.receiverRideId, [])
-          }
-          receivedMap.get(ri.receiverRideId)!.push(ri)
-          console.log(receivedMap)
-        }
-
         setSentRequests(res.data.data.sent)
-        setReceivedRequests([...receivedMap.entries()].map(([k,v]: [string, Invite[]]) => ({ rideId: k, invites: v })))
+        setReceivedRequests(res.data.data.received)
       })
       .catch(err => {
         console.error(err)

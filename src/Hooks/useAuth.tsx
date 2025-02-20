@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 interface AuthContextType {
   user: User | null;
   authLoading: boolean;
-  refreshAuth: () => void;
+  refreshAuth: (quiet?: boolean) => void;
   hasSignedUp: boolean;
 }
 
@@ -30,8 +30,8 @@ export const AuthProvider = ({ children }: {
     return true
   }, [user])
 
-  const refreshAuth = async () => {
-    setAuthLoading(true);
+  const refreshAuth = async (quiet: boolean = false) => {
+    if (!quiet) setAuthLoading(true);
 
     const accessToken = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("access-token="))?.split("=")[1];
     if (!accessToken) {

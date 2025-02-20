@@ -6,7 +6,7 @@ import axios from "axios";
 import Redirect from "../Components/Redirect";
 
 const NewAccountSignup: React.FC = () => {
-  const { user, hasSignedUp } = useAuth();
+  const { authLoading, user, hasSignedUp, refreshAuth } = useAuth();
   const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
   const [name, setName] = useState("");
@@ -39,18 +39,19 @@ const NewAccountSignup: React.FC = () => {
       gender,
     })
       .then(() => {
-        toast.success("Your profile is updated")
+        toast.success("Your profile is created")
+        refreshAuth()
         navigate("/")
       })
       .catch((err) => {
-        toast.error(err.response.data.error || "Failed to update profile");
+        toast.error(err.response.data.error || "Failed to created profile");
       })
       .finally(() => {
         setLoading(false);
       })
   }
 
-  if (!user) {
+  if (!authLoading && !user) {
     return (
       <Redirect to="/start" />
     )

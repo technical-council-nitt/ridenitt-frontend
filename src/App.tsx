@@ -69,7 +69,7 @@ const CustomRouter = () => {
           </>
         )}
 
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={authLoading ? null : <NotFound />} />
       </Routes>
     </BrowserRouter >
   );
