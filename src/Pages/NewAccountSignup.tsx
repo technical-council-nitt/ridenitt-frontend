@@ -1,61 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../Hooks/useAuth";
 import axios from "axios";
 import Redirect from "../Components/Redirect";
 
-const Signup: React.FC = () => {
-  const { user, setOngoingSignup } = useAuth();
+const NewAccountSignup: React.FC = () => {
+  const { authLoading, user, hasSignedUp, refreshAuth } = useAuth();
   const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSignup = () => {
+  useEffect(() => {
+    setName(user?.name || "")
+  }, [user])
+
+  const handleSubmit = () => {
     if (!agree) {
       toast("Please agree to the terms and conditions");
       return;
     }
 
-    if (!name || !phoneNumber || !gender || !password) {
+    if (!name || !phoneNumber || !gender) {
       toast("Please fill all the fields")
       return;
     }
 
     let ph = "+91" + phoneNumber.replaceAll(/\s+/g, '');
 
-    setOngoingSignup({
-      name,
-      phoneNumber: ph,
-      password,
-      gender: gender as any,
-    })
-
     setLoading(true);
 
-    axios.post("/auth/send-otp", {
-      phoneNumber: ph
+    axios.post("/api/users/me", {
+      name,
+      phoneNumber: ph,
+      gender,
     })
       .then(() => {
-        navigate("/2fa");
+        toast.success("Your profile is created")
+        refreshAuth()
+        navigate("/")
       })
       .catch((err) => {
-        toast.error(err.response.data.error);
+        toast.error(err.response.data.error || "Failed to created profile");
       })
       .finally(() => {
         setLoading(false);
       })
   }
 
-  const handleLogin = () => {
-    navigate("/login");
+  if (!authLoading && !user) {
+    return (
+      <Redirect to="/start" />
+    )
   }
-
-  if (user) {
+  
+  if (hasSignedUp) {
     return (
       <Redirect to="/" />
     )
@@ -64,23 +66,20 @@ const Signup: React.FC = () => {
   return (
     <div className="gradient-background flex flex-col items-center justify-center h-screen px-6">
       <div className="flex flex-col items-center justify-center h-screen px-6">
-        {/* Signup Text */}
         <h2 className="text-2xl sm:text-3xl font-bold text-black text-left w-full max-w-sm">
-          Sign up with your phone number
+          Create your Account
         </h2>
 
-        <div className="mt-4 w-full max-w-sm">
-          {/* Name Input */}
+        <div className="mt-4 w-full max-w-sm flex flex-col gap-4">
           <input
+            value={name}
             onChange={(e) => setName(e.target.value)}
             type="text"
-            placeholder="Username"
+            placeholder="Enter your Name"
             className="w-full border border-black px-4 py-2 rounded-md"
           />
-          <span className="text-xs text-neutral-800 block mb-3">Please remember username for login</span>
 
-          {/* phoneNumber Number Input with +91 */}
-          <div className="flex border border-black rounded-md overflow-hidden mb-3">
+          <div className="flex border border-black rounded-md overflow-hidden">
             <span className="bg-green-100 px-4 py-2">+91</span>
             <input
               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -90,15 +89,6 @@ const Signup: React.FC = () => {
             />
           </div>
 
-          {/* Password Input */}
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-            className="w-full border border-black px-4 py-2 rounded-md mb-3"
-          />
-
-          {/* Gender Dropdown */}
           <select onChange={(e) => setGender(e.currentTarget.value)} className="w-full border border-black px-4 py-2 rounded-md mb-3">
             <option value="">Select Gender</option>
             <option value="male">Male</option>
@@ -125,29 +115,17 @@ const Signup: React.FC = () => {
             </span>
           </div>
 
-          {/* Signup Button */}
           <button
             disabled={loading}
             className="disabled:opacity-50 w-full bg-[#008955] text-white py-2 rounded-md text-lg font-semibold hover:bg-[#006944] transition"
-            onClick={handleSignup}
+            onClick={handleSubmit}
           >
-            Sign Up
+            Continue
           </button>
-
-          {/* Already have an account */}
-          <p className="mt-4 text-center text-gray-700 font-semibold">
-            Already have an account?{" "}
-            <button
-              onClick={handleLogin}
-              className="text-[#008955] font-semibold hover:underline"
-            >
-              Login
-            </button>
-          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default NewAccountSignup;

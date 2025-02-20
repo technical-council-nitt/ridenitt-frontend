@@ -19,7 +19,7 @@ const RideCard = ({ ride }: { ride: Ride }) => {
       <div role="button" onClick={() => setDetailsModalOpen(true)} className='flex justify-between gap-4'>
         <div className=''>
           <span className='font-semibold'>
-            {ride.owner.name}
+            {ride.stops[0].name} to {ride.stops[1].name}
           </span>
           <br />
           <span className='text-neutral-600'>
@@ -27,7 +27,7 @@ const RideCard = ({ ride }: { ride: Ride }) => {
           </span>
         </div>
         <div className=''>
-          <span className="text-sm text-neutral-600 font-Quicksand">
+          <span className="text-xs text-neutral-600 font-Quicksand">
             {displayTimeRange(st, ed, d)}
           </span>
         </div>

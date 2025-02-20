@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useAuth } from "../Hooks/useAuth";
 import axios from "axios";
@@ -6,24 +5,26 @@ import { toast } from "react-toastify";
 import Redirect from "../Components/Redirect";
 
 const ProfileComponent: React.FC = () => {
-    const navigate = useNavigate()
-    const { user, refreshAuth, setOngoingUpdatePh } = useAuth();
+    const { user, hasSignedUp, refreshAuth } = useAuth();
     const [editing, setEditing] = React.useState(false);
-    const [name, setName] = React.useState(user?.name || '');
-    const [phoneNumber, setPhoneNumber] = React.useState(user?.phoneNumber?.slice(3) || '');
-    const [gender, setGender] = React.useState<'MALE' | 'FEMALE'>(user?.gender || 'MALE')
-    // const [address, setAddress] = React.useState(user?.address || '');
+    const [name, setName] = React.useState('');
+    const [phoneNumber, setPhoneNumber] = React.useState('');
+    const [gender, setGender] = React.useState<'MALE' | 'FEMALE'>('MALE')
     const [loading, setLoading] = React.useState(false);
+
+    useEffect(() => {
+        setName(user?.name || "")
+        setPhoneNumber(user?.phoneNumber?.slice(3) || "")
+        setGender(user?.gender || 'MALE')
+    }, [user])
 
     const handleCancelEdit = () => {
         setEditing(false);
         setName(user?.name || '');
         setPhoneNumber(user?.phoneNumber?.slice(3) || '');
-        // setAddress(user?.address || '');
     }
 
     const handleUpdate = async () => {
-        //validate
         const n = name.trim();
         const p = "+91" + phoneNumber.trim().replaceAll(/\s+/g, '');
 
@@ -43,46 +44,19 @@ const ProfileComponent: React.FC = () => {
         setLoading(true);
 
         try {
-            if (
-                n !== user.name
-                || gender !== user?.gender
-                // || address !== user?.address
-            ) {
-                await axios.post("/api/users/me", {
-                    name: n,
-                    gender: user?.gender,
-                    address: user?.address || "",
-                })
+            await axios.post("/api/users/me", {
+                name: n,
+                phoneNumber: p,
+                gender,
+            })
 
-                setEditing(false);
-                if (phoneNumber === user.phoneNumber) toast.success("Profile updated successfully");
-                refreshAuth();
-            }
+            setEditing(false);
+            toast.success("Profile updated successfully");
+            refreshAuth(true);
         } catch (e) {
             console.log(e);
-            setLoading(false);
             toast.error("Failed to update profile");
             return;
-        }
-
-        if (user.phoneNumber === p) return
-
-        setOngoingUpdatePh({
-            name,
-            oldPh: user.phoneNumber,
-            newPh: p
-        })
-
-        try {
-            setLoading(true);
-            
-            await axios.post("/auth/send-otp", { phoneNumber: p })
-            
-            toast.success("OTP Sent for phone number update");
-            navigate("/update-phone-number")
-        } catch (e) {
-            console.log(e);
-            toast.error("Failed to send OTP for phone number update");
         } finally {
             setLoading(false);
         }
@@ -103,23 +77,26 @@ const ProfileComponent: React.FC = () => {
         )
     }
 
+    if (!hasSignedUp) {
+        return (
+            <Redirect to="/sign-up" />
+        )
+    }
+
     return (
-        <div className="p-8 pb-40  bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] relative">
+        <div className="p-8 pb-40  bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] min-h-screen relative">
             <div>
                 <header className="header h-[max] relative">
                     <div className="text-4xl font-semibold text-[#008955] font-Quicksand">My Profile</div>
-                    <div className="mt-2 text-neutral-600 font-Quicksand font-[600]">Stay updated!</div>
+                    <p className="mt-2 text-sm text-neutral-600">
+                        Signed in as <br />
+                        {user.email}
+                    </p>
                 </header>
-                {/* <section className="mt-4 w-fit mx-auto">
-                    <img src="profilepic.svg" className="profilepic relative h-32 w-32"></img>
-                    <div className="name text-black font-[700] text-center text-2xl">
-                        {user.name}
-                    </div>
-                </section> */}
                 <main className="details grid grid-cols-1 gap-4 mt-4">
                     {editing ? <>
                         <span className="-mb-3">
-                            Username
+                            Name
                         </span>
                         <input id="name-input" placeholder="John Doe" value={name} onChange={e => setName(e.currentTarget.value)} className="p-2 px-4 text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] font-[600] font-[Poppins] relative">
                         </input>
@@ -139,11 +116,9 @@ const ProfileComponent: React.FC = () => {
                             <div className="bg-green-100 rounded-l-[10px] p-2 absolute inset-y-0 left-0 grid place-items-center">+91</div>
                             <input placeholder="+91 xxxxx xxxxx" value={phoneNumber} onChange={e => setPhoneNumber(e.currentTarget.value)} className="bg-transparent outline-none" />
                         </div>
-                        {/* <input placeholder="Enter Address" value={address} onChange={e => setAddress(e.currentTarget.value)} className="email text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-2 px-4 font-[600] font-[Poppins] relative">
-                        </input> */}
                     </> : <>
                         <span className="-mb-3">
-                            Username
+                            Name
                         </span>
                         <div className="p-2 px-4 text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] font-[600] font-[Poppins] relative">
                             {name}
@@ -161,9 +136,6 @@ const ProfileComponent: React.FC = () => {
                             <div className="bg-green-100 rounded-l-[10px] p-2 absolute inset-y-0 left-0 grid place-items-center">+91</div>
                             {phoneNumber}
                         </div>
-                        {/* <div className="email text-[#414141] border-[1.5px] border-[#989393] rounded-[10px] p-2 px-4 font-[600] font-[Poppins] relative">
-                            {address || "Address"}
-                        </div> */}
                     </>}
                 </main>
                 <section className="mt-4 grid grid-cols-2 gap-4">
