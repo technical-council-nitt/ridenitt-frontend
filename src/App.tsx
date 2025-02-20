@@ -1,6 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import AvailableRidesComponent from "./Pages/Availablerides"
-import ProfileComponent from './Pages/Profile'
+import ProfileComponent from './Pages/Profile.tsx'
 import Start from "./Pages/Start";
 import Login from "./Pages/Login";
 import Start1 from "./Pages/Start1";
