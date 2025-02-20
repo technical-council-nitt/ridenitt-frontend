@@ -1,10 +1,9 @@
 interface User {
   id: string;
   name: string;
-  password: string;
-  phoneNumber: string;
-  gender: 'MALE' | 'FEMALE';
-  address?: string;
+  email: string;
+  phoneNumber?: string;
+  gender?: 'MALE' | 'FEMALE';
   activeRides: string[]
 }
 

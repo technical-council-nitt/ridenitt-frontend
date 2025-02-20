@@ -27,7 +27,7 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="p-8 pb-40  bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] relative">
+    <div className="p-8 pb-40  bg-gradient-to-b from-[#E0F6EF8C] via-[#FFFFFF] to-[#C1EDE08C] min-h-screen relative">
       <div>
         <header className="header h-[max] relative">
           <div className="text-4xl font-semibold text-[#008955] font-Quicksand">My Account</div>

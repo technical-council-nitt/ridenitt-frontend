@@ -1,17 +1,12 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 interface AuthContextType {
   user: User | null;
-  ongoingSignup: Omit<User, 'id' | 'activeRides'> | false;
-  setOngoingSignup: (user: Omit<User, 'id' | 'activeRides'> | false) => void;
-  ongoingResetPw: { phoneNumber: string | null };
-  setOngoingResetPw: (data:  { phoneNumber: string | null }) => void;
-  ongoingUpdatePh: { name: string, oldPh: string, newPh: string } | false;
-  setOngoingUpdatePh: (data: { name: string, oldPh: string, newPh: string } | false) => void;
   authLoading: boolean;
   refreshAuth: () => void;
+  hasSignedUp: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -28,22 +23,12 @@ export const AuthProvider = ({ children }: {
   children: React.ReactNode
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [ongoingSignup, _setOngoingSignup] = useState<Omit<User, 'id' | 'activeRides'> | false>(false);
-  const [ongoingResetPw, _setOngoingResetPw] = useState<{ phoneNumber: string | null }>({ phoneNumber: null});
-  const [ongoingUpdatePh, _setOngoingUpdatePh] = useState<{ name: string, oldPh: string, newPh: string } | false>(false);
   const [authLoading, setAuthLoading] = useState(true);
-
-  const setOngoingSignup = (user: Omit<User, 'id' | 'activeRides'> | false) => {
-    _setOngoingSignup(user);
-  }
-
-  const setOngoingResetPw = (data: { phoneNumber: string | null }) => {
-    _setOngoingResetPw(data);
-  }
-
-  const setOngoingUpdatePh = (data: { name: string, oldPh: string, newPh: string } | false) => {
-    _setOngoingUpdatePh(data);
-  }
+  const hasSignedUp = useMemo(() => {
+    if (!user) return false
+    if (!user.gender || !user.phoneNumber) return false
+    return true
+  }, [user])
 
   const refreshAuth = async () => {
     setAuthLoading(true);
@@ -78,13 +63,9 @@ export const AuthProvider = ({ children }: {
     refreshAuth();
   }, [])
 
-  useEffect(() => {
-    console.log("User", user, authLoading)
-  }, [user, authLoading])
-
   return (
     <AuthContext.Provider value={{
-      user, ongoingResetPw, setOngoingResetPw, ongoingSignup, setOngoingSignup, ongoingUpdatePh, setOngoingUpdatePh, authLoading, refreshAuth
+      user, authLoading, refreshAuth, hasSignedUp
     }}>
       {children}
     </AuthContext.Provider>
