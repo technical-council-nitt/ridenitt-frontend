@@ -45,7 +45,7 @@ const RideDetailsCard = ({ ride, refreshRide }: {
         {ride.stops[0].name} to {ride.stops[1].name}
       </div>
       <div className="flex items-center justify-start gap-4">
-        <img src={`${ride.vehicleType.toLowerCase()}.svg`} className="w-full max-w-16 aspect-square"></img>
+        <img src={`/Images/${ride.vehicleType.toUpperCase()}.png`} className="w-full max-w-16 aspect-square"></img>
         <div className="min-w-44 max-sm:text-sm">
           <div className="mt-2 text font-Quicksand text-neutral-700 font-[700]">
             {displayTimeRange(st, ed, new Date())}

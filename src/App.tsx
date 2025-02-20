@@ -20,6 +20,8 @@ import Notifications from "./Pages/Notifications";
 import UpdatePhoneNumber from "./Pages/UpdatePhoneNumber";
 import FaqAccordion from "./Pages/Faq";
 import AccountPage from "./Pages/Account";
+import LoadingScreen from "./Components/LoadingScreen";
+import React from "react";
 
 const App: React.FC = () => {
   return (
@@ -33,12 +35,10 @@ const App: React.FC = () => {
 const CustomRouter = () => {
   const { authLoading } = useAuth()
 
-  if (authLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <BrowserRouter>
+      <LoadingScreen isOpen={authLoading} />
+
       <Routes>
         {/* Public Routes */}
         <Route path="/start" element={<Start />} />
@@ -52,23 +52,27 @@ const CustomRouter = () => {
         <Route path="/update-phone-number" element={<UpdatePhoneNumber />} />
 
         {/* Authenticated Routes */}
-        <Route element={<Layout />}>
+        {!authLoading && (
+          <>
+            <Route element={<Layout />}>
 
-          <Route index element={<AvailableRidesComponent />} />
+              <Route index element={<AvailableRidesComponent />} />
 
-          <Route path="/create-ride" element={<LocationForm />} />
-          <Route path="/suggestions" element={<AvailableRidesComponent />} />
-          <Route path="/faq" element={<FaqAccordion />} />
+              <Route path="/create-ride" element={<LocationForm />} />
+              <Route path="/suggestions" element={<AvailableRidesComponent />} />
+              <Route path="/faq" element={<FaqAccordion />} />
 
-          <Route path="/requests" element={<Requests />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/profile" element={<ProfileComponent />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/my-rides" element={<MyRides />} />
-        </Route>
+              <Route path="/requests" element={<Requests />} />
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="/profile" element={<ProfileComponent />} />
+              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/my-rides" element={<MyRides />} />
+            </Route>
+            {/* Catch-All Route */}
+            <Route path="*" element={<NotFound />} />
+          </>
+        )}
 
-        {/* Catch-All Route */}
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

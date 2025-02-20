@@ -200,7 +200,7 @@ export default function ShareRide() {
             onClick={() => handleTransportSelect("Car")}
             className={`flex flex-col items-center p-4 rounded-2xl border-2 border-[#08B783] cursor-pointer ${selectedTransport === "Car" ? "bg-[#008955] text-white" : "bg-[#E8F8F3]"}`}
           >
-            <img src="/Images/car.png" alt="Auto" className="w-8 h-auto mb-1" />
+            <img src="/Images/CAR.png" alt="Auto" className="w-8 h-auto mb-1" />
             <span className="text-sm sm:text-base md:text-lg">Car</span>
 
           </div>

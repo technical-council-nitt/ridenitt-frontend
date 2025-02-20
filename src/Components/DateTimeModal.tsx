@@ -87,12 +87,12 @@ export function DateTimeModal({
   }
 
   const handleHourChange = (type: "start" | "end", value: number) => {
-    if (type === "start") setStartHour(initialValue.toString())
-    else setEndHour(initialValue.toString())
+    if (type === "start") setStartHour(value.toString())
+    else setEndHour(value.toString())
   }
   const handleMinuteChange = (type: "start" | "end", value: number) => {
-    if (type === "start") setStartMinute(initialValue.toString())
-    else setEndMinute(initialValue.toString())
+    if (type === "start") setStartMinute(value.toString())
+    else setEndMinute(value.toString())
   }
   const handleAmPmChange = (type: "start" | "end", value: "AM" | "PM") => {
     if (type === "start") setStartAmPm(value)
@@ -176,7 +176,7 @@ export function DateTimeModal({
                   onChange={(e) => handleMinuteChange("start", Number(e.target.value))}
                 >
                   {["00", "15", "30", "45"].map((minute) => (
-                    <option key={minute} value={minute+1}>
+                    <option key={minute} value={minute}>
                       {minute}
                     </option>
                   ))}
@@ -205,7 +205,7 @@ export function DateTimeModal({
                   onChange={(e) => handleHourChange("end", Number(e.target.value))}
                 >
                   {[...Array(12).keys()].map((i) => (
-                    <option key={i} value={i}>
+                    <option key={i} value={i+1}>
                       {String(i + 1).padStart(2, "0")}
                     </option>
                   ))}

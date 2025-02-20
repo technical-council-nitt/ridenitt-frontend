@@ -4,6 +4,7 @@ import RideDetailsModal from "./RideDetailsModal"
 import { useAuth } from "../../../Hooks/useAuth"
 import axios from "axios"
 import { toast } from "react-toastify"
+import Prompt from "../../../Components/Prompt"
 
 export default function SentRequest({
   request,
@@ -12,6 +13,7 @@ export default function SentRequest({
   request: Invite
   refreshRequests: () => void
 }) {
+  const [leavePromptOpen, setLeavePromptOpen] = useState(false)
   const [detailsModalOpen, setDetailsModalOpen] = useState(false)
   const [leaveLoading, setLeaveLoading] = useState(false)
   const { user } = useAuth()
@@ -19,10 +21,8 @@ export default function SentRequest({
   const st = new Date(ride.earliestDeparture)
   const ed = new Date(ride.latestDeparture)
 
-  const handleLeave = () => {
+  const handleLeave = (reason: string) => {
     setLeaveLoading(true)
-
-    const reason = prompt("Enter reason for leaving ride")
 
     if (!reason) {
       setLeaveLoading(false)
@@ -46,6 +46,15 @@ export default function SentRequest({
   return (
     <li className='p-2 border-2 border-green-700 rounded-xl'>
       <RideDetailsModal currentUserId={user?.id} ride={ride} open={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />
+      
+      {leavePromptOpen && (
+        <Prompt
+          label="Reason for leaving"
+          onCancel={() => setLeavePromptOpen(false)}
+          onConfirm={v => handleLeave(v)}
+        />
+      )}
+
       <div className="flex gap-2 justify-between items-start">
         <div role="button" onClick={() => setDetailsModalOpen(true)}>
           <div>
@@ -56,7 +65,6 @@ export default function SentRequest({
               </span>
             )}
           </div>
-          <br />
           <span className='text-neutral-600'>
             {ride.vehicleType} | {ride.participants.length} people sharing
           </span>
@@ -69,7 +77,7 @@ export default function SentRequest({
           </span>
 
           {request.status === 'ACCEPTED' && user?.activeRides.includes(request.receiverRideId) ? (
-            <button disabled={leaveLoading} className='disabled:opacity-50 mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={handleLeave}>
+            <button disabled={leaveLoading} className='disabled:opacity-50 mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => setLeavePromptOpen(true)}>
               Leave
             </button>
           ) : (

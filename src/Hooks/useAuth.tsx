@@ -4,8 +4,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   user: User | null;
-  ongoingSignup: Omit<User, 'id'> | false;
-  setOngoingSignup: (user: Omit<User, 'id'> | false) => void;
+  ongoingSignup: Omit<User, 'id' | 'activeRides'> | false;
+  setOngoingSignup: (user: Omit<User, 'id' | 'activeRides'> | false) => void;
   ongoingResetPw: { phoneNumber: string | null };
   setOngoingResetPw: (data:  { phoneNumber: string | null }) => void;
   ongoingUpdatePh: { name: string, oldPh: string, newPh: string } | false;
@@ -28,12 +28,12 @@ export const AuthProvider = ({ children }: {
   children: React.ReactNode
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [ongoingSignup, _setOngoingSignup] = useState<Omit<User, 'id'> | false>(false);
+  const [ongoingSignup, _setOngoingSignup] = useState<Omit<User, 'id' | 'activeRides'> | false>(false);
   const [ongoingResetPw, _setOngoingResetPw] = useState<{ phoneNumber: string | null }>({ phoneNumber: null});
   const [ongoingUpdatePh, _setOngoingUpdatePh] = useState<{ name: string, oldPh: string, newPh: string } | false>(false);
   const [authLoading, setAuthLoading] = useState(true);
 
-  const setOngoingSignup = (user: Omit<User, 'id'> | false) => {
+  const setOngoingSignup = (user: Omit<User, 'id' | 'activeRides'> | false) => {
     _setOngoingSignup(user);
   }
 

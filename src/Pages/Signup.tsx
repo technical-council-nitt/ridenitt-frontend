@@ -32,7 +32,7 @@ const Signup: React.FC = () => {
       name,
       phoneNumber: ph,
       password,
-      gender
+      gender: gender as any,
     })
 
     setLoading(true);
