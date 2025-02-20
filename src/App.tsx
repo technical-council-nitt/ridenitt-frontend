@@ -1,4 +1,4 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import AvailableRidesComponent from "./Pages/Availablerides"
 import ProfileComponent from './Pages/Profile.tsx'
 import Start from "./Pages/Start";
@@ -16,7 +16,7 @@ import Notifications from "./Pages/Notifications";
 import FaqAccordion from "./Pages/Faq";
 import AccountPage from "./Pages/Account";
 import LoadingScreen from "./Components/LoadingScreen";
-import React from "react";
+import React, { useEffect } from "react";
 import NewAccountSignup from "./Pages/NewAccountSignup.tsx";
 import Redirect from "./Components/Redirect.tsx";
 
@@ -30,6 +30,9 @@ const App: React.FC = () => {
 };
 
 const CustomRouter = () => {
+  const path = useLocation()
+  console.log(path)
+  
   const { authLoading, user, hasSignedUp } = useAuth()
 
   return (
