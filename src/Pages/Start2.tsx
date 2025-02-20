@@ -7,7 +7,7 @@ const Start2: React.FC = () => {
     <div className="gradient-background grid place-items-center h-screen p-8">
       <div className="max-w-sm flex flex-col gap-8">
         {/* Centered Image - Same size as Start1 */}
-        <img src="/Images/start-image-2.png" alt="Ride Together" className="max-w-[90%] md:max-w-[70%]" />
+        <img width={300} height={300} src="/Images/start-image-2.png" alt="Ride Together" className="max-w-[90%] md:max-w-[70%]" />
 
         <div>
           {/* Left-Aligned Text Below Image */}

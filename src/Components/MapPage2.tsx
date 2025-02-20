@@ -81,7 +81,7 @@ const MapPage2 = ({
           onChange={setPickupLocation}
           Label={({ children }: { children: React.ReactNode }) => (
             <div className="flex items-center gap-3">
-              <img src="/Images/pickup.png" alt="Pickup Icon" className="w-6 h-6" />
+              <img width={24} height={24} src="/Images/pickup.png" alt="Pickup Icon" className="w-6 h-6" />
               {children || "Select Pickup"}
             </div>
           )}
@@ -94,7 +94,7 @@ const MapPage2 = ({
           onChange={setDropLocation}
           Label={({ children }: { children: React.ReactNode }) => (
             <div className="flex items-center gap-3">
-              <img src="/Images/drop.png" alt="Drop Icon" className="w-6 h-6" />
+              <img width={24} height={24} src="/Images/drop.png" alt="Drop Icon" className="w-6 h-6" />
               {children || "Select Drop"}
             </div>
           )}
