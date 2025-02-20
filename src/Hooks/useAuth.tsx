@@ -78,6 +78,10 @@ export const AuthProvider = ({ children }: {
     refreshAuth();
   }, [])
 
+  useEffect(() => {
+    console.log("User", user, authLoading)
+  }, [user, authLoading])
+
   return (
     <AuthContext.Provider value={{
       user, ongoingResetPw, setOngoingResetPw, ongoingSignup, setOngoingSignup, ongoingUpdatePh, setOngoingUpdatePh, authLoading, refreshAuth

@@ -10,7 +10,6 @@ import { MdAddLocationAlt } from "react-icons/md";
 import { PiRepeat } from "react-icons/pi";
 
 export const AvailableRidesComponent: React.FC = () => {
-    // const [ishidden, setishidden] = useState(true);
     const { user } = useAuth();
     const [rides, setRides] = useState<Ride[]>([]);
 
