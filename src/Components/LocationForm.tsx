@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Clock, HelpCircle } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import { DateTimeModal } from "./DateTimeModal";
 import axios from "axios";
 import { toast } from "react-toastify";
