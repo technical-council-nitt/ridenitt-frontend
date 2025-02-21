@@ -13,16 +13,13 @@ export default function Select({
   Label: React.FC<{ children: React.ReactNode }>
 }) {
   return (
-    <div className='relative group flex items-center border-2 border-black rounded-2xl bg-[#E2F5ED]'>
-      <button onBlur={e => {
-        e.stopPropagation()
-        e.preventDefault()
-      }} className='p-3 peer rounded-2xl w-full text-left'>
+    <div className='relative dropdown dropdown-top flex items-center border-2 border-black rounded-2xl bg-[#E2F5ED]'>
+      <div tabIndex={0} role='button' className='p-3 peer rounded-2xl w-full text-left'>
         <Label>{value}</Label>
-      </button>
+      </div>
 
       {/* TODO: Support tab navigation */}
-      <ul tabIndex={0} className={`flex-col max-h-40 overflow-y-auto absolute -top-2 -translate-y-full inset-x-0 bg-neutral-200 rounded-lg border-solid border-2 border-black hidden peer-focus:flex focus:flex group-active:flex`}>
+      <ul tabIndex={0} className={`dropdown-content flex-col max-h-40 w-full overflow-y-auto bg-neutral-200 rounded-lg border-solid border-2 border-black flex`}>
         {items.map((item) => (
           <li
             tabIndex={0}
