@@ -46,7 +46,7 @@ export default function SentRequest({
   return (
     <li className='p-2 border-2 border-green-700 rounded-xl'>
       <RideDetailsModal currentUserId={user?.id} ride={ride} open={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />
-      
+
       {leavePromptOpen && (
         <Prompt
           label="Reason for leaving"

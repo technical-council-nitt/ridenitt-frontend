@@ -141,7 +141,7 @@ export function DateTimeModal({
                 <button
                   key={day}
                   onClick={() => setSelectedDate(day)}
-                  disabled={todayMonth === currentMonth && todayYear === currentYear && day < todayDate}
+                  disabled={todayMonth === currentMonth && todayYear === currentYear && day+1 < todayDate}
                   className={`
                     rounded-full w-8 h-8 mx-auto flex items-center justify-center disabled:text-gray-300 text-gray-700
                     ${selectedDate === day ? "bg-green-600 text-white" : ""}
