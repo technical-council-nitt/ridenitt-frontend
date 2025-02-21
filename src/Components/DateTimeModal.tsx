@@ -160,7 +160,7 @@ export function DateTimeModal({
               <h3 className="text-gray-500">Ride Start Time</h3>
               <div className="flex gap-4">
                 <select
-                  className="relative w-1/5 px-2 py-1 border-2 border-gray-300 rounded-full"
+                  className="minimal w-[72px] p-2 border-2 border-gray-300 rounded-full"
                   value={startHour}
                   onChange={(e) => handleHourChange("start", Number(e.target.value))}
                 >
@@ -171,7 +171,7 @@ export function DateTimeModal({
                   ))}
                 </select>
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="minimal w-[72px] p-2 border-2 border-gray-300 rounded-full"
                   value={startMinute}
                   onChange={(e) => handleMinuteChange("start", Number(e.target.value))}
                 >
@@ -182,7 +182,7 @@ export function DateTimeModal({
                   ))}
                 </select>
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="minimal w-[72px] p-2 border-2 border-gray-300 rounded-full"
                   value={startAmPm}
                   onChange={(e) => handleAmPmChange("start", e.target.value as any)}
                 >
@@ -200,7 +200,7 @@ export function DateTimeModal({
               <h3 className="text-gray-500">Ride End Time</h3>
               <div className="flex gap-4">
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="minimal w-[72px] p-2 border-2 border-gray-300 rounded-full"
                   value={endHour}
                   onChange={(e) => handleHourChange("end", Number(e.target.value))}
                 >
@@ -211,7 +211,7 @@ export function DateTimeModal({
                   ))}
                 </select>
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="minimal w-[72px] p-2 border-2 border-gray-300 rounded-full"
                   value={endMinute}
                   onChange={(e) => handleMinuteChange("end", Number(e.target.value))}
                 >
@@ -222,7 +222,7 @@ export function DateTimeModal({
                   ))}
                 </select>
                 <select
-                  className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
+                  className="minimal w-[72px] p-2 border-2 border-gray-300 rounded-full"
                   value={endAmPm}
                   onChange={(e) => handleAmPmChange("end", e.target.value as any)}
                 >
