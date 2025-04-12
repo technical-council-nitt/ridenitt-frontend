@@ -1,10 +1,9 @@
 interface User {
   id: string;
   name: string;
-  password: string;
-  phoneNumber: string;
-  gender: 'MALE' | 'FEMALE';
-  address?: string;
+  email: string;
+  phoneNumber?: string;
+  gender?: 'MALE' | 'FEMALE';
   activeRides: string[]
 }
 
@@ -38,7 +37,7 @@ interface Ride {
 }
 
 interface ClusteredInvites {
-  rideId: string
+  ride: Ride
   invites: Invite[]
 }
 

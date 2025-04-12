@@ -17,7 +17,7 @@ export default function ReceivedRequest({
   const [loading, setLoading] = useState(false)
   const [declineInvitePromptId, setDeclineInvitePromptId] = useState<string | false>(false) //string is the invite id
   const [cancelPromptOpen, setCancelPromptOpen] = useState(false)
-  const ride = request.invites[0]!.receiverRide
+  const ride = request.ride
   const st = new Date(ride.earliestDeparture)
   const ed = new Date(ride.latestDeparture)
 
@@ -35,8 +35,8 @@ export default function ReceivedRequest({
 
   const handleDecline = (inviteId: string, reason: string) => {
     if (!reason) return
-    if (reason.length < 10) {
-      return toast.error('Reason must be atleast 10 characters')
+    if (reason.length < 2) {
+      return toast.error('Reason must be atleast 2 characters')
     }
 
     setLoading(true)
@@ -60,13 +60,13 @@ export default function ReceivedRequest({
 
   const handleCancel = (reason: string) => {
     if (!reason) return
-    if (reason.length < 10) {
-      return toast.error("Reason must be atleast 10 characters")
+    if (reason.length < 2) {
+      return toast.error("Reason must be atleast 2 characters")
     }
 
     setLoading(true)
 
-    axios.delete("/api/rides/"+request.rideId, {
+    axios.delete("/api/rides/"+request.ride.id, {
       data: {
         reason
       }
