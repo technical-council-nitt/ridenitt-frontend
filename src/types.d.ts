@@ -14,7 +14,7 @@ interface Ride {
     name: string
     phoneNumber?: string
   }
-  vehicleType: "CAR" | "AUTO" | "SUV"
+  vehicleType: "CAR" | "AUTO" | "BUS"
   myInvite: Invite
   earliestDeparture: string
   latestDeparture: string

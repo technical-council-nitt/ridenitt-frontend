@@ -212,11 +212,11 @@ export default function ShareRide() {
             <span className="text-sm sm:text-base md:text-lg">Auto</span>
           </div>
           <div
-            onClick={() => handleTransportSelect("SUV")}
-            className={`flex flex-col items-center p-4 rounded-2xl border-2 border-[#08B783] cursor-pointer ${selectedTransport === "SUV" ? "bg-[#008955] text-white" : "bg-[#E8F8F3]"}`}
+            onClick={() => handleTransportSelect("BUS")}
+            className={`flex flex-col items-center p-4 rounded-2xl border-2 border-[#08B783] cursor-pointer ${selectedTransport === "BUS" ? "bg-[#008955] text-white" : "bg-[#E8F8F3]"}`}
           >
-            <img width={32} height={32} src="/Images/SUV.png" alt="SUV" className="w-8 block scale-125 h-auto mb-1" />
-            <span className="text-sm sm:text-base md:text-lg">SUV</span>
+            <img width={32} height={32} src="/Images/BUS.png" alt="BUS" className="w-8 block scale-125 h-auto mb-1" />
+            <span className="text-sm sm:text-base md:text-lg">BUS</span>
           </div>
         </div>
 
