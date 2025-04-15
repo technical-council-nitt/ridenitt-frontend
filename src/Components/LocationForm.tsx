@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Clock, HelpCircle } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import { DateTimeModal } from "./DateTimeModal";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -121,23 +121,8 @@ export default function ShareRide() {
       className="relative w-full min-h-screen p-6 sm:p-6"
       style={{ background: "linear-gradient(180deg, #FFFFFF 0%, rgba(0, 204, 136, 0.75) 100%)" }}
     >
-      {/* Search Bar */}
-      <div className="flex items-center gap-2 mb-6">
-        <div className="flex-1 relative">
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full h-10 pl-4 pr-10 rounded-full border-2 border-black focus:outline-none"
-          />
-
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <HelpCircle className="w-6 h-6 text-green-600" />
-          </div>
-        </div>
-      </div>
-
       {/* Title */}
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#008955] mb-0.75">Share & Ride</h1>
+      <h1 className="mt-8 text-3xl sm:text-4xl md:text-5xl font-bold text-[#008955] mb-0.75">Share & Ride</h1>
       <p className="text-xl sm:text-2xl md:text-3xl mb-3  ">Post your ride!</p>
 
       {/* White Card */}

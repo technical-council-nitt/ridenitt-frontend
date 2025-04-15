@@ -65,11 +65,10 @@ const CustomRouter = () => {
               <Route path="/profile" element={<ProfileComponent />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/my-rides" element={<MyRides />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </>
         )}
-
-        <Route path="*" element={authLoading ? null : <NotFound />} />
       </Routes>
     </BrowserRouter >
   );

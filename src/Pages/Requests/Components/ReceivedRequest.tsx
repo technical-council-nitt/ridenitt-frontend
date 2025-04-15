@@ -22,6 +22,8 @@ export default function ReceivedRequest({
   const ed = new Date(ride.latestDeparture)
 
   const handleAccept = (inviteId: string) => {
+    setLoading(true)
+
     axios.post(`/api/invites/${inviteId}/accept`)
       .then(() => {
         toast.success('Request accepted')
@@ -31,6 +33,7 @@ export default function ReceivedRequest({
         console.error(err)
         toast.error(err.response.data?.error ?? 'Failed to accept request')
       })
+      .finally(() => setLoading(false))
   }
 
   const handleDecline = (inviteId: string, reason: string) => {
@@ -154,15 +157,15 @@ export default function ReceivedRequest({
 
               {invite.status === 'PENDING' ? (
                 <div className='mt-2 text-xs'>
-                  <button className='mr-2 w-20 p-1 border-2 border-green-600 bg-green-600 text-white rounded-lg font-semibold' onClick={() => handleAccept(invite.id)}>
+                  <button disabled={loading} className='disabled:opacity-50 mr-2 w-20 p-1 border-2 border-green-600 bg-green-600 text-white rounded-lg font-semibold' onClick={() => handleAccept(invite.id)}>
                     Accept
                   </button>
-                  <button className='w-20 p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => setDeclineInvitePromptId(invite.id)}>
+                  <button disabled={loading} className='disabled:opacity-50 w-20 p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => setDeclineInvitePromptId(invite.id)}>
                     Decline
                   </button>
                 </div>
               ) : invite.status === 'ACCEPTED' ? (
-                <button className='mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => setDeclineInvitePromptId(invite.id)}>
+                <button disabled={loading} className='disabled:opacity-50 mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold' onClick={() => setDeclineInvitePromptId(invite.id)}>
                   Remove
                 </button>
               ) : (
