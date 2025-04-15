@@ -56,7 +56,7 @@ export default function Requests() {
           Posted Requests
         </button>
         <button onClick={() => setTab('received')} className={`py-2 rounded-xl ${tab === 'received' ? "bg-green-700 text-white" : ""}`}>
-          Your Requests
+          Received Requests
         </button>
       </div>
 

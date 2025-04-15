@@ -17,7 +17,7 @@ const RideCard = ({ ride }: { ride: Ride }) => {
     <li className='p-2 bg-white border-2 border-solid border-green-700 rounded-xl'>
       <RideDetailsModal ride={ride} open={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />
       <div role="button" onClick={() => setDetailsModalOpen(true)} className='flex justify-between gap-4'>
-        <div className=''>
+        <div>
           <span className='font-semibold'>
             {ride.stops[0].name} to {ride.stops[1].name}
           </span>
@@ -26,7 +26,7 @@ const RideCard = ({ ride }: { ride: Ride }) => {
             {ride.vehicleType[0] + ride.vehicleType.substring(1).toLowerCase()} | {ride.participants.length} people sharing
           </span>
         </div>
-        <div className=''>
+        <div>
           <span className="text-xs text-neutral-600 font-Quicksand">
             {displayTimeRange(st, ed, d)}
           </span>
@@ -52,11 +52,21 @@ export default function MyRides() {
       .then(res => {
         const data = res.data.data
 
-        const up = [], cp = [], ca = []
+        const up: Ride[] = []
+        const cp: Ride[] = []
+        const ca: Ride[] = []
+
+        const now = new Date()
 
         for (let ride of data) {
+          const ed = new Date(ride.latestDeparture)
+
           if (ride.status === 'PENDING') {
-            up.push(ride)
+            if (ed > now) {
+              up.push(ride)
+            } else {
+              cp.push({ ...ride, status: 'COMPLETED' }) // Treat expired as completed
+            }
           } else if (ride.status === 'COMPLETED') {
             cp.push(ride)
           } else if (ride.status === 'CANCELLED') {
@@ -69,7 +79,7 @@ export default function MyRides() {
         setCancelledRides(ca)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
         toast.error('Failed to fetch rides')
       })
       .finally(() => {
@@ -78,21 +88,15 @@ export default function MyRides() {
   }, [user])
 
   if (!user) {
-    return (
-      <Redirect to="/start" />
-    )
+    return <Redirect to="/start" />
   }
 
   return (
     <div className='px-4 py-8 pb-20'>
       <Header />
 
-      <h1 className='mt-4 text-2xl font-semibold text-green-800'>
-        My Rides
-      </h1>
-      <h2 className='font-semibold'>
-        Your Ride Records, Simplified
-      </h2>
+      <h1 className='mt-4 text-2xl font-semibold text-green-800'>My Rides</h1>
+      <h2 className='font-semibold'>Your Ride Records, Simplified</h2>
 
       <div className='my-4 grid grid-cols-3 rounded-xl bg-green-50 border border-solid border-green-700'>
         <button className={`p-2 rounded-xl ${tab === 'upcoming' ? 'bg-green-700 text-white' : ''}`} onClick={() => setTab('upcoming')}>Upcoming</button>
@@ -101,18 +105,12 @@ export default function MyRides() {
       </div>
 
       {loading ? (
-        <div className=''>
-          <p>
-            Loading rides...
-          </p>
-        </div>
+        <p>Loading rides...</p>
       ) : ((tab === 'upcoming' && upcomingRides.length === 0)
         || (tab === 'completed' && completedRides.length === 0)
         || (tab === 'cancelled' && cancelledRides.length === 0)) && (
         <div className='text-center'>
-          <p>
-            No rides found in this category
-          </p>
+          <p>No rides found in this category</p>
         </div>
       )}
 

@@ -41,7 +41,7 @@ export const AvailableRidesComponent: React.FC = () => {
 
             <section className="mt-4">
                 <p className="connect text-[26px] font-Quicksand text-left font-[600]">
-                    Connect. Ride. Save. <PiRepeat className="-mt-2 inline" size={32}/>
+                    Connect. Ride. Save.
                 </p>
                 <p className="welcome text-[21px]  text-[#01653F] font-Quicksand text-left font-[600]">Welcome Back, {user.name}!</p>
                 <div className="flex justify-between items-center gap-4">
