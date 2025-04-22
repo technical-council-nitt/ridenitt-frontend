@@ -30,12 +30,14 @@ export default defineConfig({
     //vite proxy is not needed in production, vercel rewrite rules are used instead
     proxy: {
       '/api': {
-        target: "http://localhost:3000",
-        changeOrigin: false
+        target: "http://backend:3000",
+        changeOrigin: true,
+        secure: false
       },
       '/auth': {
-        target: "http://localhost:3000",
-        changeOrigin: false
+        target: "http://backend:3000",
+        changeOrigin: true,
+        secure: false
       }
     }
   }

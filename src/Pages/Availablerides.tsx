@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import RideDetailsCard from "../Components/RideDetailsCard";
 import Header from "../Components/Header";
 import { MdAddLocationAlt } from "react-icons/md";
-import { PiRepeat } from "react-icons/pi";
+// import { PiRepeat } from "react-icons/pi";
 
 export const AvailableRidesComponent: React.FC = () => {
     const { user } = useAuth();
