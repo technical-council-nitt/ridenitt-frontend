@@ -27,18 +27,18 @@ export default defineConfig({
     }
   })],
   server: {
-    //vite proxy is not needed in production, vercel rewrite rules are used instead
+    allowedHosts: ['ridenitt.in', 'www.ridenitt.in'],
     proxy: {
       '/api': {
-        target: "http://backend:3000",
+        target: process.env.BACKEND_URL || "http://localhost:3000",
         changeOrigin: true,
         secure: false
       },
       '/auth': {
-        target: "http://backend:3000",
+        target: process.env.BACKEND_URL || "http://localhost:3000",
         changeOrigin: true,
         secure: false
       }
-    }
+    },  
   }
 })
