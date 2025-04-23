@@ -164,7 +164,7 @@ export function DateTimeModal({
           <div className="space-y-4">
             {/* Start Time */}
             <div className="space-y-2">
-              <h3 className="text-gray-500">Ride Start Time</h3>
+              <h3 className="text-gray-500">Earliest Departure Time</h3>
               <div className="flex gap-4">
                 <select
                   className="relative w-1/5 px-2 py-1 border-2 border-gray-300 rounded-full"
@@ -204,7 +204,7 @@ export function DateTimeModal({
 
             {/* End Time */}
             <div className="space-y-2">
-              <h3 className="text-gray-500">Ride End Time</h3>
+              <h3 className="text-gray-500">Latest Departure Time</h3>
               <div className="flex gap-4">
                 <select
                   className="w-1/4 p-2 border-2 border-gray-300 rounded-full"
