@@ -12,20 +12,57 @@ export const age = (n: number) => {
   } else if (n < 31536000000) {
     return `${Math.floor(n / 2592000000)} month${n / 2592000000 >= 2 ? 's' : ''} ago`
   } else {
-    return `${Math.floor(n / 31536000000)} years ago`
+    return `${Math.floor(n / 31536000000)} year${n / 31536000000 >= 2 ? 's' : ''} ago`
   }
 }
 
+// Utility to normalize date to ignore time part for comparison
+const normalizeDate = (date: Date) => {
+  const normalized = new Date(date)
+  normalized.setHours(0, 0, 0, 0) // Set to midnight to ignore time part
+  return normalized
+}
+
+const isSameDay = (d1: Date, d2: Date) =>
+  normalizeDate(d1).getTime() === normalizeDate(d2).getTime()
+
+const isTomorrow = (d1: Date, d2: Date) => {
+  const temp = new Date(d1)
+  temp.setDate(temp.getDate() + 1)
+  return isSameDay(temp, d2)
+}
+
+const isYesterday = (d1: Date, d2: Date) => {
+  const temp = new Date(d1)
+  temp.setDate(temp.getDate() - 1)
+  return isSameDay(temp, d2)
+}
+
 export const displayTimeRange = (st: Date, ed: Date, cmp: Date | false) => {
-  const [isToday, isTomorrow, isYesterday] = cmp === false ? [false, false, false] : [st.getDate() === cmp?.getDate() && st.getMonth() === cmp?.getMonth() && st.getFullYear() === cmp?.getFullYear(), st.getDate() === cmp?.getDate() + 1 && st.getMonth() === cmp?.getMonth() && st.getFullYear() === cmp?.getFullYear(), st.getDate() === cmp?.getDate() - 1 && st.getMonth() === cmp?.getMonth() && st.getFullYear() === cmp?.getFullYear()]
+  const [today, tomorrow, yesterday] =
+    cmp === false
+      ? [false, false, false]
+      : [isSameDay(st, cmp), isTomorrow(cmp, st), isYesterday(cmp, st)]
 
   return (
     <span className="">
       <span className="max-sm:block sm:mr-1">
-        {isToday ? 'Today' : isTomorrow ? 'Tomorrow' : isYesterday ? 'Yesterday' : st.toLocaleString('default', { month: 'short', day: '2-digit', year: 'numeric' })}
+        {today
+          ? 'Today'
+          : tomorrow
+          ? 'Tomorrow'
+          : yesterday
+          ? 'Yesterday'
+          : st.toLocaleDateString('default', {
+              month: 'short',
+              day: '2-digit',
+              year: 'numeric',
+            })}
       </span>
       <span>
-        {st.getHours() % 12}: {st.getMinutes().toString().padStart(2, '0')} {st.getHours() > 11 ? 'PM' : 'AM'} - {ed.getHours() % 12}: {ed.getMinutes().toString().padStart(2, '0')} {ed.getHours() > 11 ? 'PM' : 'AM'}
+        {st.getHours() % 12 || 12}:{st.getMinutes().toString().padStart(2, '0')}{' '}
+        {st.getHours() >= 12 ? 'PM' : 'AM'} - {ed.getHours() % 12 || 12}:
+        {ed.getMinutes().toString().padStart(2, '0')} {ed.getHours() >= 12 ? 'PM' : 'AM'}
       </span>
     </span>
   )
