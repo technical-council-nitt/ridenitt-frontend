@@ -10,7 +10,15 @@ const places = [
   "Trichy Junction",
   "Chatram Bus Stand",
   "Central Bus Stand",
-  "Trichy Airport"
+  "Trichy Airport",
+  "Shivani Engineering College",
+"Cauvery college for Women",
+"Nehru Memorial College",
+"K. Ramakrishnan college of Technology",
+"Sureya College of Engineering",
+"Pavendar Bharathidasan college",
+"Jayaram College of Engineering",
+"M.A.M. School of Engineering"
 ]
 
 const customIcon = new L.Icon({
