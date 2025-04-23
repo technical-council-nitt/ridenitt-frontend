@@ -137,19 +137,26 @@ export function DateTimeModal({
                   {day}
                 </div>
               ))}
-              {days.map((day) => (
-                <button
-                  key={day}
-                  onClick={() => setSelectedDate(day)}
-                  disabled={todayMonth === currentMonth && todayYear === currentYear && day < todayDate}
-                  className={`
-                    rounded-full w-8 h-8 mx-auto flex items-center justify-center disabled:text-gray-300 text-gray-700
-                    ${selectedDate === day ? "bg-green-600 text-white" : ""}
-                  `}
-                >
-                  {day+1}
-                </button>
-              ))}
+{days.map((day) => {
+  const dateObj = new Date(currentYear, currentMonth, day + 1)
+  const isPastDate = dateObj < new Date(todayYear, todayMonth, todayDate)
+
+  return (
+    <button
+      key={day}
+      onClick={() => setSelectedDate(day)}
+      disabled={isPastDate}
+      className={`
+        rounded-full w-8 h-8 mx-auto flex items-center justify-center 
+        ${isPastDate ? "text-gray-300" : "text-gray-700"} 
+        ${selectedDate === day ? "bg-green-600 text-white" : ""}
+      `}
+    >
+      {day + 1}
+    </button>
+  )
+})}
+
             </div>
           </div>
 
