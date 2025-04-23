@@ -53,7 +53,7 @@ export default function Requests() {
 
       <div className='mt-4 w-full rounded-xl border border-green-700 border-solid grid grid-cols-2 place-items-stretch'>
         <button onClick={() => setTab('sent')} className={`py-2 rounded-xl ${tab === 'sent' ? "bg-green-700 text-white" : ""}`}>
-          Posted Requests
+          Sent Requests
         </button>
         <button onClick={() => setTab('received')} className={`py-2 rounded-xl ${tab === 'received' ? "bg-green-700 text-white" : ""}`}>
           Received Requests

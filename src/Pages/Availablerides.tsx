@@ -70,7 +70,7 @@ export const AvailableRidesComponent: React.FC = () => {
 
                     <li className="mt-4">
                         <p className="leading-5 text-neutral-700">
-                            Unable to find a match? Fret not, click here to post your ride.
+                            Unable to find a match? Fret not, click on the icon at the bottom right to post your ride.
                         </p>
                     </li>
                 </ul>

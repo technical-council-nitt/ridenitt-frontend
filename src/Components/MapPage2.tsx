@@ -46,6 +46,12 @@ const MapPage2 = ({
   const defaultLocation = { lat: 10.76338535, lng: 78.81502919117466 };
 
   useEffect(() => {
+
+    if (!navigator.geolocation) {
+    	console.error("Geolocation not supported");
+    	setLocation(defaultLocation);
+    	return;
+  	}
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocation({
