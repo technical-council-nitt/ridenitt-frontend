@@ -69,7 +69,7 @@ const RideForm: React.FC = () => {
       {/* Ride Start Time Range */}
       <div className="mt-[40px]">
         <label className="block text-[#91908E] text-[14px] font-quicksand font-semibold">
-          Ride Start Time Range
+          Earliest Departure Time
         </label>
         <select
           className="w-full h-[40px] bg-[#E1FCF2] border border-black rounded-[20px] pl-[15px] outline-none mt-2"
@@ -88,7 +88,7 @@ const RideForm: React.FC = () => {
       {/* Ride End Time Range */}
       <div className="mt-[40px]">
         <label className="block text-[#91908E] text-[14px] font-quicksand font-semibold">
-          Ride End Time Range
+          Latest Departure Time
         </label>
         <select
           className="w-full h-[40px] bg-[#E1FCF2] border border-black rounded-[20px] pl-[15px] outline-none mt-2"
