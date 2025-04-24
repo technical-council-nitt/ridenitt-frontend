@@ -221,7 +221,7 @@ export default function ShareRide() {
         </div>
 
         {/* Preferred Gender */}
-        <div className="mb-5 ">
+        {/*<div className="mb-5 ">
           <Select
             value={prefersGender}
             items={["", "Male", "Female", "Any"] as const}
@@ -230,7 +230,7 @@ export default function ShareRide() {
               children || "Select Preferred Gender"
             )}
           />
-        </div>
+        </div>*/}
 
         {/* Post Button */}
         <button onClick={handleSubmit} disabled={loading} className="w-full disabled:opacity-75 py-4 bg-[#008955] text-white rounded-full text-lg sm:text-xl md:text-2xl font-semibold">
