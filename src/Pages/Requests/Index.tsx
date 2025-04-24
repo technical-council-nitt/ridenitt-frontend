@@ -78,7 +78,7 @@ export default function Requests() {
         <>
           {receivedRequests.length === 0 ? (
             <div className='mt-4 text-center text-gray-500'>
-              No received requests found
+           
             </div>
           ) : (
             <ul className='mt-4 flex flex-col gap-2'>
