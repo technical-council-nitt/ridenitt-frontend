@@ -20,8 +20,8 @@ export default function Requests() {
 
     axios.get('/api/invites')
       .then(res => {
-        setSentRequests(res.data.data.sent)
-        setReceivedRequests(res.data.data.received)
+        setSentRequests(res.data.data.sent || [])
+        setReceivedRequests(res.data.data.received || [])
       })
       .catch(err => {
         console.error(err)
@@ -39,7 +39,7 @@ export default function Requests() {
   if (!user) {
     return (<Redirect to='/start' />)
   }
-  
+
   return (
     <div className='p-4 pb-40'>
       <Header />
@@ -75,9 +75,29 @@ export default function Requests() {
       )}
 
       {tab === 'received' && (
+        <>
+          {receivedRequests.length === 0 ? (
+            <div className='mt-4 text-center text-gray-500'>
+              No received requests found
+            </div>
+          ) : (
+            <ul className='mt-4 flex flex-col gap-2'>
+              {receivedRequests.map((req, idx) => (
+                <ReceivedRequest
+                  key={idx}
+                  request={req}
+                  refreshRequests={fetchRequests}
+                />
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+
+      {tab === 'sent' && (
         <ul className='mt-4 flex flex-col gap-2'>
-          {receivedRequests.map((req, idx) => (
-            <ReceivedRequest
+          {sentRequests.map((req, idx) => (
+            <SentRequest
               key={idx}
               request={req}
               refreshRequests={fetchRequests}
@@ -85,16 +105,6 @@ export default function Requests() {
           ))}
         </ul>
       )}
-
-      {tab === 'sent' && <ul className='mt-4 flex flex-col gap-2'>
-        {sentRequests.map((req, idx) => (
-          <SentRequest
-            key={idx}
-            request={req}
-            refreshRequests={fetchRequests}
-          />
-        ))}
-      </ul>}
     </div>
   )
 }
