@@ -15,7 +15,7 @@ const Start1: React.FC = () => {
             <h1 className="text-black font-bold leading-snug"
                 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}> {/* Reduced for large screens */}
               Trusted <br />
-              by <span className="text-[#008955]">8000+</span> <br />
+              by <br />
               <span className="text-[#008955]">NITT students</span> for <br />
               their daily <br />
               commute!
