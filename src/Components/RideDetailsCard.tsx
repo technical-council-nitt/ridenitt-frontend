@@ -23,7 +23,7 @@ const RideDetailsCard = ({ ride, refreshRide }: {
       })
       .catch((error) => {
         console.error(error);
-        toast.error('Failed to send request. Please try again later.');
+        toast.error(error);
       })
       .finally(() => setLoading(false))
   }
