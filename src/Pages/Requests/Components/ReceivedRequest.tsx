@@ -104,9 +104,9 @@ export default function ReceivedRequest({
         <div className='flex gap-4 justify-between items-start'>
           <div>
             <span className='font-semibold'>
-              From {ride.stops[0].name}
+              From {ride.stops?.[0]?.name || 'Unknown'}
               <br />
-              To {ride.stops[1].name}
+              To {ride.stops?.[1]?.name || 'Unknown'}
             </span>
             <br />
             <span className='block text-neutral-600 text-sm'>

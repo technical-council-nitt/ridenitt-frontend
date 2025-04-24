@@ -3,68 +3,110 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { displayTimeRange } from "../Utils/datetime";
 
-const RideDetailsCard = ({ ride, refreshRide }: {
-  ride: Ride,
-  refreshRide: () => void,
+const RideDetailsCard = ({
+  ride,
+  refreshRide,
+}: {
+  ride: Ride;
+  refreshRide: () => void;
 }) => {
-  const [loading, setLoading] = useState(false)
-  const [showModal, setShowModal] = useState(false)
-  const st = new Date(ride.earliestDeparture)
-  const ed = new Date(ride.latestDeparture)
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  if (!ride || !ride.owner || !ride.stops || ride.stops.length < 2) {
+    return (
+      <li className="p-4 border-2 border-gray-300 bg-gray-100 rounded-xl text-center text-neutral-700 font-semibold">
+        No rides available.
+      </li>
+    );
+  }
+
+  const st = new Date(ride.earliestDeparture);
+  const ed = new Date(ride.latestDeparture);
 
   const handleSend = () => {
-    setLoading(true)
-    axios.post('/api/invites', {
-      rideId: ride.id
-    })
+    setLoading(true);
+    axios
+      .post("/api/invites", { rideId: ride.id })
       .then(() => {
-        toast.success('Request sent successfully!');
-        refreshRide()
+        toast.success("Request sent successfully!");
+        refreshRide();
       })
       .catch((error) => {
         console.error(error);
-        toast.error(error);
+        toast.error(error?.response?.data?.message || "Something went wrong");
       })
-      .finally(() => setLoading(false))
-  }
+      .finally(() => setLoading(false));
+  };
 
   return (
-    <li key={ride.id} className="p-4 border-[2px] border-[#08B783] bg-[#C1EDE08C] w-[auto] rounded-[10px]">
-      <div className={`fixed inset-0 grid place-items-center bg-black/25 z-[2] ${showModal ? 'block' : 'hidden'}`} onClick={() => setShowModal(false)}>
-        <div className="p-4 m-4 bg-white rounded-lg" onClick={(e) => e.stopPropagation()}>
-          <p>
-            Please leave your current ride to send a request
+    <li className="p-4 border-2 border-[#08B783] bg-[#C1EDE08C] rounded-xl">
+      {/* Modal */}
+      {showModal && (
+        <div
+          className="fixed inset-0 z-10 grid place-items-center bg-black/25"
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className="p-6 bg-white rounded-lg shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-neutral-800 font-medium">
+              Please leave your current ride to send a request.
+            </p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="mt-4 ml-auto block bg-[#008955] text-white px-4 py-2 rounded-lg"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Ride Info */}
+      <h3 className="text-lg font-bold font-Quicksand">
+        {ride.stops[0].name} → {ride.stops[1].name}
+      </h3>
+
+      <div className="flex items-start gap-4 mt-2">
+        <img
+          src={`/Images/${ride.vehicleType.toUpperCase()}.png`}
+          alt={ride.vehicleType}
+          className="w-16 h-16 object-contain"
+        />
+
+        <div className="min-w-44 text-neutral-700 font-Quicksand text-sm">
+          <p className="font-semibold">
+            {displayTimeRange(st, ed, new Date())}
+          </p>
+          <p className="capitalize font-medium mt-1">
+            {ride.vehicleType.toLowerCase()} | {ride.participants.length}{" "}
+            people sharing
           </p>
 
-          <button className="w-fit ml-auto block bg-[#008955] text-white p-2 rounded-[10px] mt-4" onClick={() => setShowModal(false)}>
-            Close
-          </button>
-        </div>
-      </div>
-      <div className="font-Quicksand font-[700]">
-        {ride.stops[0].name} to {ride.stops[1].name}
-      </div>
-      <div className="flex items-center justify-start gap-4">
-        <img width={64} height={64} src={`/Images/${ride.vehicleType.toUpperCase()}.png`} className="w-full max-w-16 aspect-square"></img>
-        <div className="min-w-44 max-sm:text-sm">
-          <div className="mt-2 text font-Quicksand text-neutral-700 font-[700]">
-            {displayTimeRange(st, ed, new Date())}
-            <br />
-            {ride.vehicleType[0] + ride.vehicleType.substring(1).toLowerCase()} | {ride.participants.length} People sharing
-          </div>
-          <div className="mt-2 flex items-center gap-2">
-            <img width={24} height={24} src="profile.svg" className=""></img>
-            <div className="text-neutral-700 font-[600]">Posted by {ride.owner.name}</div>
+          <div className="flex items-center gap-2 mt-2">
+            <img src="profile.svg" alt="profile" className="w-6 h-6" />
+            <span className="font-semibold">Posted by {ride.owner.name}</span>
           </div>
         </div>
       </div>
-      <div className="mt-2 border-2 border-[#008955] rounded-[10px]">
+
+      {/* Invite/Status Button */}
+      <div className="mt-4">
         {ride.myInvite ? (
-          <button disabled className="p-2 text-[#008955] w-full font-Quicksand font-[600]">
+          <button
+            disabled
+            className="w-full p-2 border-2 border-[#008955] text-[#008955] font-semibold rounded-lg"
+          >
             {ride.myInvite.status}
           </button>
         ) : (
-          <button disabled={loading} onClick={handleSend} className="p-2 disabled:opacity-50 w-full text-center font-Quicksand font-[600]">
+          <button
+            disabled={loading}
+            onClick={handleSend}
+            className="w-full p-2 border-2 border-[#008955] text-[#008955] font-semibold rounded-lg disabled:opacity-50"
+          >
             Send Request
           </button>
         )}
