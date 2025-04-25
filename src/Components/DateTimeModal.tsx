@@ -29,11 +29,15 @@ export function DateTimeModal({
 }: DateTimeModalProps) {
   const [selectedDate, setSelectedDate] = useState(initialValue.date)
   const [startHour, setStartHour] = useState(initialValue.startHour.toString())
-  const [startMinute, setStartMinute] = useState(initialValue.startMinute.toString().padStart(2, "0"))
+  const [startMinute, setStartMinute] = useState(
+    initialValue.startMinute.toString().padStart(2, "0")
+  )
   const [startAmPm, setStartAmPm] = useState<'AM' | 'PM'>(initialValue.startAmPm)
   
   const [endHour, setEndHour] = useState(initialValue.endHour.toString())
-  const [endMinute, setEndMinute] = useState(initialValue.endMinute.toString().padStart(2, "0"))
+  const [endMinute, setEndMinute] = useState(
+    initialValue.endMinute.toString().padStart(2, "0")
+  )
   const [endAmPm, setEndAmPm] = useState<'AM'| 'PM'>(initialValue.endAmPm)
 
   const [currentMonth, setCurrentMonth] = useState(initialValue.month)
@@ -47,6 +51,14 @@ export function DateTimeModal({
   const daysInMonth = useMemo(() => {
     return new Date(currentYear, currentMonth + 1, 0).getDate()
   }, [currentMonth, currentYear])
+
+  // First day of the month (0=Sunday, 1=Monday, ...)
+  const firstDay = useMemo(
+    () => new Date(currentYear, currentMonth, 1).getDay(),
+    [currentYear, currentMonth]
+  )
+  // Shift so Monday=0, Tuesday=1, ..., Sunday=6
+  const blankCount = (firstDay + 6) % 7
 
   // Function to navigate between months
   const handleMonthChange = (direction: "prev" | "next") => {
@@ -67,13 +79,12 @@ export function DateTimeModal({
     }
   };
   
-
-  // Generate days of the week for the current month
+  // Generate zero-based day indices
   const days = Array.from({ length: daysInMonth }, (_, i) => i)
 
   const handleConfirm = () => {
     onConfirm({
-      date: selectedDate,
+      date: selectedDate + 1,
       month: currentMonth,
       year: currentYear,
       startHour: Number(startHour),
@@ -94,7 +105,7 @@ export function DateTimeModal({
     if (type === "start") setStartMinute(value.toString())
     else setEndMinute(value.toString())
   }
-  const handleAmPmChange = (type: "start" | "end", value: "AM" | "PM") => {
+  const handleAmPmChange = (type: "start" | "end", value: 'AM' | 'PM') => {
     if (type === "start") setStartAmPm(value)
     else setEndAmPm(value)
   }
@@ -113,7 +124,6 @@ export function DateTimeModal({
 
           {/* Calendar Section */}
           <div className="space-y-4">
-            {/* <h3 className="text-gray-500">Ride Date</h3> */}
             <div className="flex justify-between items-center">
               <button
                 onClick={() => handleMonthChange("prev")}
@@ -131,32 +141,39 @@ export function DateTimeModal({
                 &#62;
               </button>
             </div>
+
             <div className="grid grid-cols-7 gap-2 text-center">
-              {["M", "T", "W", "T", "F", "S", "S"].map((day, i) => (
-                <div key={i} className="text-gray-500 text-xs">
-                  {day}
-                </div>
+              {['M','T','W','T','F','S','S'].map((day, i) => (
+                <div key={i} className="text-gray-500 text-xs">{day}</div>
               ))}
-{days.map((day) => {
-  const dateObj = new Date(currentYear, currentMonth, day + 1)
-  const isPastDate = dateObj < new Date(todayYear, todayMonth, todayDate)
 
-  return (
-    <button
-      key={day}
-      onClick={() => setSelectedDate(day)}
-      disabled={isPastDate}
-      className={`
-        rounded-full w-8 h-8 mx-auto flex items-center justify-center 
-        ${isPastDate ? "text-gray-300" : "text-gray-700"} 
-        ${selectedDate === day ? "bg-green-600 text-white" : ""}
-      `}
-    >
-      {day + 1}
-    </button>
-  )
-})}
+              {/* Blank cells for alignment */}
+              {Array.from({ length: blankCount }).map((_, i) => (
+                <div key={`blank-${i}`} />
+              ))}
 
+              {/* Days */}
+              {days.map((day) => {
+                const dateObj = new Date(currentYear, currentMonth, day + 1)
+                const isPastDate = dateObj < new Date(todayYear, todayMonth, todayDate)
+
+                return (
+                  <button
+                    key={day}
+                    onClick={() => setSelectedDate(day)}
+                    disabled={isPastDate}
+                    className={
+                      `
+                        rounded-full w-8 h-8 mx-auto flex items-center justify-center 
+                        ${isPastDate ? "text-gray-300" : "text-gray-700"} 
+                        ${selectedDate === day ? "bg-green-600 text-white" : ""}
+                      `
+                    }
+                  >
+                    {day + 1}
+                  </button>
+                )
+              })}
             </div>
           </div>
 
@@ -182,7 +199,7 @@ export function DateTimeModal({
                   value={startMinute}
                   onChange={(e) => handleMinuteChange("start", Number(e.target.value))}
                 >
-                  {["00", "15", "30", "45"].map((minute) => (
+                  {['00','15','30','45'].map((minute) => (
                     <option key={minute} value={minute}>
                       {minute}
                     </option>
@@ -193,7 +210,7 @@ export function DateTimeModal({
                   value={startAmPm}
                   onChange={(e) => handleAmPmChange("start", e.target.value as any)}
                 >
-                  {["AM", "PM"].map((ampm) => (
+                  {['AM','PM'].map((ampm) => (
                     <option key={ampm} value={ampm}>
                       {ampm}
                     </option>
@@ -222,7 +239,7 @@ export function DateTimeModal({
                   value={endMinute}
                   onChange={(e) => handleMinuteChange("end", Number(e.target.value))}
                 >
-                  {["00", "15", "30", "45"].map((minute) => (
+                  {['00','15','30','45'].map((minute) => (
                     <option key={minute} value={minute}>
                       {minute}
                     </option>
@@ -233,7 +250,7 @@ export function DateTimeModal({
                   value={endAmPm}
                   onChange={(e) => handleAmPmChange("end", e.target.value as any)}
                 >
-                  {["AM", "PM"].map((ampm) => (
+                  {['AM','PM'].map((ampm) => (
                     <option key={ampm} value={ampm}>
                       {ampm}
                     </option>
