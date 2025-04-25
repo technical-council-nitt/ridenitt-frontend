@@ -79,14 +79,14 @@ export default function ShareRide() {
       earliestDeparture: new Date(
         datetimeInput.year,
         datetimeInput.month,
-        datetimeInput.date+1,
+        datetimeInput.date,
         datetimeInput.startAmPm === 'PM' ? datetimeInput.startHour + 12 : datetimeInput.startHour,
         datetimeInput.startMinute
       ).getTime(),
       latestDeparture: new Date(
         datetimeInput.year,
         datetimeInput.month,
-        datetimeInput.date+1,
+        datetimeInput.date,
         datetimeInput.endAmPm === 'PM' ? datetimeInput.endHour + 12 : datetimeInput.endHour,
         datetimeInput.endMinute
       ).getTime()
