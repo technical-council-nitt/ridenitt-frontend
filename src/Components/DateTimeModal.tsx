@@ -73,7 +73,7 @@ export function DateTimeModal({
 
   const handleConfirm = () => {
     onConfirm({
-      date: selectedDate+1,
+      date: selectedDate,
       month: currentMonth,
       year: currentYear,
       startHour: Number(startHour),
