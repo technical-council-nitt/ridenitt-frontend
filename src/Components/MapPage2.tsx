@@ -14,6 +14,7 @@ const places = [
   "Shivani Engineering College",
 "Cauvery college for Women",
 "Nehru Memorial College",
+  "Imamyam College of Engineering",
 "K. Ramakrishnan college of Technology",
 "Sureya College of Engineering",
 "Pavendar Bharathidasan college",
