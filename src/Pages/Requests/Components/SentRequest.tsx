@@ -32,32 +32,52 @@ export default function SentRequest({
       return
     }
 
-    axios.post(`/api/invites/${request.id}/decline`, {
-      reason: reason
-    })
+    axios
+      .post(`/api/invites/${request.id}/decline`, {
+        reason: reason
+      })
       .then(() => {
         refreshRequests()
-        toast.success("Left ride successfully")
+        toast.success(
+          request.status === "PENDING"
+            ? "Cancelled request successfully"
+            : "Left ride successfully"
+        )
       })
       .catch(err => {
         console.error(err)
-        toast.error("Failed to leave ride")
+        toast.error(
+          request.status === "PENDING"
+            ? "Failed to cancel request"
+            : "Failed to leave ride"
+        )
       })
       .finally(() => setLeaveLoading(false))
   }
 
+  // shouldShowButton: ride not expired AND (pending OR accepted+active)
+  const shouldShowButton =
+    !isExpired &&
+    (request.status === "PENDING" ||
+      (request.status === "ACCEPTED" &&
+        user?.activeRides.includes(request.receiverRideId)))
+
   return (
-    <li className='p-2 border-2 border-green-700 rounded-xl'>
+    <li className="p-2 border-2 border-green-700 rounded-xl">
       <RideDetailsModal
         currentUserId={user?.id}
         ride={ride}
         open={detailsModalOpen}
         onClose={() => setDetailsModalOpen(false)}
       />
-      
+
       {leavePromptOpen && (
         <Prompt
-          label="Reason for leaving"
+          label={
+            request.status === "PENDING"
+              ? "Reason for cancelling"
+              : "Reason for leaving"
+          }
           onCancel={() => setLeavePromptOpen(false)}
           onConfirm={v => handleLeave(v)}
         />
@@ -67,13 +87,13 @@ export default function SentRequest({
         <div role="button" onClick={() => setDetailsModalOpen(true)}>
           <div>
             <strong>{ride.owner.name}</strong>
-            {request.status === 'ACCEPTED' && (
+            {request.status === "ACCEPTED" && (
               <span className="block text-neutral-700">
                 {ride.owner.phoneNumber}
               </span>
             )}
           </div>
-          <span className='text-neutral-600'>
+          <span className="text-neutral-600">
             {ride.vehicleType} | {ride.participants.length} people sharing
           </span>
           <br />
@@ -83,24 +103,35 @@ export default function SentRequest({
           <span
             role="button"
             onClick={() => setDetailsModalOpen(true)}
-            className='mb-2 block text-neutral-600 font-Quicksand text-sm'
+            className="mb-2 block text-neutral-600 font-Quicksand text-sm"
           >
             {displayTimeRange(st, ed, now)}
           </span>
 
           {isExpired ? (
             <span className="text-gray-500 font-semibold">Expired</span>
-          ) : request.status === 'ACCEPTED' && user?.activeRides.includes(request.receiverRideId) ? (
+          ) : shouldShowButton ? (
             <button
               disabled={leaveLoading}
-              className='disabled:opacity-50 mt-2 w-20 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold'
               onClick={() => setLeavePromptOpen(true)}
+              className="disabled:opacity-50 mt-2 w-24 text-xs p-1 border-2 border-red-600 bg-red-100 text-neutral-800 rounded-lg font-semibold"
             >
-              Leave
+              {request.status === "PENDING" ? "Cancel" : "Leave"}
             </button>
           ) : (
-            <span className={`${request.status === 'PENDING' ? 'text-yellow-600' : request.status === 'ACCEPTED' ? 'text-green-600' : 'text-red-600'}`}>
-              {request.declineReason?.startsWith("Left:") ? "You Left" : request.status[0] + request.status.substring(1).toLowerCase()}
+            <span
+              className={`${
+                request.status === "PENDING"
+                  ? "text-yellow-600"
+                  : request.status === "ACCEPTED"
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              {request.declineReason?.startsWith("Left:")
+                ? "You Left"
+                : request.status[0] +
+                  request.status.substring(1).toLowerCase()}
             </span>
           )}
         </div>

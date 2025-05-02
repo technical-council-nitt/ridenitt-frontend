@@ -79,14 +79,14 @@ export default function ShareRide() {
       earliestDeparture: new Date(
         datetimeInput.year,
         datetimeInput.month,
-        datetimeInput.date,
+        datetimeInput.date+1,
         datetimeInput.startAmPm === 'PM' ? datetimeInput.startHour + 12 : datetimeInput.startHour,
         datetimeInput.startMinute
       ).getTime(),
       latestDeparture: new Date(
         datetimeInput.year,
         datetimeInput.month,
-        datetimeInput.date,
+        datetimeInput.date+1,
         datetimeInput.endAmPm === 'PM' ? datetimeInput.endHour + 12 : datetimeInput.endHour,
         datetimeInput.endMinute
       ).getTime()
@@ -184,7 +184,7 @@ export default function ShareRide() {
 
         <div className="flex justify-center mb-6">
           <div className="inline-flex items-start px-4 py-2 rounded-full bg-[#E8F8F3] w-max border-2 border-black">
-            <span className="text-sm sm:text-base md:text-lg text-center flex-grow">Passenger Count :</span>
+            <span className="text-sm sm:text-base md:text-lg text-center flex-grow">Passenger Limit :</span>
             <input
               type="number"
               value={peopleCount}
