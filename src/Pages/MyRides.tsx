@@ -56,17 +56,9 @@ export default function MyRides() {
         const cp: Ride[] = []
         const ca: Ride[] = []
 
-        const now = new Date()
-
         for (let ride of data) {
-          const ed = new Date(ride.latestDeparture)
-
           if (ride.status === 'PENDING') {
-            if (ed > now) {
-              up.push(ride)
-            } else {
-              cp.push({ ...ride, status: 'COMPLETED' }) // Treat expired as completed
-            }
+            up.push(ride)
           } else if (ride.status === 'COMPLETED') {
             cp.push(ride)
           } else if (ride.status === 'CANCELLED') {

@@ -82,7 +82,7 @@ const RideDetailsCard = ({
           </p>
           <p className="capitalize font-medium mt-1">
             {ride.vehicleType.toLowerCase()} | {ride.participants.length}{" "}
-            people sharing
+            people currently part of ride
           </p>
 
           <div className="flex items-center gap-2 mt-2">
@@ -93,14 +93,37 @@ const RideDetailsCard = ({
       </div>
 
       {/* Invite/Status Button */}
-      <div className="mt-4">
+      <div className="mt-4 flex gap-2 items-center">
         {ride.myInvite ? (
-          <button
-            disabled
-            className="w-full p-2 border-2 border-[#008955] text-[#008955] font-semibold rounded-lg"
-          >
-            {ride.myInvite.status}
-          </button>
+          <>
+            <button
+              disabled
+              className="w-full p-2 border-2 border-[#008955] text-[#008955] font-semibold rounded-lg"
+            >
+              {ride.myInvite.status}
+            </button>
+            {(ride.myInvite.status === 'PENDING' || ride.myInvite.status === 'ACCEPTED') && (
+              <button
+                disabled={loading}
+                onClick={async () => {
+                  setLoading(true);
+                  try {
+                    await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason: 'Cancelled from home card' });
+                    toast.success('Request cancelled');
+                    refreshRide();
+                  } catch (error) {
+                    console.error(error);
+                    toast.error(error?.response?.data?.message || 'Failed to cancel request');
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                className="p-2 border-2 border-red-600 text-red-600 font-semibold rounded-lg disabled:opacity-50"
+              >
+                Cancel
+              </button>
+            )}
+          </>
         ) : (
           <button
             disabled={loading}
