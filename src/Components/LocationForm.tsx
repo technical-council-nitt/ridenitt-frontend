@@ -62,8 +62,11 @@ export default function ShareRide() {
   };
 
   const handleSubmit = () => {
+    if (Number(peopleCount) > 80) {
+      toast.error("too many passengers");
+      return;
+    }
     setLoading(true);
-
     axios.post("/api/rides", {
       stops: [
         {

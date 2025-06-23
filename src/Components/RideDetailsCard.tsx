@@ -12,6 +12,8 @@ const RideDetailsCard = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   if (!ride || !ride.owner || !ride.stops || ride.stops.length < 2) {
     return (
@@ -39,6 +41,21 @@ const RideDetailsCard = ({
       .finally(() => setLoading(false));
   };
 
+  // New: handle cancel logic
+  const handleCancel = async (reason: string) => {
+    setLoading(true);
+    try {
+      await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason });
+      toast.success('Request cancelled');
+      refreshRide();
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || 'Failed to cancel request');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <li className="p-4 border-2 border-[#08B783] bg-[#C1EDE08C] rounded-xl">
       {/* Modal */}
@@ -60,6 +77,70 @@ const RideDetailsCard = ({
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Reason Modal for cancelling accepted invite */}
+      {showCancelModal && (
+        <div
+          className="fixed inset-0 z-20 grid place-items-center bg-black/25"
+          onClick={() => {
+            if (!loading) {
+              setShowCancelModal(false);
+              setCancelReason("");
+            }
+          }}
+        >
+          <div
+            className="p-4 bg-white rounded-lg shadow-xl min-w-[260px] max-w-[340px] w-full" // decreased padding and min/max width
+            style={{ minHeight: '180px', maxHeight: '260px' }} // decreased height
+            onClick={e => e.stopPropagation()}
+          >
+            <h2 className="text-base font-semibold mb-2">Cancel Ride Request</h2> {/* slightly smaller text */}
+            <p className="mb-2 text-neutral-700 text-sm">Please provide a reason for cancelling your accepted ride request:</p>
+            <textarea
+              className="w-full border rounded p-2 mb-2 min-h-[40px] text-sm" // smaller min height and text
+              value={cancelReason}
+              onChange={e => setCancelReason(e.target.value)}
+              placeholder="Enter reason..."
+              disabled={loading}
+            />
+            <div className="flex gap-2 justify-end">
+              <button
+                className="px-3 py-1.5 rounded bg-gray-200 text-gray-700 text-sm" // smaller padding and text
+                onClick={() => {
+                  if (!loading) {
+                    setShowCancelModal(false);
+                    setCancelReason("");
+                  }
+                }}
+                disabled={loading}
+              >
+                Close
+              </button>
+              <button
+                className="px-3 py-1.5 rounded bg-red-600 text-white disabled:opacity-50 text-sm" // smaller padding and text
+                disabled={loading || !cancelReason.trim()}
+                onClick={async () => {
+                  setLoading(true);
+                  try {
+                    await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason: cancelReason });
+                    toast.success('Request cancelled');
+                    setShowCancelModal(false);
+                    setCancelReason("");
+                    refreshRide();
+                  } catch (error: any) {
+                    console.error(error);
+                    toast.error(error?.response?.data?.message || 'Failed to cancel request');
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+              >
+                Confirm Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -106,16 +187,20 @@ const RideDetailsCard = ({
               <button
                 disabled={loading}
                 onClick={async () => {
-                  setLoading(true);
-                  try {
-                    await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason: 'Cancelled from home card' });
-                    toast.success('Request cancelled');
-                    refreshRide();
-                  } catch (error) {
-                    console.error(error);
-                    toast.error(error?.response?.data?.message || 'Failed to cancel request');
-                  } finally {
-                    setLoading(false);
+                  if (ride.myInvite.status === 'PENDING') {
+                    setLoading(true);
+                    try {
+                      await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason: 'Cancelled from home card' });
+                      toast.success('Request cancelled');
+                      refreshRide();
+                    } catch (error: any) {
+                      console.error(error);
+                      toast.error(error?.response?.data?.message || 'Failed to cancel request');
+                    } finally {
+                      setLoading(false);
+                    }
+                  } else if (ride.myInvite.status === 'ACCEPTED') {
+                    setShowCancelModal(true);
                   }
                 }}
                 className="p-2 border-2 border-red-600 text-red-600 font-semibold rounded-lg disabled:opacity-50"

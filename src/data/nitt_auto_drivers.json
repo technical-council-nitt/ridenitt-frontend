@@ -1,0 +1,18 @@
+[
+  { "name": "Thalapathi auto", "mobile": "9865374445" },
+  { "name": "Sakthi auto", "mobile": "9952382087" },
+  { "name": "Radhika auto", "mobile": "9788758466" },
+  { "name": "Rasi auto", "mobile": "9443177031" },
+  { "name": "Ajay auto", "mobile": "9965739864" },
+  { "name": "Ambal auto", "mobile": "9994816077" },
+  { "name": "Arun auto", "mobile": "9787383756" },
+  { "name": "Radhika auto - 2", "mobile": ["7200936293", "7339603458"] },
+  { "name": "Sukumar auto", "mobile": "9865419114" },
+  { "name": "Sagayam auto", "mobile": "9489683111" },
+  { "name": "Guru auto", "mobile": "9788123275" },
+  { "name": "Sadhana auto", "mobile": "8508376770" },
+  { "name": "Annai auto", "mobile": "9944562661" },
+  { "name": "Selvan auto", "mobile": "9790035825" },
+  { "name": "Mashallah auto", "mobile": "8754700521" },
+  { "name": "Ayyappan auto", "mobile": "9789462414" }
+]
