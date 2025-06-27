@@ -1,0 +1,34 @@
+{
+  "id": "ridenitt",
+  "version": "1.0.0",
+  "description": "Ridenitt is a ride-sharing application that connects riders and drivers for convenient and efficient transportation.",
+  "lang": "en-US",
+  "display": "standalone",
+  "scope": "/",
+  "orientation": "portrait",
+  "dir": "ltr",
+  "categories": [
+    "transportation",
+    "travel",
+    "ridesharing",
+    "navigation"
+  ],
+  "short_name": "Ridenitt",
+  "name": "Ridenitt",
+  "icons": [
+    {
+      "src": "logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}
