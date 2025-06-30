@@ -27,15 +27,15 @@ export default defineConfig({
     }
   })],
   server: {
-    allowedHosts: ['ridenitt.in', 'www.ridenitt.in'],
+    allowedHosts: ['ridenitt.in', 'www.ridenitt.in', 'ridenittfrontend-298477500939.asia-southeast1.run.app', 'ridenitt-backend-298477500939.asia-southeast1.run.app'],
     proxy: {
       '/api': {
-        target: process.env.BACKEND_URL || "http://localhost:3000",
+        target: process.env.VITE_BACKEND_URL || "http://localhost:3000",
         changeOrigin: true,
         secure: false
       },
       '/auth': {
-        target: process.env.BACKEND_URL || "http://localhost:3000",
+        target: process.env.VITE_BACKEND_URL || "http://localhost:3000",
         changeOrigin: true,
         secure: false
       }
