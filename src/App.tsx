@@ -1,6 +1,7 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import AvailableRidesComponent from "./Pages/Availablerides"
-import ProfileComponent from './Pages/Profile.tsx'
+import { useEffect } from "react";
+import AvailableRidesComponent from "./Pages/Availablerides";
+import ProfileComponent from "./Pages/Profile.tsx";
 import Start from "./Pages/Start";
 import Login from "./Pages/Login";
 import Start1 from "./Pages/Start1";
@@ -21,6 +22,18 @@ import NewAccountSignup from "./Pages/NewAccountSignup.tsx";
 import Redirect from "./Components/Redirect.tsx";
 
 const App: React.FC = () => {
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("/service-worker.js")
+          .catch((err) => {
+            // eslint-disable-next-line no-console
+            console.log("Service Worker registration failed: ", err);
+          });
+      });
+    }
+  }, []);
   return (
     <AuthProvider>
       <CustomRouter />
@@ -30,7 +43,7 @@ const App: React.FC = () => {
 };
 
 const CustomRouter = () => {
-  const { authLoading, user, hasSignedUp } = useAuth()
+  const { authLoading, user, hasSignedUp } = useAuth();
 
   return (
     <BrowserRouter>
@@ -59,7 +72,10 @@ const CustomRouter = () => {
               <Route index element={<AvailableRidesComponent />} />
 
               <Route path="/create-ride" element={<LocationForm />} />
-              <Route path="/suggestions" element={<AvailableRidesComponent />} />
+              <Route
+                path="/suggestions"
+                element={<AvailableRidesComponent />}
+              />
               <Route path="/requests" element={<Requests />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/profile" element={<ProfileComponent />} />
@@ -71,7 +87,7 @@ const CustomRouter = () => {
 
         <Route path="*" element={authLoading ? null : <NotFound />} />
       </Routes>
-    </BrowserRouter >
+    </BrowserRouter>
   );
 };
 
