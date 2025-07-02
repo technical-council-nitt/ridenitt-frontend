@@ -36,7 +36,7 @@ const RideDetailsCard = ({
       })
       .catch((error) => {
         console.error(error);
-        toast.error(error?.response?.data?.message || "Something went wrong");
+        toast.error((error as any)?.response?.data?.message || "Something went wrong");
       })
       .finally(() => setLoading(false));
   };
@@ -50,7 +50,7 @@ const RideDetailsCard = ({
       refreshRide();
     } catch (error) {
       console.error(error);
-      toast.error(error?.response?.data?.message || 'Failed to cancel request');
+      toast.error((error as any)?.response?.data?.message || 'Failed to cancel request');
     } finally {
       setLoading(false);
     }
@@ -132,7 +132,7 @@ const RideDetailsCard = ({
                     refreshRide();
                   } catch (error: any) {
                     console.error(error);
-                    toast.error(error?.response?.data?.message || 'Failed to cancel request');
+                    toast.error((error as any)?.response?.data?.message || 'Failed to cancel request');
                   } finally {
                     setLoading(false);
                   }
@@ -195,7 +195,7 @@ const RideDetailsCard = ({
                       refreshRide();
                     } catch (error: any) {
                       console.error(error);
-                      toast.error(error?.response?.data?.message || 'Failed to cancel request');
+                      toast.error((error as any)?.response?.data?.message || 'Failed to cancel request');
                     } finally {
                       setLoading(false);
                     }

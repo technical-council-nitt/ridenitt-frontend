@@ -3,7 +3,7 @@ import { FaGoogle } from "react-icons/fa";
 import { useAuth } from "../Hooks/useAuth";
 import Redirect from "../Components/Redirect";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL as string) || "http://localhost:3000";
 
 const Login: React.FC = () => {
   const { user, hasSignedUp } = useAuth()

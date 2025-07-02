@@ -15,4 +15,4 @@ services:
   
 networks:
   ridenitt-network:
-    external: false
+    external: true
