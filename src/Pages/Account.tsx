@@ -1,7 +1,8 @@
 import { useAuth } from '../Hooks/useAuth';
 import Redirect from '../Components/Redirect';
-import { FaCar, FaUser, FaPhoneAlt } from 'react-icons/fa';
+import { FaCar, FaUser, FaPhoneAlt,FaBookOpen } from 'react-icons/fa';
 import NittAutoDriversModal from '../Components/NittAutoDriversModal';
+import AboutRideNitt from '../Components/AboutRideNitt';
 import { Link, redirect } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -10,6 +11,7 @@ import { useState } from 'react';
 export default function AccountPage() {
   const { user, refreshAuth } = useAuth();
   const [showDrivers, setShowDrivers] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   const handleLogout = () => {
     axios.delete("/auth/logout")
@@ -61,6 +63,15 @@ export default function AccountPage() {
               <span>Contact NITT Auto Drivers</span>
             </button>
           </li>
+          <li>
+            <button
+              className='flex items-center gap-2 p-2 bg-green-100 border border-solid border-black rounded-xl w-full'
+              onClick={() => setShowAbout(true)}
+            >
+              <FaBookOpen className='text-green-800' />
+              <span>About RideNITT</span>
+            </button>
+          </li>
 
           <li>
             <button onClick={handleLogout} className="p-2 border-[1.5px] border-[black] rounded-[90px] bg-[#008955] text-[white] font-[Quicksand] font-[700]">Logout</button>
@@ -68,6 +79,7 @@ export default function AccountPage() {
         </ul>
       </div>
       <NittAutoDriversModal show={showDrivers} onClose={() => setShowDrivers(false)} />
+      <AboutRideNitt show={showAbout} onClose={() => setShowAbout(false)} />
     </div>
   )
 }

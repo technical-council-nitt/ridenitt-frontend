@@ -46,9 +46,8 @@ export const AuthProvider = ({ children }: {
 
       if (!userId) throw new Error("Invalid token");
 
-      await axios.get("/api/users/me")
+      await axios.get("api/users/me")
         .then(res => {
-          console.log(res.data.data)
           setUser(res.data.data)
         })
     } catch (err) {

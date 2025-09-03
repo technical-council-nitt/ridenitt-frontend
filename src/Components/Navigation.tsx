@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../Hooks/useAuth";
 import { IoSpeedometer, IoSpeedometerOutline } from "react-icons/io5";
@@ -8,9 +8,6 @@ const Navigation: React.FC = () => {
     const { user } = useAuth()
     const location = useLocation()
 
-    useEffect(() => {
-        console.log(location.pathname)
-    }, [location])
 
     return (
         <footer className="fixed bottom-[0px] h-[70px] left-0 right-0 text-white bg-[#008955] grid grid-cols-4 place-items-center">

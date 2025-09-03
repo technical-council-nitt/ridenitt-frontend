@@ -19,6 +19,7 @@ import LoadingScreen from "./Components/LoadingScreen";
 import React from "react";
 import NewAccountSignup from "./Pages/NewAccountSignup.tsx";
 import Redirect from "./Components/Redirect.tsx";
+import usePushNotifications from "./Hooks/usePushNotifications";
 
 const App: React.FC = () => {
   return (
@@ -31,6 +32,7 @@ const App: React.FC = () => {
 
 const CustomRouter = () => {
   const { authLoading, user, hasSignedUp } = useAuth()
+  usePushNotifications(user);
 
   return (
     <BrowserRouter>

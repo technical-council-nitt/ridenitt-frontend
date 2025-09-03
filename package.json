@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.1",
-    "axios": "^1.7.9",
+    "axios": "^1.11.0",
     "classnames": "^2.5.1",
     "daisyui": "^4.12.23",
     "dotenv": "^16.4.7",
