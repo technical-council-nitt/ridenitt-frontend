@@ -63,7 +63,9 @@ export const deleteExpiredSubscription = async () => {
       console.log("❌ Deleted expired/invalid subscription from browser");
       
       // Also notify backend to delete the subscription
-      await fetch("/api/notifications/", {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
+      await fetch(`${backendUrl}/api/notifications/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

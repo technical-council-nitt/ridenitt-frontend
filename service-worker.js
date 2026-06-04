@@ -16,10 +16,30 @@ self.addEventListener("push", function (event) {
   const title = data.title || "Ride NITT";
   const options = {
     body: data.body || "You have a new notification",
-    icon: "/logo192.png",
-    badge: "/logo192.png",
-    data: data.url || "/",
+    icon: data.icon || "/logo192.png",
+    badge: data.badge || "/logo192.png",
+    tag: data.tag || "ride-nitt-notification",
+    requireInteraction: data.requireInteraction ?? false,
+    data: { url: data.url || "/" },
+    vibrate: data.vibrate || [200, 100, 200],
+    actions: [
+      {
+        action: "open",
+        title: "Open",
+        icon: "/logo192.png",
+      },
+      {
+        action: "close",
+        title: "Close",
+        icon: "/logo192.png",
+      },
+    ],
   };
+
+  // Only add sound if provided (uses system notification sound by default)
+  if (data.sound) {
+    options.sound = data.sound;
+  }
 
   event.waitUntil(
     self.registration.showNotification(title, options)
@@ -29,10 +49,20 @@ self.addEventListener("push", function (event) {
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
 
+  if (event.action === "close") {
+    return;
+  }
+
   event.waitUntil(
-    clients.openWindow(event.notification.data)
+    clients.openWindow(event.notification.data.url)
   );
 });
+
+// Handle notification close action
+self.addEventListener("notificationclose", function (event) {
+  console.log("Notification closed:", event.notification.tag);
+});
+
 // Install event: cache app shell
 self.addEventListener("install", event => {
   event.waitUntil(
