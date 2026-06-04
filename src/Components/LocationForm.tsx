@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import MapPage2 from "./MapPage2";
-import Select from "./Select";
+
 
 export default function ShareRide() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function ShareRide() {
   const [loading, setLoading] = useState(false);
   const [pickup, setPickup] = useState("");
   const [drop, setDrop] = useState("");
-  const [prefersGender, setPrefersGender] = useState<'Male' | 'Female' | 'Any' | ''>("");
+  const [prefersGender] = useState<'Male' | 'Female' | 'Any' | ''>("");
 
   const handleDateTimeConfirm = (data: {
     date: number;

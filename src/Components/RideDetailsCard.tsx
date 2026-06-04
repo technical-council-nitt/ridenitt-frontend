@@ -42,19 +42,19 @@ const RideDetailsCard = ({
   };
 
   // New: handle cancel logic
-  const handleCancel = async (reason: string) => {
-    setLoading(true);
-    try {
-      await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason });
-      toast.success('Request cancelled');
-      refreshRide();
-    } catch (error) {
-      console.error(error);
-      toast.error((error as any)?.response?.data?.message || 'Failed to cancel request');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleCancel = async (reason: string) => {
+  //   setLoading(true);
+  //   try {
+  //     await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason });
+  //     toast.success('Request cancelled');
+  //     refreshRide();
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error((error as any)?.response?.data?.message || 'Failed to cancel request');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <li className="p-4 border-2 border-[#08B783] bg-[#C1EDE08C] rounded-xl">
