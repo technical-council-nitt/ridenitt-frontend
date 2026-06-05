@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Calendar, Clock, HelpCircle } from "lucide-react";
 import { DateTimeModal } from "./DateTimeModal";
-import axios from "axios";
+import api from "../lib/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import MapPage2 from "./MapPage2";
@@ -67,7 +67,7 @@ export default function ShareRide() {
       return;
     }
     setLoading(true);
-    axios.post("/api/rides", {
+    api.post("/api/rides", {
       stops: [
         {
           name: pickup

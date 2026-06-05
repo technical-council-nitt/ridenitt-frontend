@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../lib/api";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { displayTimeRange } from "../Utils/datetime";
@@ -28,7 +28,7 @@ const RideDetailsCard = ({
 
   const handleSend = () => {
     setLoading(true);
-    axios
+    api
       .post("/api/invites", { rideId: ride.id })
       .then(() => {
         toast.success("Request sent successfully!");
@@ -125,7 +125,7 @@ const RideDetailsCard = ({
                 onClick={async () => {
                   setLoading(true);
                   try {
-                    await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason: cancelReason });
+                    await api.post(`/api/invites/${ride.myInvite.id}/decline`, { reason: cancelReason });
                     toast.success('Request cancelled');
                     setShowCancelModal(false);
                     setCancelReason("");
@@ -190,7 +190,7 @@ const RideDetailsCard = ({
                   if (ride.myInvite.status === 'PENDING') {
                     setLoading(true);
                     try {
-                      await axios.post(`/api/invites/${ride.myInvite.id}/decline`, { reason: 'Cancelled from home card' });
+                      await api.post(`/api/invites/${ride.myInvite.id}/decline`, { reason: 'Cancelled from home card' });
                       toast.success('Request cancelled');
                       refreshRide();
                     } catch (error: any) {
