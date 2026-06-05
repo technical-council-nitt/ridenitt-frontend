@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../Hooks/useAuth'
 import Redirect from '../Components/Redirect'
-import axios from 'axios'
+import api from '../lib/api'
 import { toast } from 'react-toastify'
 import Header from '../Components/Header'
 import { displayTimeRange } from '../Utils/datetime'
@@ -48,7 +48,7 @@ export default function MyRides() {
   useEffect(() => {
     setLoading(true)
 
-    axios.get('/api/rides')
+    api.get('/api/rides')
       .then(res => {
         const data = res.data.data
 

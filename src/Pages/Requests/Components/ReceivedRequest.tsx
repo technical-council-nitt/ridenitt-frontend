@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import axios from 'axios'
+import api from '../../../lib/api'
 import { displayTimeRange } from '../../../Utils/datetime'
 import RideDetailsModal from './RideDetailsModal'
 import { useState } from 'react'
@@ -25,7 +25,7 @@ export default function ReceivedRequest({
   const isExpired = ed < now
 
   const handleAccept = (inviteId: string) => {
-    axios.post(`/api/invites/${inviteId}/accept`)
+    api.post(`/api/invites/${inviteId}/accept`)
       .then(() => {
         toast.success('Request accepted')
         refreshRequests()
@@ -43,7 +43,7 @@ export default function ReceivedRequest({
 
     setLoading(true)
 
-    axios.post(`/api/invites/${inviteId}/decline`, { reason })
+    api.post(`/api/invites/${inviteId}/decline`, { reason })
       .then(() => {
         toast.success('Request declined')
         refreshRequests()
@@ -65,7 +65,7 @@ export default function ReceivedRequest({
 
     setLoading(true)
 
-    axios.delete("/api/rides/" + ride.id, { data: { reason } })
+    api.delete("/api/rides/" + ride.id, { data: { reason } })
       .then(() => {
         refreshRequests()
         toast.success("Ride cancelled successfully")

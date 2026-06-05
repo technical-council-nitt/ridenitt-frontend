@@ -2,7 +2,7 @@ import { useState } from "react"
 import { displayTimeRange } from "../../../Utils/datetime"
 import RideDetailsModal from "./RideDetailsModal"
 import { useAuth } from "../../../Hooks/useAuth"
-import axios from "axios"
+import api from "../../../lib/api"
 import { toast } from "react-toastify"
 import Prompt from "../../../Components/Prompt"
 
@@ -32,7 +32,7 @@ export default function SentRequest({
       return
     }
 
-    axios
+    api
       .post(`/api/invites/${request.id}/decline`, {
         reason: reason
       })

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import ReceivedRequest from './Components/ReceivedRequest'
 import SentRequest from './Components/SentRequest'
-import axios from 'axios'
+import api from '../../lib/api'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../Hooks/useAuth'
 import Redirect from '../../Components/Redirect'
@@ -18,7 +18,7 @@ export default function Requests() {
   const fetchRequests = () => {
     setLoading(true)
 
-    axios.get('/api/invites')
+    api.get('/api/invites')
       .then(res => {
         setSentRequests(res.data.data.sent || [])
         setReceivedRequests(res.data.data.received || [])
