@@ -1,4 +1,4 @@
-const CACHE_NAME = "ridenitt-cache-v2";
+const CACHE_NAME = "ridenitt-cache-v3";
 const urlsToCache = [
   "/",
   "/index.html",
@@ -88,19 +88,46 @@ self.addEventListener("activate", event => {
 });
 
 // Fetch event: serve cached content when offline
-self.addEventListener("fetch", event => {
+self.addEventListener("fetch", (event) => {
+
+  const url = new URL(event.request.url);
+
+  // Never touch API/Auth requests
+
+  if (
+
+    url.pathname.startsWith("/api") ||
+
+    url.pathname.startsWith("/auth")
+
+  ) {
+
+    return;
+
+  }
+
   event.respondWith(
-    caches.match(event.request).then(response => {
-      // Return cached response if found, else fetch from network
+
+    caches.match(event.request).then((response) => {
+
       return (
+
         response ||
-        fetch(event.request).catch(() =>
-          // Optionally, return a fallback page for navigation requests
-          event.request.mode === "navigate"
-            ? caches.match("/index.html")
-            : undefined
-        )
+
+        fetch(event.request).catch(() => {
+
+          if (event.request.mode === "navigate") {
+
+            return caches.match("/index.html");
+
+          }
+
+        })
+
       );
+
     })
+
   );
+
 });
