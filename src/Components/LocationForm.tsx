@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { Calendar, Clock, HelpCircle } from "lucide-react";
 import { DateTimeModal } from "./DateTimeModal";
-import axios from "axios";
+import api from "../lib/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import MapPage2 from "./MapPage2";
-import Select from "./Select";
+
 
 export default function ShareRide() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function ShareRide() {
   const [loading, setLoading] = useState(false);
   const [pickup, setPickup] = useState("");
   const [drop, setDrop] = useState("");
-  const [prefersGender, setPrefersGender] = useState<'Male' | 'Female' | 'Any' | ''>("");
+  const [prefersGender] = useState<'Male' | 'Female' | 'Any' | ''>("");
 
   const handleDateTimeConfirm = (data: {
     date: number;
@@ -67,7 +67,7 @@ export default function ShareRide() {
       return;
     }
     setLoading(true);
-    axios.post("/api/rides", {
+    api.post("/api/rides", {
       stops: [
         {
           name: pickup

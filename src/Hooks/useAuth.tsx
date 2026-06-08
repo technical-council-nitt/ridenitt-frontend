@@ -1,5 +1,5 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 interface AuthContextType {
@@ -30,34 +30,25 @@ export const AuthProvider = ({ children }: {
     return true
   }, [user])
 
-  const refreshAuth = async (quiet: boolean = false) => {
-    if (!quiet) setAuthLoading(true);
+ const refreshAuth = async (quiet: boolean = false) => {
+  if (!quiet) setAuthLoading(true);
 
-    const accessToken = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("access-token="))?.split("=")[1];
-    if (!accessToken) {
-      setUser(null);
-      setAuthLoading(false);
-      return;
-    }
+  try {
+    const res = await axios.get(
+      "https://api-ridenitt.duckdns.org/api/users/me",
+      {
+        withCredentials: true,
+      }
+    );
 
-    try {
-      const payload = jwtDecode(accessToken) as any;
-      const userId = payload.userId as string;
-
-      if (!userId) throw new Error("Invalid token");
-
-      await axios.get("/api/users/me")
-        .then(res => {
-          console.log(res.data.data)
-          setUser(res.data.data)
-        })
-    } catch (err) {
-      console.error(err);
-      setUser(null);
-    } finally {
-      setAuthLoading(false);
-    }
+    setUser(res.data.data);
+  } catch (err) {
+    console.error(err);
+    setUser(null);
+  } finally {
+    setAuthLoading(false);
   }
+};
 
   useEffect(() => {
     refreshAuth();

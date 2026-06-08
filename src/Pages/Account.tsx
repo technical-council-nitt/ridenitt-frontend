@@ -3,7 +3,7 @@ import Redirect from '../Components/Redirect';
 import { FaCar, FaUser, FaPhoneAlt } from 'react-icons/fa';
 import NittAutoDriversModal from '../Components/NittAutoDriversModal';
 import { Link, redirect } from 'react-router-dom';
-import axios from 'axios';
+import api from '../lib/api';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
@@ -12,7 +12,7 @@ export default function AccountPage() {
   const [showDrivers, setShowDrivers] = useState(false);
 
   const handleLogout = () => {
-    axios.delete("/auth/logout")
+    api.delete("/auth/logout")
       .then(() => {
         redirect("/start")
         refreshAuth()

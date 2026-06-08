@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../Hooks/useAuth";
-import axios from "axios";
+import api from "../lib/api";
 import Redirect from "../Components/Redirect";
 
 const NewAccountSignup: React.FC = () => {
@@ -33,7 +33,7 @@ const NewAccountSignup: React.FC = () => {
 
     setLoading(true);
 
-    axios.post("/api/users/me", {
+    api.post("/api/users/me", {
       name,
       phoneNumber: ph,
       gender,

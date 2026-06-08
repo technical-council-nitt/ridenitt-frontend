@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAuth } from "../Hooks/useAuth";
-import axios from "axios";
+import api from "../lib/api";
 import { toast } from "react-toastify";
 import Redirect from "../Components/Redirect";
 
@@ -44,7 +44,7 @@ const ProfileComponent: React.FC = () => {
         setLoading(true);
 
         try {
-            await axios.post("/api/users/me", {
+            await api.post("/api/users/me", {
                 name: n,
                 phoneNumber: p,
                 gender,

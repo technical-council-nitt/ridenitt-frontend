@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../Hooks/useAuth";
 import Redirect from "../Components/Redirect";
-import axios from "axios";
+import api from "../lib/api";
 import { Link } from "react-router-dom";
 import RideDetailsCard from "../Components/RideDetailsCard";
 import Header from "../Components/Header";
@@ -13,7 +13,7 @@ export const AvailableRidesComponent: React.FC = () => {
     const [rides, setRides] = useState<Ride[]>([]);
 
     const fetchRides = () => {
-        axios.get(`/api/suggestions`)
+        api.get(`/api/suggestions`)
             .then(res => {
                 setRides(res.data.data);
             })
